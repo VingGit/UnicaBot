@@ -11,9 +11,13 @@
 <VBox fx:controller="GUI.Controller"
       xmlns:fx="http://javafx.com/fxml" alignment="center">
     <children>
-        <Label text="Syötä token:" alignment="center"/>
-        <PasswordField fx:id="inputToken" alignment="center"/>
-        <Button text="Kirjaudu sisään" onAction="#login" alignment="center"/>
+        <VBox fx:id="login" alignment="TOP_CENTER">
+                <children>
+                <Label fx:id="headerLabel" text="Syötä token:" alignment="center"/>
+                <PasswordField fx:id="inputToken" alignment="center"/>
+                <Button text="Kirjaudu sisään" onAction="#login" alignment="center"/>
+            </children>
+        </VBox>
         <Label fx:id="errorLabel" text="" alignment="center"/>
         <Button text="Exit" onAction="#exit" alignment="center"/>
     </children>

@@ -13,7 +13,7 @@ public class Botti {
 
     public static void launchBot(String token) throws Exception {
         //Luodaan JDABuilderi ja annetaan sille tokeni
-        JDABuilder jdabuilder = JDABuilder.createDefault(token);
+        JDABuilder jdabuilder = JDABuilder.createDefault("ODIzOTE5OTczMjQ4MDA4MTk0.YFn1RQ.5RHMoDMkKU3ITzEzTqvUuKGCerU");
 
         //Luodaan botille event listenerit ja lisätään ne botille ennen buildaamista
         BotEventListeners botEvents = new BotEventListeners();
@@ -25,7 +25,7 @@ public class Botti {
         try {
             JDA jda = jdabuilder.build();
         } catch (LoginException e){
-            //e.printStackTrace();
+            e.printStackTrace();
             throw new Exception("Huah");
         }
     }
