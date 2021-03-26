@@ -3,11 +3,13 @@ package GUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import javax.security.auth.login.LoginException;
@@ -67,4 +69,20 @@ public class Controller {
         scene2.getStylesheets().add(getClass().getResource("/css/scene2.css").toExternalForm());
         window.setScene(scene2);
     }
+
+    double x,y;
+
+    @FXML
+    void dragged(MouseEvent event) {
+        Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        stage.setX(event.getScreenX()-x);
+        stage.setY(event.getScreenY()-y);
+    }
+
+    @FXML
+    void pressed(MouseEvent event) {
+        x=event.getSceneX();
+        y=event.getSceneY();
+    }
+
 }

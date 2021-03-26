@@ -27,10 +27,12 @@
     -fx-background-color: #8292ea;
     -fx-font-weight: bold;
     -fx-text-fill: white;
+    -fx-cursor: hand;
 }
 #inputToken {
     -fx-background-color: #202225;
     -fx-text-fill: white;
+    -fx-cursor: hand;
 }
 #errorLabel {
     -fx-text-fill: red;
