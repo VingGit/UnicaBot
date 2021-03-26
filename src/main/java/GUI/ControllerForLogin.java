@@ -19,7 +19,7 @@ import javax.security.auth.login.LoginException;
  * Kontrolleri-luokka Login Scenen GUI-elementtien metodeille.
  * @author Jani Uotinen
  */
-public class Controller {
+public class ControllerForLogin {
     @FXML
     private Label errorLabel;
     @FXML

@@ -14,7 +14,7 @@ import javafx.stage.Stage;
  * Kontrolleri-luokka Scene2 GUI-elementtien metodeille.
  * @author Jani Uotinen
  */
-public class Controller2 {
+public class ControllerForScene2 {
     @FXML
     private Label label1;
     @FXML

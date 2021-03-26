@@ -8,7 +8,7 @@
 
 <!-- FXML tiedosto Scene2 GUI-elementtien luomiseen. Tekijänä Jani Uotinen -->
 
-<VBox fx:controller="GUI.Controller2"
+<VBox fx:controller="GUI.ControllerForScene2"
       xmlns:fx="http://javafx.com/fxml" alignment="center">
     <children>
         <Label fx:id="label1" text="Uusi ikkuna!" alignment="center"/>
