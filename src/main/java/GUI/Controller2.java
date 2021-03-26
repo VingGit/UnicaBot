@@ -44,7 +44,7 @@ public class Controller2 {
      * @author Jani Uotinen
      */
     public void toLoginScreen(ActionEvent actionEvent) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/scene1.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/login.fxml"));
         Stage window = (Stage) button1.getScene().getWindow();
         Scene login = new Scene(root,300,275);
         login.getStylesheets().add(getClass().getResource("/css/login.css").toExternalForm());
