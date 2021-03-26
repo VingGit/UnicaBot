@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.net.URL;
 
+
 /**
  * JSONMapper luokka erilaisten JSON-rakenteiden mappaamiseen.
  * @ Jani Uotinen

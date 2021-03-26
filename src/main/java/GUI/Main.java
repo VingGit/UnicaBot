@@ -17,7 +17,9 @@ public class Main extends Application {
         //URL url = Main.class.getResource("scene1.fxml");
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/scene1.fxml"));
         primaryStage.setTitle("Discord Bot Dashboard");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        Scene login = new Scene(root,300,275);
+        login.getStylesheets().add(getClass().getResource("/css/login.css").toExternalForm());
+        primaryStage.setScene(login); //new Scene(root, 300, 275)
         primaryStage.show();
     }
 
