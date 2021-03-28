@@ -28,10 +28,10 @@ public class MenusForDay {
 
     @Override
     public String toString() {
-        String ruuat="";
+        StringBuilder ruuat= new StringBuilder();
         for (SetMenu s:
                 setMenus) {
-            ruuat+=s+"\n";
+            ruuat.append(s).append("\n");
         }
 
         if(lunchTime==null){
