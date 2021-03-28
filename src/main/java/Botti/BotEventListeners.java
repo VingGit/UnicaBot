@@ -27,10 +27,11 @@ public class BotEventListeners extends ListenerAdapter {
          * @author ingman
          */
         if(args.length == 2){
-        if (args[0].equalsIgnoreCase(Botti.prefiksi+"vaihdaPrefiksi")) {
-            Botti.setPrefiksi(args[1]);
-            event.getChannel().sendMessage("Onnistui! Komentojen etuliito on tästedes: "+args[1]).queue();
-        }
+            if (args[0].equalsIgnoreCase(Botti.prefiksi+"vaihdaPrefiksi")) {
+                Botti.setPrefiksi(args[1]);
+                event.getChannel().sendMessage("Onnistui! Komentojen etuliito on tästedes: "+args[1]).queue();
+            }
 
+        }
     }
-}}
+}
