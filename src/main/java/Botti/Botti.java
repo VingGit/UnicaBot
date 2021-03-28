@@ -28,7 +28,7 @@ public class Botti {
     public static void launchBot(String token) throws Exception {
         //Luodaan JDABuilderi ja annetaan sille tokeni
         Botti.BOT_TOKEN =token;
-        JDABuilder jdabuilder = JDABuilder.createDefault(token);
+        JDABuilder jdabuilder = JDABuilder.createDefault(BOT_TOKEN);
 
         //Luodaan botille event listenerit ja lisätään ne botille ennen buildaamista
         BotEventListeners botEvents = new BotEventListeners();
