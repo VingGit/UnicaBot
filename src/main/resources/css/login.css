@@ -1,0 +1,41 @@
+/* Muotoilut Login Scenelle. @author Jani Uotinen */
+
+.root {
+    -fx-background-color: #2f3136;
+    -fx-padding: 10 10 10 10;
+}
+#vbox {
+    -fx-border-color: #2f3136;
+    -fx-border-radius: 20;
+    -fx-padding: 10 10 10 10;
+    -fx-background-radius: 20;
+    -fx-background-color: #2f3136;
+}
+#login {
+    -fx-background-radius: 30, 30, 29, 28;
+    -fx-padding: 3px 10px 3px 10px;
+    -fx-background-color: #8292ea;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+#loginheaderlabel {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+#exit {
+    -fx-background-radius: 30, 30, 29, 28;
+    -fx-padding: 3px 10px 3px 10px;
+    -fx-background-color: #8292ea;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+#inputToken {
+    -fx-background-color: #202225;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+#errorLabel {
+    -fx-text-fill: red;
+}

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.net.URL;
 
+
 /**
  * JSONMapper luokka erilaisten JSON-rakenteiden mappaamiseen.
  * @ Jani Uotinen
@@ -27,7 +28,7 @@ public class JSONMapper {
             //return "Testi";
         } catch (IOException e) {
             e.printStackTrace();
-            return "Sivustoa ei ole saatavilla";
+            return "Sivustoa ei ole saatavilla tai json url ei ollut oikea.";
         }
     }
 }

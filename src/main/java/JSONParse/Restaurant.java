@@ -17,7 +17,11 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 })
 
 /**
- * Rakenneluokka JSON-parseemiseen.
+ * Tulostaa ruokalan nimen, urlin, sekä allekkaain menusForDay olion menut. menut tulevat SetMenu luokasta
+ * tätä voidaan ajatella ikäänkuin sisäkkäisenä funktiona. ei ehkä kaunein ratkaisu mutta se toimii
+ *, ehkä joku osaavampi osaa/jaksaa ydhistää nämä yhdeksi luokaksi. toisaalta, se ei liene kannattavaa
+ * jatko kehityksen kannalta.
+ * menusForDays
  * @author Valtteri Ingman
  */
 public class Restaurant {
@@ -38,13 +42,13 @@ public class Restaurant {
 
     @Override
     public String toString() {
-        String ruuat="";
+        StringBuilder ruuat= new StringBuilder();
         for (MenusForDay s:
                 menusForDays) {
-            ruuat+=s+"\n";
+            ruuat.append(s).append("\n");
         }
-        if(ruuat.equals("")){
-            ruuat="Ruokala on kiinni, lue lisää heidän sivuiltaan.";
+        if(ruuat.toString().equals("")){
+            ruuat = new StringBuilder("Ruokala on kiinni, lue lisää heidän sivuiltaan.");
         }
 
         return

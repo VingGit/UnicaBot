@@ -37,7 +37,21 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.9.9.2</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.cerus</groupId>
+            <artifactId>jda-slash-commands</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.9.1</version>
+        </dependency>
     </dependencies>
+
 
     <repositories>
         <repository>
@@ -45,6 +59,13 @@
             <name>jcenter</name>
             <url>https://jcenter.bintray.com/</url>
         </repository>
+
+
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+
     </repositories>
     <build>
         <plugins>

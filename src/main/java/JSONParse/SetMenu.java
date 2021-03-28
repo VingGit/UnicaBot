@@ -30,10 +30,10 @@ public class SetMenu  {
 
     @Override
     public String toString() {
-        String asiat="";
+        StringBuilder asiat= new StringBuilder();
         for (String s:
                 components) {
-            asiat+=s+"\n";
+            asiat.append(s).append("\n");
         }
         return
                 //  "sortOrder=" + sortOrder +'\n' +  //mikä ihme on sortorder??

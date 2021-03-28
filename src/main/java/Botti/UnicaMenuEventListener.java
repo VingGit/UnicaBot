@@ -1,6 +1,7 @@
 package Botti;
 
 import JSONParse.JSONMapper;
+import JSONParse.Restaurant;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,87 +12,117 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Eventtien kuunteluluokka
+ * Eventtien kuunteluluokka. käsittelee kaikki menujen hakemiseen liittyvät komennot. jos muita
+ * ominaisuuksia halutaan lisätä, tulisi niille tehdä oma eventlistener-luokka.
+ *
+ * Minä tein nää komennot ja jani teki ton jsonmapperin  sekä siisti koodia luettavammaksi.
+ * -ingman
  * @author Valtteri Ingman & Jani Uotinen
  */
 public class UnicaMenuEventListener extends ListenerAdapter {
-
-    ArrayList<String> ruokalat =  new ArrayList<String>(Arrays.asList("Yliopiston kampus" ,"   !assari", "   !macciavelli", "   !galilei", "   !kaara","Kupittaan kampus", "   !dental", "   !delipharma", "   !delica", "   !linus","   !kisälli","Linnankadun taidekampus","   !sigyn", "   !muusa","Muut","   !ruokakello", "   !kaivomestari", "   !fabrik", "   !piccumaccia"));
+    //tälle arraylistalle voi olla käyttöä, säilytetään se.
+    //ArrayList<String> ruokalat = new ArrayList<>(Arrays.asList("Yliopiston kampus", "   !assari", "   !macciavelli", "   !galilei", "   !kaara", "Kupittaan kampus", "   !dental", "   !delipharma", "   !delica", "   !linus", "   !kisälli", "Linnankadun taidekampus", "   !sigyn", "   !muusa", "Muut", "   !ruokakello", "   !kaivomestari", "   !fabrik", "   !piccumaccia"));
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
-        if(event.getAuthor().isBot()) {
+        if (event.getAuthor().isBot()) {
             return;
         }
+        String[] args = event.getMessage().getContentRaw().split("\\s+");
 
-        if (event.getMessage().getContentRaw().equals("!ruokalat")) {
-            event.getChannel().sendMessage("Yliopiston kampus\n" +"   !assari\n"+ "   !macciavelli\n"+ "   !galilei\n"+ "   !kaara\n"+"Kupittaan kampus\n"+ "   !dental\n"+ "   !delipharma\n"+ "   !delica\n"+ "   !linus\n"+"   !kisälli\n"+"Linnankadun taidekampus\n"+"   !sigyn\n"+ "   !muusa\n"+"Muut\n"+"   !ruokakello\n"+ "   !kaivomestari\n"+ "   !fabrik\n"+ "   !piccumaccia\n").queue();
+        if (args[0].equalsIgnoreCase(Botti.prefiksi + "ruokalat")) {// viesti on pilkottu osiin ja jos ensimmäinen osa == prefiksi+komentoX, tee asioita. pilkkominen on tehty siksi ettei isoil ja pienil kirjaimil ois välii
+            event.getChannel().sendMessage("Yliopiston kampus\n" + "   "+Botti.prefiksi+"assari\n" + "   "+Botti.prefiksi+"macciavelli\n" + "   "+Botti.prefiksi+"galilei\n" + "   "+Botti.prefiksi+"kaara\n" + "Kupittaan kampus\n" + "   "+Botti.prefiksi+"dental\n" + "   "+Botti.prefiksi+"delipharma\n" + "   "+Botti.prefiksi+"delica\n" + "   "+Botti.prefiksi+"linus\n" + "   "+Botti.prefiksi+"kisälli\n" + "Linnankadun taidekampus\n" + "   "+Botti.prefiksi+"sigyn\n" + "   "+Botti.prefiksi+"muusa\n" + "Muut\n" + "   "+Botti.prefiksi+"ruokakello\n" + "   "+Botti.prefiksi+"kaivomestari\n" + "   "+Botti.prefiksi+"fabrik\n" + "   "+Botti.prefiksi+"piccumaccia\n").queue();
+
         }
         /**
          * Tässä esimerkki miten uusi rakenne toimii yleiskäyttöisen JSONMapper-luokan kanssa.
          */
-        if (event.getMessage().getContentRaw().equals("!assari")) {
-            //tulostaMenu("https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi", event );
-            System.out.println("Triggeröikö eventti");
-            event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi")).queue();
+        if (args[0].equalsIgnoreCase(Botti.prefiksi + "assari")) {
+          event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi")).queue();
+
         }
 
-        if (event.getMessage().getContentRaw().equals("!macciavelli")) {
-            //tulostaMenu("https://www.unica.fi/modules/json/json/Index?costNumber=1970&language=fi", event );
+        if (args[0].equalsIgnoreCase(Botti.prefiksi + "macciavelli")) {
+            event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1910&language=fi")).queue();
+
         }
 
-        if (event.getMessage().getContentRaw().equals("!galilei")) {
-            //tulostaMenu("https://www.unica.fi/modules/json/json/Index?costNumber=1995&language=fi", event );
+        if (args[0].equalsIgnoreCase(Botti.prefiksi + "galilei")) {
+            event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1995&language=fi")).queue();
+
         }
 
-        if (event.getMessage().getContentRaw().equals("!kaara")) {
-            //tulostaMenu("https://www.unica.fi/modules/json/json/Index?costNumber=1910&language=fi", event );
+        if (args[0].equalsIgnoreCase(Botti.prefiksi + "kaara")) {
+            event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1970&language=fi")).queue();
+
         }
 
-        if (event.getMessage().getContentRaw().equals("!dental")) {
-            //tulostaMenu("https://www.unica.fi/modules/json/json/Index?costNumber=1980&language=fi", event );
+        if (args[0].equalsIgnoreCase(Botti.prefiksi + "dental")) {
+            event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1980&language=fi")).queue();
+
         }
 
-        if (event.getMessage().getContentRaw().equals("!delipharma")) {
-            //tulostaMenu("https://www.unica.fi/modules/json/json/Index?costNumber=198501&language=fi", event );
+        if (args[0].equalsIgnoreCase(Botti.prefiksi + "delipharma")) {
+            event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=198501&language=fi")).queue();
+
         }
 
-        if (event.getMessage().getContentRaw().equals("!delica")) {
-            //tulostaMenu("https://www.unica.fi/modules/json/json/Index?costNumber=1985&language=fi", event );
+        if (args[0].equalsIgnoreCase(Botti.prefiksi + "delica")) {
+            event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1985&language=fi")).queue();
+
         }
 
-        if (event.getMessage().getContentRaw().equals("!linus")) {
-            //tulostaMenu("https://www.unica.fi/modules/json/json/Index?costNumber=2000&language=fi", event );
+        if (args[0].equalsIgnoreCase(Botti.prefiksi + "linus")) {
+            event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=2000&language=fi")).queue();
+
         }
 
-        if (event.getMessage().getContentRaw().equals("!kisälli")) {
-            //tulostaMenu("https://www.unica.fi/modules/json/json/Index?costNumber=1900&language=fi", event );
+        if (args[0].equalsIgnoreCase(Botti.prefiksi + "kisälli")) {
+            event.getChannel().sendMessage("Ravintola kiinni toistaiseksi, ei menua eikä jsonia saatavilla").queue();
+
+            // event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi")).queue();
+
         }
 
-        if (event.getMessage().getContentRaw().equals("!sigyn")) {
-           // tulostaMenu("https://www.unica.fi/modules/json/json/Index?costNumber=1965&language=fi", event );
+        if (args[0].equalsIgnoreCase(Botti.prefiksi + "sigyn")) {
+            event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1965&language=fi")).queue();
+
+         }
+
+        if (args[0].equalsIgnoreCase(Botti.prefiksi + "muusa")) {
+            event.getChannel().sendMessage("Ravintola kiinni toistaiseksi, ei menua eikä jsonia saatavilla").queue();
+            // event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi")).queue();
+
+
         }
 
-        if (event.getMessage().getContentRaw().equals("!muusa")) {
-            event.getChannel().sendMessage("Menua ei ole saatavilla, koska jsonia ei ole saatavilla unican sivuilla.").queue();
+        if (args[0].equalsIgnoreCase(Botti.prefiksi + "ruokakello")) {
+            event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1950&language=fi")).queue();
+
         }
 
-        if (event.getMessage().getContentRaw().equals("!ruokakello")) {
-            //tulostaMenu("https://www.unica.fi/modules/json/json/Index?costNumber=1950&language=fi", event );
+        if (args[0].equalsIgnoreCase(Botti.prefiksi + "kaivomestari")) {
+            event.getChannel().sendMessage("Ravintola kiinni toistaiseksi, ei menua eikä jsonia saatavilla").queue();
+            //event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi")).queue();
+
+
         }
 
-        if (event.getMessage().getContentRaw().equals("!kaivomestari")) {
-            event.getChannel().sendMessage("Menua ei ole saatavilla, koska jsonia ei ole saatavilla unican sivuilla.").queue();
+        if (args[0].equalsIgnoreCase(Botti.prefiksi + "fabrik")) {
+            event.getChannel().sendMessage("Ravintola kiinni toistaiseksi, ei menua eikä jsonia saatavilla").queue();
+          //  event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi")).queue();
+
+
         }
 
-        if (event.getMessage().getContentRaw().equals("!fabrik")) {
-            event.getChannel().sendMessage("Menua ei ole saatavilla, koska jsonia ei ole saatavilla unican sivuilla.").queue();
-        }
+        if (args[0].equalsIgnoreCase(Botti.prefiksi + "piccumaccia")) {
+            event.getChannel().sendMessage("Avoinna tilauksesta").queue();
+          //  event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi")).queue();
 
-        if (event.getMessage().getContentRaw().equals("!piccumaccia")) {
-            event.getChannel().sendMessage("Menua ei ole saatavilla, koska jsonia ei ole saatavilla unican sivuilla.").queue();
         }
 
     }
 
 }
+
+//}
