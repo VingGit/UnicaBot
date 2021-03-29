@@ -34,7 +34,7 @@ public class BotEventListeners extends ListenerAdapter {
                 //Botti.setPrefiksi(args[1]);
                 String prefix = args[1];
                 if (EditConfig.checkLegalPrefix(prefix)) {
-                    EditConfig.writeToConfigurationFile("prefix="+prefix);
+                    EditConfig.writeToConfigurationFile("prefix=="+prefix);
                     EditConfig.readFromConfigurationFile();
                     Botti.loadConfig();
                     event.getChannel().sendMessage("Onnistui! Komentojen etuliito on tästedes: "+prefix).queue();

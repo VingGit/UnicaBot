@@ -11,13 +11,20 @@ import java.util.HashMap;
 public class Configuration {
     //private ArrayList<String> inputConfiguration;
     private String prefix;
+    private HashMap<String,String> config;
+    private HashMap<String,String> restaurants;
 
 
     public Configuration(HashMap<String,String> input) {
-        //this.inputConfiguration = input;
-        this.prefix = input.get("prefix");
+        this.config = input;
+        this.restaurants = new HashMap<>();
+        this.prefix = config.get("prefix");
     }
+
     public String getPrefix() {
         return this.prefix;
+    }
+    public HashMap<String,String> getConfig() {
+        return this.config;
     }
 }

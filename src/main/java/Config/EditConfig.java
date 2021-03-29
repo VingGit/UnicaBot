@@ -28,7 +28,7 @@ public class EditConfig {
             while (fileReader.hasNextLine()) {
                 String cfgLine = fileReader.nextLine(); //Rivi cfg-filusta
 
-                String[] cfgLineSplit = cfgLine.split("="); //Splitataan cfg rivi
+                String[] cfgLineSplit = cfgLine.split("=="); //Splitataan cfg rivi
 
                 configuration.put(cfgLineSplit[0],cfgLineSplit[1]); //Tallennetaan rivi avaimena ja arvona
             }
@@ -51,9 +51,11 @@ public class EditConfig {
         HashMap<String,String> originalConfiguration = readFromConfigurationFile();
 
         //Splitataan syötetty ylikirjoitettava rivi HashMapille sopivaksi avaimeksi ja arvoksi.
-        String[] inputSplit = input.split("=");
+        String[] inputSplit = input.split("==");
         String key = inputSplit[0];
+        System.out.println("key "+key);
         String value = inputSplit[1];
+        System.out.println("value "+value);
 
         //Etsitään sopiva avain ja korvataan arvo uudelle syötetyllä arvolla.
         for (String keyString : originalConfiguration.keySet()) {
@@ -66,7 +68,7 @@ public class EditConfig {
             BufferedWriter fileWriter = new BufferedWriter(new FileWriter("src/main/resources/cfg/cfg.txt"));
 
             for (String keyString : originalConfiguration.keySet()) {
-                fileWriter.write(keyString+"="+originalConfiguration.get(key));
+                fileWriter.write(keyString+"=="+originalConfiguration.get(keyString)+"\n");
             }
 
             fileWriter.close();
@@ -88,4 +90,6 @@ public class EditConfig {
             return false;
         }
     }
+
+
 }
