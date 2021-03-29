@@ -30,6 +30,7 @@ public class Botti {
     public static void loadConfig() {
         Configuration config = new Configuration(EditConfig.readFromConfigurationFile());
         prefiksi = config.getPrefix();
+        System.out.println("Prefiksi configissa: "+prefiksi);
     }
 
 

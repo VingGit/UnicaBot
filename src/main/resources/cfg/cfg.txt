@@ -1,1 +1,1 @@
-prefix=oletpelle
+prefix=.

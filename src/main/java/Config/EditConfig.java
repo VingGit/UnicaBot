@@ -75,4 +75,17 @@ public class EditConfig {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Tarkistaa onko syötettävä prefix symboli kelvollinen.
+     * @author Jani Uotinen
+     */
+    public static boolean checkLegalPrefix(String input) {
+        String symbols = "*./!?,%&#";
+        if (symbols.contains(input)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
