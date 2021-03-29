@@ -66,7 +66,7 @@ public class EditConfig {
             BufferedWriter fileWriter = new BufferedWriter(new FileWriter("src/main/resources/cfg/cfg.txt"));
 
             for (String keyString : originalConfiguration.keySet()) {
-                fileWriter.write(key+"="+originalConfiguration.get(key));
+                fileWriter.write(keyString+"="+originalConfiguration.get(key));
             }
 
             fileWriter.close();
