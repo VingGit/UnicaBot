@@ -1,5 +1,6 @@
 package JSONParse;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.print.Collation;
@@ -53,9 +54,13 @@ public class Locations {
         }
     }
     class Place{
+        @JsonProperty("campusArea")
         private String campusArea;
+        @JsonProperty("name")
         private String name;
+        @JsonProperty("url")
         private String url;
+        @JsonProperty("status")
         private HashMap<String, Object> status;
 
         public Place(String name, String url) {
