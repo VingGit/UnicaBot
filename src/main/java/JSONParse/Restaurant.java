@@ -1,6 +1,8 @@
 package JSONParse;
 
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -39,7 +41,15 @@ public class Restaurant {
     @JsonProperty("ErrorText")
     private Object errorText;
 
-
+    public String getRestaurantName(){
+        return restaurantName;
+    }
+    public String getRestaurantUrl(){
+        return restaurantUrl;
+    }
+    public boolean menuExists(){
+        return menusForDays== null;
+    }
     @Override
     public String toString() {
         StringBuilder ruuat= new StringBuilder();

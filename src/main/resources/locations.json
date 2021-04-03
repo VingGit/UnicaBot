@@ -1,0 +1,139 @@
+{
+	 "Locations": [
+		  {
+			   "campusArea": "Yliopiston kampus",
+			   "name": "Assari",
+			   "url": "https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi",
+			   "status": {
+					"open": true,
+					"message": null
+			   }
+		  },
+		  {
+			   "campusArea": "Yliopiston kampus",
+			   "name": "Macciavelli",
+			   "url": "https://www.unica.fi/modules/json/json/Index?costNumber=1910&language=fi",
+			   "status": {
+					"open": true,
+					"message": null
+			   }
+		  },
+		  {
+			   "campusArea": "Yliopiston kampus",
+			   "name": "Galilei",
+			   "url": "https://www.unica.fi/modules/json/json/Index?costNumber=1910&language=fi",
+			   "status": {
+					"open": true,
+					"message": null
+			   }
+		  },
+		  {
+			   "campusArea": "Yliopiston kampus",
+			   "name": "Kaara",
+			   "url": "https://www.unica.fi/modules/json/json/Index?costNumber=1970&language=fi",
+			   "status": {
+					"open": true,
+					"message": null
+			   }
+		  },
+		  {
+			   "campusArea": "Kupittaan kampus",
+			   "name": "Dental",
+			   "url": "https://www.unica.fi/modules/json/json/Index?costNumber=1980&language=fi",
+			   "status": {
+					"open": true,
+					"message": null
+			   }
+		  },
+		  {
+			   "campusArea": "Kupittaan kampus",
+			   "name": "Delipharma",
+			   "url": "https://www.unica.fi/modules/json/json/Index?costNumber=198501&language=fi",
+			   "status": {
+					"open": true,
+					"message": null
+			   }
+		  },
+		  {
+			   "campusArea": "Kupittaan kampus",
+			   "name": "Delica",
+			   "url": "https://www.unica.fi/modules/json/json/Index?costNumber=1985&language=fi",
+			   "status": {
+					"open": true,
+					"message": null
+			   }
+		  },
+		  {
+			   "campusArea": "Kupittaan kampus",
+			   "name": "Linus",
+			   "url": "https://www.unica.fi/modules/json/json/Index?costNumber=2000&language=fi",
+			   "status": {
+					"open": true,
+					"message": null
+			   }
+		  },
+		  {
+			   "campusArea": "Kupittaan kampus",
+			   "name": "Kisälli",
+			   "url": "https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi",
+			   "status": {
+					"open": false,
+					"message": null
+			   }
+		  },
+		  {
+			   "campusArea": "Linnankadun taidekampus",
+			   "name": "Sigyn",
+			   "url": "https://www.unica.fi/modules/json/json/Index?costNumber=1965&language=fi",
+			   "status": {
+					"open": true,
+					"message": null
+			   }
+		  },
+		  {
+			   "campusArea": "Linnankadun taidekampus",
+			   "name": "Muusa",
+			   "url": "https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi",
+			   "status": {
+					"open": false,
+					"message": null
+			   }
+		  },
+		  {
+			   "campusArea": "Muut kampukset",
+			   "name": "Ruokakello",
+			   "url": "https://www.unica.fi/modules/json/json/Index?costNumber=1950&language=fi",
+			   "status": {
+					"open": true,
+					"message": null
+			   }
+		  },
+		  {
+			   "campusArea": "Muut kampukset",
+			   "name": "Kaivomestari",
+			   "url": "https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi",
+			   "status": {
+					"open": false,
+					"message": null
+			   }
+		  },
+		  {
+			   "campusArea": "Muut kampukset",
+			   "name": "Fabrik",
+			   "url": "https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi",
+			   "status": {
+					"open": false,
+					"message": null
+			   }
+		  },
+		  {
+			   "campusArea": "Muut kampukset",
+			   "name": "Pikkumaccia",
+			   "url": "https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi",
+			   "status": {
+					"open": false,
+					"message": "Avoinna tilauksesta"
+			   }
+		  }
+	 ]
+}

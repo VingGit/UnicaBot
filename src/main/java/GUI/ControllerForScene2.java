@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 
 /**
  * Kontrolleri-luokka Scene2 GUI-elementtien metodeille.
- * @author Jani Uotinen
+ * @author OWNER Jani Uotinen
  */
 public class ControllerForScene2 {
     @FXML

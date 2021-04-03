@@ -19,16 +19,35 @@ public class JSONMapper {
      * @author Valtteri Ingman
      */
     public static String unicaParser(String jsonURL) {
-
         ObjectMapper mapper = new ObjectMapper();
+        Restaurant ruoka = new Restaurant();
         try {
-            Restaurant ruoka = mapper.readValue(new URL(jsonURL), Restaurant.class);
+             ruoka = mapper.readValue(new URL(jsonURL), Restaurant.class);
             //System.out.println(ruoka);
-            return ruoka.toString();
             //return "Testi";
         } catch (IOException e) {
             e.printStackTrace();
-            return "Sivustoa ei ole saatavilla tai json url ei ollut oikea.";
+            //return "Sivustoa ei ole saatavilla tai json url ei ollut oikea.";
         }
+        return ruoka.toString();
+    }
+
+    /**
+     * @param url
+     * @return Restaurant
+     */
+
+    public static Restaurant restaurantParser(String url){
+        ObjectMapper mapper = new ObjectMapper();
+        Restaurant restaurant = new Restaurant();
+        try {
+            restaurant = mapper.readValue(new URL(url), Restaurant.class);
+            //System.out.println(ruoka);
+            //return "Testi";
+        } catch (IOException e) {
+            e.printStackTrace();
+            //return "Sivustoa ei ole saatavilla tai json url ei ollut oikea.";
+        }
+        return restaurant;
     }
 }
