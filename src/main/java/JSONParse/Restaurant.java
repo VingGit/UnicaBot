@@ -38,12 +38,20 @@ public class Restaurant {
     private List<MenusForDay> menusForDays = null;
     @JsonProperty("ErrorText")
     private Object errorText;
-
     private String errorMessage;
+    private   StringBuilder restaurantBuilder;
 
+    public StringBuilder getRestaurantName(){
+        this.restaurantBuilder=new StringBuilder();
 
-    public String getRestaurantName(){
-        return restaurantName;
+            restaurantBuilder.append(menusForDays.get(0).getviikonMenu());
+//vaihtamalla 0 johonkin toiseen numeroon, se tulostaa eri päivän. nyt mitä pitäisi tehdä
+//on muuttaa tämän metodin nimeksi esmi tulostaTämäPäivä, pistää se palauttamaan embed viesti
+//sekä tehdä tästä toinen metodi, joka luo listan embed viestejä, jolloin sitä botti voi tulostaa
+//yksi viesti kerrallaan listan embed viestejä joissa on niitä ruokalistoja. näin 2000 merkkiä ei ylity.
+//säästin toStringit tulevaisuutta varten.
+//meen huomenna ajaa yhen nopeen kuorma-auto keikan, eli en oo paikal.
+        return restaurantBuilder;
     }
     public String getRestaurantUrl() {
         return restaurantUrl;

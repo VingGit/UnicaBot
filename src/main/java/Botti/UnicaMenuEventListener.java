@@ -52,6 +52,7 @@ public class UnicaMenuEventListener extends ListenerAdapter {
 
             if (restaurant.getErrorMessage() == null) {
                 event.getChannel().sendMessage(restaurant.getRestaurantName()).queue();
+
             } else {
                 event.getChannel().sendMessage(restaurant.getErrorMessage()).queue();
             }
