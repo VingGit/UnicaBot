@@ -12,7 +12,6 @@ public class BotEventListeners extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
         //Ettei botit juttele loputtomiin keskenään. Tai itsensä kanssa.
-
         if (event.getAuthor().isBot()) {
             return;
         }
@@ -25,9 +24,8 @@ public class BotEventListeners extends ListenerAdapter {
             return;
         }
 
-        //Erottaa komennon prefixiin ja komentoon
+        //Erotetaan käytetty prefiksi ja uusi prefiksi
         String prefix = messageSplit[0].substring(0,1);
-        String command = messageSplit[0].substring(1);
         String newPrefix = messageSplit[1];
 
         /**
@@ -45,6 +43,7 @@ public class BotEventListeners extends ListenerAdapter {
         if (!messageSplit[0].substring(0,1).equals(Botti.prefiksi)) {
             return;
         }
+
         //Tarkistetaan onko komento oikea.
         if (messageSplit[0].equals(Botti.prefiksi+"vaihdaPrefiksi")) {
             if (EditConfig.checkLegalPrefix(newPrefix)) {
@@ -58,24 +57,5 @@ public class BotEventListeners extends ListenerAdapter {
         } else {
             event.getChannel().sendMessage("BotEvent: Virheellinen komento.").queue();
         }
-
-        /*
-        if(args.length == 2){
-            if (args[0].equalsIgnoreCase(Botti.prefiksi+"vaihdaPrefiksi")) {
-                //Botti.setPrefiksi(args[1]);
-                String prefix = args[1];
-                if (EditConfig.checkLegalPrefix(prefix)) {
-                    EditConfig.writeToConfigurationFile("prefix=="+prefix);
-                    EditConfig.readFromConfigurationFile();
-                    Botti.loadConfig();
-                    event.getChannel().sendMessage("Onnistui! Komentojen etuliito on tästedes: "+prefix).queue();
-                } else {
-                    event.getChannel().sendMessage("Epäonnistui! Viallinen komentojen etuliite.").queue();
-                }
-
-            }
-
-        }
-        */
     }
 }

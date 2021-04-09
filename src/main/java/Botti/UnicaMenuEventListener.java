@@ -43,22 +43,24 @@ public class UnicaMenuEventListener extends ListenerAdapter {
             return;
         }
 
-        //Erottaa komennon prefixiin ja komentoon
-        //String prefix = messageSplit[0].substring(0,1);
+        //Erotetaan viestistä komento
         String command = messageSplit[0].substring(1);
-        //String newPrefix = messageSplit[1];
 
         /*
         if (args[0].equalsIgnoreCase(Botti.prefiksi + "ruokalat")) {// viesti on pilkottu osiin ja jos ensimmäinen osa == prefiksi+komentoX, tee asioita. pilkkominen on tehty siksi ettei isoil ja pienil kirjaimil ois välii
             event.getChannel().sendMessage("Yliopiston kampus\n" + "   "+Botti.prefiksi+"assari\n" + "   "+Botti.prefiksi+"macciavelli\n" + "   "+Botti.prefiksi+"galilei\n" + "   "+Botti.prefiksi+"kaara\n" + "Kupittaan kampus\n" + "   "+Botti.prefiksi+"dental\n" + "   "+Botti.prefiksi+"delipharma\n" + "   "+Botti.prefiksi+"delica\n" + "   "+Botti.prefiksi+"linus\n" + "   "+Botti.prefiksi+"kisälli\n" + "Linnankadun taidekampus\n" + "   "+Botti.prefiksi+"sigyn\n" + "   "+Botti.prefiksi+"muusa\n" + "Muut\n" + "   "+Botti.prefiksi+"ruokakello\n" + "   "+Botti.prefiksi+"kaivomestari\n" + "   "+Botti.prefiksi+"fabrik\n" + "   "+Botti.prefiksi+"piccumaccia\n").queue();
-
         }
          */
 
         /**
          * Tässä esimerkki miten uusi rakenne toimii yleiskäyttöisen JSONMapper-luokan kanssa.
+         * Vain jos JSON urlit on asetettu cfg-tiedostoon. Toiminnallisuus muuttuu hieman, jos saadaan urlit
+         * locations.json filusta.
+         *
+         * Tarkistetaan onko prefiksi oikea ja sisältääkö config kutsutun komennon. Tarkistetaan vielä, että kutsuttu
+         * komento on eri kuin "prefix".
+         * @author Jani Uotinen
          */
-        //Tarkistetaan oliko prefiksi oikea ja sisältääkö config kutsutun komennon. Tarkistetaan vielä, että kutsuttu komento on eri kuin prefix
         if (messageSplit[0].equals(Botti.prefiksi+command)) {
             if(config.containsKey(command) && !command.equals("prefix")) {
                 Restaurant restaurant = JSONMapper.unicaParser(config.get(command));
