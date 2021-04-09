@@ -34,7 +34,7 @@ public class JSONMapper {
             e.printStackTrace();
             ruoka.setErrorMessage("Sivustoa ei ole saatavilla tai json url ei ollut oikea.");
             //return ruoka;
-           // return ruoka;//"Sivustoa ei ole saatavilla tai json url ei ollut oikea.";
+            // return ruoka;//"Sivustoa ei ole saatavilla tai json url ei ollut oikea.";
         } finally {
             return ruoka;
         }

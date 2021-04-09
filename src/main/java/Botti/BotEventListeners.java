@@ -12,11 +12,23 @@ public class BotEventListeners extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
         //Ettei botit juttele loputtomiin keskenään. Tai itsensä kanssa.
+
         if (event.getAuthor().isBot()) {
             return;
         }
 
-        String[] args = event.getMessage().getContentRaw().split(" ");//pilkkoo annetun komennon osiin, tämä mahdollistaa parametrien käytön
+        //pilkkoo annetun komennon osiin, tämä mahdollistaa parametrien käytön
+        String[] messageSplit = event.getMessage().getContentRaw().split(" ");
+
+        //Tarkistetaan kuuluuko komento tälle event listenerille.
+        if (messageSplit.length != 2) {
+            return;
+        }
+
+        //Erottaa komennon prefixiin ja komentoon
+        String prefix = messageSplit[0].substring(0,1);
+        String command = messageSplit[0].substring(1);
+        String newPrefix = messageSplit[1];
 
         /**
          * Prefiksin vaihtokäsky.
@@ -29,6 +41,25 @@ public class BotEventListeners extends ListenerAdapter {
          * TODO: tutustuminen embed viesteihin ja niiden layouttiin. sillä saataisiin paljon kauniimman näköiseksi
          * @author ingman & Jani Uotinen
          */
+        //Tarkistetaan onko komento, eli onko käytössä prefiksi.
+        if (!messageSplit[0].substring(0,1).equals(Botti.prefiksi)) {
+            return;
+        }
+        //Tarkistetaan onko komento oikea.
+        if (messageSplit[0].equals(Botti.prefiksi+"vaihdaPrefiksi")) {
+            if (EditConfig.checkLegalPrefix(newPrefix)) {
+                EditConfig.writeToConfigurationFile("prefix==" + newPrefix);
+                EditConfig.readFromConfigurationFile();
+                Botti.loadConfig();
+                event.getChannel().sendMessage("Onnistui! Komentojen prefiksi on nyt: " + newPrefix).queue();
+            } else {
+                event.getChannel().sendMessage("Epäonnistui! Uusi prefiksi oli viallinen. Prefiksi on edelleen: " + prefix).queue();
+            }
+        } else {
+            event.getChannel().sendMessage("BotEvent: Virheellinen komento.").queue();
+        }
+
+        /*
         if(args.length == 2){
             if (args[0].equalsIgnoreCase(Botti.prefiksi+"vaihdaPrefiksi")) {
                 //Botti.setPrefiksi(args[1]);
@@ -45,5 +76,6 @@ public class BotEventListeners extends ListenerAdapter {
             }
 
         }
+        */
     }
 }

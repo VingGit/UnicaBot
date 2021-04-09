@@ -31,10 +31,22 @@ public class UnicaMenuEventListener extends ListenerAdapter {
         if (event.getAuthor().isBot()) {
             return;
         }
+
         //Lataa config hashmapin.
         HashMap<String,String> config = EditConfig.readFromConfigurationFile();
-        //Erottaa komennosta prefiksin pois
-        String command = event.getMessage().getContentRaw().substring(1);
+
+        //pilkkoo annetun komennon osiin, tämä mahdollistaa parametrien käytön
+        String[] messageSplit = event.getMessage().getContentRaw().split(" ");
+
+        //Tarkistetaan kuuluuko komento tälle event listenerille.
+        if (messageSplit.length > 1) {
+            return;
+        }
+
+        //Erottaa komennon prefixiin ja komentoon
+        //String prefix = messageSplit[0].substring(0,1);
+        String command = messageSplit[0].substring(1);
+        //String newPrefix = messageSplit[1];
 
         /*
         if (args[0].equalsIgnoreCase(Botti.prefiksi + "ruokalat")) {// viesti on pilkottu osiin ja jos ensimmäinen osa == prefiksi+komentoX, tee asioita. pilkkominen on tehty siksi ettei isoil ja pienil kirjaimil ois välii
@@ -46,17 +58,18 @@ public class UnicaMenuEventListener extends ListenerAdapter {
         /**
          * Tässä esimerkki miten uusi rakenne toimii yleiskäyttöisen JSONMapper-luokan kanssa.
          */
-        //Tarkistetaan löytyykö komento cfg:stä ja että se on eri kuin prefix
-        if(config.containsKey(command) && !command.equals("prefix")) {
-            Restaurant restaurant = JSONMapper.unicaParser(config.get(command));
-
-            if (restaurant.getErrorMessage() == null) {
-                event.getChannel().sendMessage(restaurant.getRestaurantName()).queue();
+        //Tarkistetaan oliko prefiksi oikea ja sisältääkö config kutsutun komennon. Tarkistetaan vielä, että kutsuttu komento on eri kuin prefix
+        if (messageSplit[0].equals(Botti.prefiksi+command)) {
+            if(config.containsKey(command) && !command.equals("prefix")) {
+                Restaurant restaurant = JSONMapper.unicaParser(config.get(command));
+                if (restaurant.getErrorMessage() == null) {
+                    event.getChannel().sendMessage(restaurant.getRestaurantName()).queue();
+                } else {
+                    event.getChannel().sendMessage(restaurant.getErrorMessage()).queue();
+                }
             } else {
-                event.getChannel().sendMessage(restaurant.getErrorMessage()).queue();
+                event.getChannel().sendMessage("UnicaMenu: Virheellinen komento.").queue();
             }
-        } else {
-            event.getChannel().sendMessage("Virheellinen komento.");
         }
 
         /*
