@@ -1,5 +1,6 @@
 package Botti;
 
+import Config.*;
 import de.cerus.jdasc.JDASlashCommands;
 import de.cerus.jdasc.command.*;
 import de.cerus.jdasc.interaction.Interaction;
@@ -10,24 +11,40 @@ import net.dv8tion.jda.api.JDABuilder;
 import javax.security.auth.login.LoginException;
 
 
+
 /**
  * Botti-luokka discord botin käynnistämiseen.
  * @author Jani Uotinen
  */
 public class Botti {
 
-    private static  String BOT_TOKEN = "";
+    private static  String BOT_TOKEN;  //"";
     private static final String APPLICATION_ID = "819578024214265866";
-    static String prefiksi="-";
+    static String prefiksi; //"-";
     private static JDA jda;
+
+    /**
+     * Ladataan configuration file ennen botin käynnistämistä.
+     * @author Jani Uotinen
+     */
+    public static void loadConfig() {
+        Configuration config = new Configuration(EditConfig.readFromConfigurationFile());
+        prefiksi = config.getPrefix();
+        System.out.println("Prefiksi configissa: "+prefiksi);
+    }
+
+
     /**
      * Metodi botin käynnistämiseen. Syötetään tokeni JDABuilderille ja lisätään sille EventListenerit ja yritetään
      * buildata.
      * @author Jani Uotinen
      */
     public static void launchBot(String token) throws Exception {
+        //Ladataan config
+        loadConfig();
+        //System.out.println(prefiksi);
         //Luodaan JDABuilderi ja annetaan sille tokeni
-        Botti.BOT_TOKEN =token;
+        Botti.BOT_TOKEN = token;
         JDABuilder jdabuilder = JDABuilder.createDefault(BOT_TOKEN);
 
         //Luodaan botille event listenerit ja lisätään ne botille ennen buildaamista
@@ -49,6 +66,7 @@ public class Botti {
     public static void setPrefiksi(String prefiksi) {
         Botti.prefiksi = prefiksi;
     }
+
     public static void initCommands() {
         JDASlashCommands.initialize(jda, BOT_TOKEN, APPLICATION_ID);
         JDASlashCommands.submitGlobalCommand(new CommandBuilder()
@@ -101,6 +119,7 @@ public class Botti {
 
         });
     }
+
 
 }
 

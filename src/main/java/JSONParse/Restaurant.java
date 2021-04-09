@@ -39,6 +39,24 @@ public class Restaurant {
     @JsonProperty("ErrorText")
     private Object errorText;
 
+    private String errorMessage;
+
+
+    public String getRestaurantName(){
+        return restaurantName;
+    }
+    public String getRestaurantUrl() {
+        return restaurantUrl;
+    }
+    public List<MenusForDay> getMenusForDays() {
+        return menusForDays;
+    }
+    public void setErrorMessage(String message) {
+        errorMessage = message;
+    }
+    public String getErrorMessage() {
+        return errorMessage;
+    }
 
     @Override
     public String toString() {
