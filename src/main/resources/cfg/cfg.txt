@@ -1,0 +1,3 @@
+prefix==!
+assari==https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi
+macciavelli==https://www.unica.fi/modules/json/json/Index?costNumber=1910&language=fi

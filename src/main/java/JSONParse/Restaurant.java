@@ -40,16 +40,29 @@ public class Restaurant {
     private List<MenusForDay> menusForDays = null;
     @JsonProperty("ErrorText")
     private Object errorText;
+    
+    private String errorMessage;
+
+    public boolean menuExists(){
+        return menusForDays == null;
+    }
 
     public String getRestaurantName(){
         return restaurantName;
     }
-    public String getRestaurantUrl(){
+    public String getRestaurantUrl() {
         return restaurantUrl;
     }
-    public boolean menuExists(){
-        return menusForDays== null;
+    public List<MenusForDay> getMenusForDays() {
+        return menusForDays;
     }
+    public void setErrorMessage(String message) {
+        errorMessage = message;
+    }
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
     @Override
     public String toString() {
         StringBuilder ruuat= new StringBuilder();

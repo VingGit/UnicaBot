@@ -36,18 +36,23 @@ public class JSONMapper {
      * @param url
      * @return Restaurant
      */
-
-    public static Restaurant restaurantParser(String url){
+    public static Restaurant restaurantParser(String jsonURL){
         ObjectMapper mapper = new ObjectMapper();
         Restaurant restaurant = new Restaurant();
+      
         try {
-            restaurant = mapper.readValue(new URL(url), Restaurant.class);
+            ruoka = mapper.readValue(new URL(jsonURL), Restaurant.class);
             //System.out.println(ruoka);
+            //return ruoka.toString();
+            //return ruoka;
             //return "Testi";
         } catch (IOException e) {
             e.printStackTrace();
-            //return "Sivustoa ei ole saatavilla tai json url ei ollut oikea.";
+            ruoka.setErrorMessage("Sivustoa ei ole saatavilla tai json url ei ollut oikea.");
+            //return ruoka;
+            // return ruoka;//"Sivustoa ei ole saatavilla tai json url ei ollut oikea.";
+        } finally {
+            return restaurant;
         }
-        return restaurant;
     }
 }
