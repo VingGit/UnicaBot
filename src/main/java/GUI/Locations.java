@@ -4,16 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Luokka ravintolalistauksen eli locations.jsonin ylläpitoon
  * @author Sanna Volanen
  */
 public class Locations{
-    private static ArrayList<Place> restaurants;
+    protected static ArrayList<Place> restaurants;
     //private ArrayList<Place> restaurants;
     private Map<String,Place> locations;
     //protected String [] campuses;
@@ -29,18 +27,21 @@ public class Locations{
         setRestaurants();
     }
     private void setRestaurants(){
-        Collection<Place> list = null;
+        Collection<Place> saved = null;
         try{
-            list = locations.values();
+            saved = locations.values();
         }catch (NullPointerException nullPer) {
             nullPer.printStackTrace();
         }
-        restaurants = new ArrayList<>(list);
+        if (saved != null) {
+            restaurants = new ArrayList<>(saved);
+        }
     }
     
-    public static ArrayList<Place> getRestaurants(){
+    public ArrayList<Place> getRestaurants(){
         return restaurants;
     }
+
     public static Place getPlace(String name){
         Place match = null;
         for (Place place: restaurants){
@@ -50,23 +51,37 @@ public class Locations{
         }return match;
     }
 
-    public void addPlace(Place newPlace) throws IOException {
-        for (Place p : restaurants) {
-            if (p.equals(newPlace)){
-                System.out.println("already in list");
-            } else {
-                restaurants.add(newPlace);
-                updateJson();
+    public void addPlace(HashMap<String, String> newPlace) {
+        Place newP = new Place(newPlace);
+        if (!(restaurants.contains(newP))){
+            restaurants.add(newP);
+            updateJson();
+            //setRestaurants();
+        }else {
+            System.out.println("already in list");
+        }
+    }
+
+    public void editPlace(HashMap<String, String> editValues) {
+        Place toBeEdited = getPlace(editValues.get("name"));
+        int index = restaurants.indexOf(toBeEdited);
+        if (toBeEdited != null) {
+            for (String key : editValues.keySet()) {
+                if (!key.equals("name")) {
+                    toBeEdited.edit(key, editValues.get(key));
+                }
             }
+            restaurants.set(index, toBeEdited);
+            updateJson();
         }
     }
 
 
     /**
      * method to rewrite Locations.json
-     * @throws IOException
+     *
      */
-    public void updateJson() throws IOException {
+    public void updateJson() {
         for (Place place: restaurants) {
             locations.put(Integer.toString(restaurants.indexOf(place)), place);
         }
@@ -77,13 +92,9 @@ public class Locations{
             System.out.println("File not found");
         }
     }
-
+    // tarvitaanko?
     private boolean exists(Place testPlace){
-        if(getPlace(testPlace.getName()) != null){
-            return true;
-        }else{
-            return false;
-        }
+        return restaurants.contains(testPlace);
     }
 
 

@@ -21,7 +21,7 @@ public class Main extends Application {
         Scene login = new Scene(root,300,275);
         login.getStylesheets().add(getClass().getResource("/css/login.css").toExternalForm());
         primaryStage.setScene(login); //new Scene(root, 300, 275)
-        primaryStage.initStyle(StageStyle.TRANSPARENT);
+        //primaryStage.initStyle(StageStyle.TRANSPARENT);
         primaryStage.show();
     }
 

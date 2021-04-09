@@ -16,7 +16,8 @@ public class Place {
     @JsonProperty("status")
     private HashMap<String, Object> status = new HashMap<>();
 
-    public Place(HashMap<String, String> input) {
+    //CONSTRUCTORS
+    public Place(HashMap<String,String > input) {
         for (String key : input.keySet()) {
             if (key.equals("url")) {
                 if (input.get(key) == null) {
@@ -37,6 +38,18 @@ public class Place {
         }
     }
 
+    //public Place(String name){this.name = name;}
+
+    // SETTERS
+    public void setUrl(String url) {
+        this.url = url;
+    }
+    public void setAvailability(String newValue){
+        status.put("availability", newValue);
+    }
+    public void setMessage(String newMessage){
+        status.put("message", newMessage);
+    }
     public void setStatus(String availability, String message){
         if (availability.equals("open")){
             this.status.put("availability",true);
@@ -45,9 +58,35 @@ public class Place {
         }
         this.status.put("message", message);
     }
+    public void edit(String param, String value){
+        if (param.equals("url") && !value.equals(url) ){
+            setUrl(value);
+        }else if(param.equals("availability") && !value.equals(status.get(param))){
+            setAvailability(value);
+        }else if(param.equals("message") && !value.equals(status.get("message"))){
+            setMessage(value);
+        }
+    }
+    //GETTERS
     public String getName() {
         return name;
     }
+    public String getURL() {
+        return url;
+    }
+    public String getCampus(){
+        return campusArea;
+    }
+    public String getAvailability(){
+        return status.get("availability").toString();
+    }
+    public String getMessage(){
+        return status.get("message").toString();
+    }
+    public HashMap<String, Object> getStatus() {
+        return status;
+    }
+
     @Override
     public String toString() {
         return "Place{" +

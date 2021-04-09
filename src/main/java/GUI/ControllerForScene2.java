@@ -5,9 +5,11 @@ import JSONParse.Restaurant;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -16,6 +18,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 
 /**
@@ -30,18 +33,24 @@ public class ControllerForScene2 {
     private Button backButton;
     @FXML
     private TextField inputUrl;
+    private String url;
     @FXML
     private TextField inputName;
+    private String name;
     @FXML
     private TextField inputCampus;
+    private String campus;
     @FXML
-    private TextField statusMessage;
+    private TextField infoMessage;
+    private String message;
     @FXML
     private ToggleGroup availabilityGroup;
-    @FXML
-    private RadioButton isOpen;
-    @FXML
-    private RadioButton isClosed;
+    private RadioButton selected;
+    private String availability;
+    //@FXML
+    //private RadioButton Open;
+    //@FXML
+    //private RadioButton Closed;
     @FXML
     private Button createButton;
     @FXML
@@ -50,58 +59,85 @@ public class ControllerForScene2 {
     private Button deleteButton;
     @FXML
     private Label info;
-    private HashMap<String, String> inputValues;
-    private Locations locations = new Locations();
+    private HashMap<String, String> inputValues = new HashMap<>();
+    private Locations locations;
     private ArrayList<Place> restaurants = locations.getRestaurants();
 
+    double x,y;
+
+    @FXML
+    void dragged(MouseEvent event) {
+        Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        stage.setX(event.getScreenX()-x);
+        stage.setY(event.getScreenY()-y);
+    }
+
+    @FXML
+    void pressed(MouseEvent event) {
+        x=event.getSceneX();
+        y=event.getSceneY();
+    }
     /**
      *
      */
-    public void handleCreateButton(ActionEvent actionEvent) throws IOException, NullPointerException {
-        /*
-        if (inputUrl.getText().isEmpty()) {
+    public void handleCreateButton(ActionEvent actionEvent) throws IOException {
+        locations = new Locations(); //get current
+        try {
+            getInputs();
+        }catch (NullPointerException nul){
+            nul.printStackTrace();
+        }
+        if (url == "") {
             showAlert(Alert.AlertType.ERROR, inputUrl.getScene().getWindow(), "URL", "Cannot create a new Unica restaurant without jsonUrl");
         }
-        if (inputName.getText().i) {
+        if (name == "") {
             showAlert(Alert.AlertType.ERROR, inputName.getScene().getWindow(), "Location name", "Location must have a name");
             //actionEvent.consume();
         }
-         */
         //else {
-            getInputs();
-            actionEvent.consume();
+
+            //actionEvent.consume();
         //}
         // checking if the url is valid
-        String urlValue = inputValues.get("url");
-        if (urlValue != null && urlValue != "") {
-            boolean valid = validateUrl(urlValue);
+        if (url != null && url != ""){
+            boolean valid = validateUrl(url);
             if (!(valid)) {
                 inputValues.put("url", "");
             }
         }
         Place newPlace = new Place(inputValues);
-        locations.addPlace(newPlace);
+        locations.addPlace(inputValues);
+        locations = new Locations(); // updated
         info.setText("New Location saved /n"+newPlace.toString());
     }
 
     public void handleEditButton(ActionEvent actionEvent) {
-        restaurants = Locations.getRestaurants();
+        locations = new Locations();
+        restaurants = locations.getRestaurants();
+        getInputs();
         if (inputName.getText().isEmpty()){
             showAlert(Alert.AlertType.ERROR, inputName.getScene().getWindow(), "Location name error", "Cannot edit location data without name");
-            actionEvent.consume();
+            //actionEvent.consume();
         }else{
-            getInputs();
-            actionEvent.consume();
-            Place editing = Locations.getPlace(inputValues.get("name"));
-            if (editing != null){
-                for (String inputKey: inputValues.keySet()){
-
+            //actionEvent.consume();
+            Place old = Locations.getPlace(inputValues.get("name"));
+            if (old == null) {
+                infoMessage.setText("Name not found, edit not possible");
+            }else {
+                HashMap<String, String> edits = new HashMap<>();
+                for (String key:inputValues.keySet()){
+                    String value = inputValues.get(key);
+                    if (!value.equals("")) {
+                        edits.put(key,value);
+                    }
                 }
+                locations.editPlace(edits);
             }
         }
     }
     public void handleDeleteButton(ActionEvent actionEvent){
-        restaurants = Locations.getRestaurants();
+        locations = new Locations();
+        restaurants = locations.getRestaurants();
         /*
         if (inputName.getText().isEmpty()){
             showAlert(Alert.AlertType.ERROR, inputName.getScene().getWindow(), "Location name error", "Cannot edit location data without name");
@@ -111,28 +147,51 @@ public class ControllerForScene2 {
             Place deleting = Locations.getPlace(inputValues.get("name"));
             if (deleting == null){
                 info.setText("Location not found, deletion cancelled");
+            }else {
+
             }
+
         //}
     }
 
-    private void getInputs(){
-        if (inputUrl.getText() != null && !inputUrl.getText().isEmpty()){
-            inputValues.put("url",inputUrl.getText());
-        }else{ inputValues.put("url","");}
+    /**
+     * input validation
+     */
+    private void getInputs() throws NullPointerException{
+        if (inputUrl.getText() != null && !inputUrl.getText().isEmpty()) {
+            url = inputUrl.getText();
+        } else {
+            url = "";
+        }
         if (inputName.getText() != null && !inputName.getText().isEmpty()) {
-            inputValues.put("name", inputName.getText());
-        }else{inputValues.put("name", ""); }
-        inputValues.put("campus", inputCampus.getText());
-        Toggle selected = availabilityGroup.getSelectedToggle();
+            name = inputName.getText();
+        } else {
+            name = "";
+        }
+        if (inputCampus.getText() != null && !inputCampus.getText().isEmpty()) {
+            campus = inputCampus.getText();
+        } else {
+            campus = "";
+        }
+        selected = (RadioButton) availabilityGroup.getSelectedToggle();
+        /*
         if (selected == isClosed){
             showAlert(Alert.AlertType.INFORMATION, isClosed.getScene().getWindow(), "Restaurant not available", "Add info message.");
         }
-        inputValues.put("availability", selected.toString());
-        inputValues.put("message",statusMessage.getText());
+
+         */
+        availability = selected.getText();
+        if (infoMessage.getText() != null && !infoMessage.getText().isEmpty()) {
+            message = infoMessage.getText();
+        }else{message = "";}
+        inputValues.put("campus", campus);
+        inputValues.put("name", name);
+        //inputValues.put("url", url);
+        inputValues.put("availability", availability);
+        inputValues.put("message", message);
         System.out.println(inputValues);
     }
-
-    public boolean validateUrl(String test) throws MalformedURLException {
+        public boolean validateUrl(String test) {
         try{
             URL json = new URL(test);
         } catch (MalformedURLException e) {
