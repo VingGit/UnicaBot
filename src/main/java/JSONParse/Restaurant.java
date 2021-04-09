@@ -1,6 +1,8 @@
 package JSONParse;
 
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -38,9 +40,12 @@ public class Restaurant {
     private List<MenusForDay> menusForDays = null;
     @JsonProperty("ErrorText")
     private Object errorText;
-
+    
     private String errorMessage;
 
+    public boolean menuExists(){
+        return menusForDays == null;
+    }
 
     public String getRestaurantName(){
         return restaurantName;

@@ -1,20 +1,108 @@
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.GridPane?>
+<?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <!-- FXML tiedosto Scene2 GUI-elementtien luomiseen. Tekijänä Jani Uotinen -->
 
-<VBox fx:controller="GUI.ControllerForScene2"
-      xmlns:fx="http://javafx.com/fxml" alignment="center">
-    <children>
-        <Label fx:id="label1" text="Uusi ikkuna!" alignment="center"/>
-        <Button fx:id="button1" text="Nappi" onAction="#toiminnallisuus" alignment="center"/>
-        <Label fx:id="errorLabel" text="" alignment="center"/>
-        <Button fx:id="backtologin" text="Back to Login" onAction="#toLoginScreen" alignment="center"/>
-        <Button fx:id="exit" text="Exit" onAction="#exit" alignment="center"/>
-    </children>
-</VBox>
+<BorderPane onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="277.0" prefWidth="386.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ControllerForScene2">
+   <top>
+        <Label fx:id="label1" alignment="center" text="Bot activity window" textFill="#c61818" BorderPane.alignment="CENTER" />
+   </top>
+   <bottom>
+      <ButtonBar fx:id="Transitions" buttonMinWidth="50.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: white;">
+        <buttons>
+              <Button fx:id="backButton" alignment="center" onAction="#toLoginScreen" prefHeight="26.0" prefWidth="245.0" text="Back to Login" textFill="#2e26cd" />
+              <Button fx:id="exit" alignment="center" onAction="#exit" text="Exit" textFill="#c3472e">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+        </buttons>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets right="20.0" />
+         </padding>
+      </ButtonBar>
+   </bottom>
+   <center>
+      <VBox centerShape="false" prefHeight="166.0" prefWidth="358.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER">
+          <children>
+            <GridPane hgap="5.0" prefHeight="225.0" prefWidth="398.0" vgap="5.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="273.79998779296875" minWidth="10.0" prefWidth="273.79998779296875" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="273.79998779296875" minWidth="10.0" prefWidth="273.79998779296875" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="55.20000762939453" minHeight="10.0" prefHeight="36.60001678466797" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="73.19998931884766" minHeight="10.0" prefHeight="38.199983215332026" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="Json" />
+                  <TextField fx:id="infoMessage" promptText="Info message" GridPane.columnSpan="2" GridPane.rowIndex="5" />
+                  <Label layoutX="10.0" layoutY="12.0" text="Location" GridPane.rowIndex="2" />
+                  <TextField fx:id="inputUrl" layoutX="10.0" layoutY="12.0" promptText="Json URL" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+                  <TextField fx:id="inputName" promptText="Name" GridPane.rowIndex="3" />
+                  <TextField fx:id="inputCampus" layoutX="25.0" layoutY="68.0" promptText="Campus" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Label text="Availability" GridPane.rowIndex="4" />
+                  <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                     <children>
+                        <RadioButton fx:id="Open" mnemonicParsing="false" selected="true" text="open">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="availabilityGroup" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="Closed" mnemonicParsing="false" text="closed" toggleGroup="$availabilityGroup" />
+                     </children>
+                     <GridPane.margin>
+                        <Insets left="10.0" top="5.0" />
+                     </GridPane.margin>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </GridPane>
+            <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="206.0" spacing="20.0">
+               <opaqueInsets>
+                  <Insets right="10.0" top="10.0" />
+               </opaqueInsets>
+               <padding>
+                  <Insets right="10.0" top="10.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets bottom="2.0" left="5.0" right="5.0" top="2.0" />
+               </VBox.margin>
+               <children>
+                  <Button fx:id="createButton" mnemonicParsing="false" onAction="#handleCreateButton" text="Create new location" />
+                  <Button fx:id="editButton" layoutX="173.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleEditButton" text="Edit location" />
+                  <Button fx:id="deleteButton" layoutX="209.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleDeleteButton" text="Delete location" />
+               </children></HBox>
+          </children>
+         <BorderPane.margin>
+            <Insets left="5.0" right="5.0" />
+         </BorderPane.margin>
+      </VBox>
+   </center>
+   <right>
+      <Label fx:id="info" text="Info" BorderPane.alignment="CENTER" />
+   </right>
+</BorderPane>
