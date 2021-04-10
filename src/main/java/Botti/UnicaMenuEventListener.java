@@ -83,86 +83,53 @@ public class UnicaMenuEventListener extends ListenerAdapter {
             } else {
                 event.getChannel().sendMessage(restaurant.getErrorMessage()).queue();
             }
-
         }
-
         if (args[0].equalsIgnoreCase(Botti.prefiksi + "macciavelli")) {
             event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1910&language=fi")).queue();
-
         }
-
         if (args[0].equalsIgnoreCase(Botti.prefiksi + "galilei")) {
             event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1995&language=fi")).queue();
-
         }
-
         if (args[0].equalsIgnoreCase(Botti.prefiksi + "kaara")) {
             event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1970&language=fi")).queue();
-
         }
-
         if (args[0].equalsIgnoreCase(Botti.prefiksi + "dental")) {
             event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1980&language=fi")).queue();
-
         }
-
         if (args[0].equalsIgnoreCase(Botti.prefiksi + "delipharma")) {
             event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=198501&language=fi")).queue();
-
         }
-
         if (args[0].equalsIgnoreCase(Botti.prefiksi + "delica")) {
             event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1985&language=fi")).queue();
-
         }
-
         if (args[0].equalsIgnoreCase(Botti.prefiksi + "linus")) {
             event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=2000&language=fi")).queue();
-
         }
-
         if (args[0].equalsIgnoreCase(Botti.prefiksi + "kisälli")) {
             event.getChannel().sendMessage("Ravintola kiinni toistaiseksi, ei menua eikä jsonia saatavilla").queue();
-
             // event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi")).queue();
-
         }
-
         if (args[0].equalsIgnoreCase(Botti.prefiksi + "sigyn")) {
             event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1965&language=fi")).queue();
-
          }
-
         if (args[0].equalsIgnoreCase(Botti.prefiksi + "muusa")) {
             event.getChannel().sendMessage("Ravintola kiinni toistaiseksi, ei menua eikä jsonia saatavilla").queue();
             // event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi")).queue();
-
-
         }
-
         if (args[0].equalsIgnoreCase(Botti.prefiksi + "ruokakello")) {
             event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1950&language=fi")).queue();
-
         }
-
         if (args[0].equalsIgnoreCase(Botti.prefiksi + "kaivomestari")) {
             event.getChannel().sendMessage("Ravintola kiinni toistaiseksi, ei menua eikä jsonia saatavilla").queue();
             //event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi")).queue();
-
-
         }
-
         if (args[0].equalsIgnoreCase(Botti.prefiksi + "fabrik")) {
             event.getChannel().sendMessage("Ravintola kiinni toistaiseksi, ei menua eikä jsonia saatavilla").queue();
           //  event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi")).queue();
-
-
         }
-
         if (args[0].equalsIgnoreCase(Botti.prefiksi + "piccumaccia")) {
             event.getChannel().sendMessage("Avoinna tilauksesta").queue();
           //  event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi")).queue();
-
         }
         */
     }

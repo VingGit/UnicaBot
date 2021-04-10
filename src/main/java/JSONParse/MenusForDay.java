@@ -20,18 +20,41 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class MenusForDay {
 
     @JsonProperty("Date")
-    private String date;
+    private String date; //paivamaara
     @JsonProperty("LunchTime")
-    private String lunchTime;
+    private String lunchTime; //kuukaudenpaiva
     @JsonProperty("SetMenus")
-    private List<SetMenu> setMenus = null;
+    private List<SetMenu> viikonMenu = null;
+    private   StringBuilder menuBuilder;
 
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getLunchTime() {
+        return lunchTime;
+    }
+
+    public StringBuilder getviikonMenu(){
+        this.menuBuilder=new StringBuilder();
+        menuBuilder.append(date).delete(10,date.length()).append("\n");
+        for (SetMenu s:
+                viikonMenu) {
+                    menuBuilder.append("\n"+"--------------------------------"+"\n").append(lunchTime).append("\n"+"--------------------------------"+"\n")
+                    .append(s.getRuokalajit()).append("\n");
+        }
+
+        return menuBuilder;
+    }
     @Override
     public String toString() {
         StringBuilder ruuat= new StringBuilder();
         for (SetMenu s:
-                setMenus) {
+                viikonMenu) {
             ruuat.append(s).append("\n");
+
+
         }
 
         if(lunchTime==null){
