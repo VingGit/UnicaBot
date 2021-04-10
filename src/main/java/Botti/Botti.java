@@ -32,8 +32,7 @@ public class Botti {
         prefiksi = config.getPrefix();
         System.out.println("Prefiksi configissa: "+prefiksi);
     }
-
-
+    
     /**
      * Metodi botin käynnistämiseen. Syötetään tokeni JDABuilderille ja lisätään sille EventListenerit ja yritetään
      * buildata.

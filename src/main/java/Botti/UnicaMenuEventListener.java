@@ -63,7 +63,7 @@ public class UnicaMenuEventListener extends ListenerAdapter {
          */
         if (messageSplit[0].equals(Botti.prefiksi+command)) {
             if(config.containsKey(command) && !command.equals("prefix")) {
-                Restaurant restaurant = JSONMapper.unicaParser(config.get(command));
+                Restaurant restaurant = JSONMapper.restaurantParser(config.get(command));
                 if (restaurant.getErrorMessage() == null) {
                     event.getChannel().sendMessage(restaurant.getRestaurantName()).queue();
                 } else {

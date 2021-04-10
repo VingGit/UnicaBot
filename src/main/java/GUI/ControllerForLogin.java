@@ -48,7 +48,6 @@ public class ControllerForLogin {
         }
     }
 
-
     /**
      * Sammuttaa ohjelman.
      * @author Jani Uotinen
@@ -56,7 +55,6 @@ public class ControllerForLogin {
     public void exit(ActionEvent actionEvent) {
         System.exit(0);
     }
-
 
     /**
      * Luo uuden Scenen scene2 ja vaihtaa siihen.
