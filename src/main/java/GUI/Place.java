@@ -34,7 +34,7 @@ public class Place {
             } else if (key.equals("campus")) {
                 this.campusArea = input.get("campus");
             }
-                setStatus(input.get("availability"), input.get("message"));
+            setStatus(input.get("availability"), input.get("message"));
         }
     }
 

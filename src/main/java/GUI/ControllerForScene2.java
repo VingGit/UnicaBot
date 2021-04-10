@@ -96,7 +96,7 @@ public class ControllerForScene2 {
         }
         //else {
 
-            //actionEvent.consume();
+        //actionEvent.consume();
         //}
         // checking if the url is valid
         if (url != null && url != ""){
@@ -143,13 +143,13 @@ public class ControllerForScene2 {
             showAlert(Alert.AlertType.ERROR, inputName.getScene().getWindow(), "Location name error", "Cannot edit location data without name");
         }else {
         */
-            getInputs();
-            Place deleting = Locations.getPlace(inputValues.get("name"));
-            if (deleting == null){
-                info.setText("Location not found, deletion cancelled");
-            }else {
+        getInputs();
+        Place deleting = Locations.getPlace(inputValues.get("name"));
+        if (deleting == null){
+            info.setText("Location not found, deletion cancelled");
+        }else {
 
-            }
+        }
 
         //}
     }
@@ -178,7 +178,6 @@ public class ControllerForScene2 {
         if (selected == isClosed){
             showAlert(Alert.AlertType.INFORMATION, isClosed.getScene().getWindow(), "Restaurant not available", "Add info message.");
         }
-
          */
         availability = selected.getText();
         if (infoMessage.getText() != null && !infoMessage.getText().isEmpty()) {
@@ -191,7 +190,7 @@ public class ControllerForScene2 {
         inputValues.put("message", message);
         System.out.println(inputValues);
     }
-        public boolean validateUrl(String test) {
+    public boolean validateUrl(String test) {
         try{
             URL json = new URL(test);
         } catch (MalformedURLException e) {

@@ -37,7 +37,7 @@ public class Locations{
             restaurants = new ArrayList<>(saved);
         }
     }
-    
+
     public ArrayList<Place> getRestaurants(){
         return restaurants;
     }

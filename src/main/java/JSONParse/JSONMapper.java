@@ -18,7 +18,7 @@ public class JSONMapper {
      * Metodi unica-ravintoloiden parseemiseen.
      * @author Valtteri Ingman
      */
-    public static String unicaParser(String jsonURL) {
+    public static Restaurant unicaParser(String jsonURL) {
         ObjectMapper mapper = new ObjectMapper();
         Restaurant ruoka = new Restaurant();
         try {
@@ -29,16 +29,16 @@ public class JSONMapper {
             e.printStackTrace();
             //return "Sivustoa ei ole saatavilla tai json url ei ollut oikea.";
         }
-        return ruoka.toString();
+        return ruoka;
     }
 
     /**
-     * @param url
+     * @param jsonURL
      * @return Restaurant
      */
     public static Restaurant restaurantParser(String jsonURL){
         ObjectMapper mapper = new ObjectMapper();
-        Restaurant restaurant = new Restaurant();
+        Restaurant ruoka = new Restaurant();
       
         try {
             ruoka = mapper.readValue(new URL(jsonURL), Restaurant.class);
@@ -52,7 +52,7 @@ public class JSONMapper {
             //return ruoka;
             // return ruoka;//"Sivustoa ei ole saatavilla tai json url ei ollut oikea.";
         } finally {
-            return restaurant;
+            return ruoka;
         }
     }
 }

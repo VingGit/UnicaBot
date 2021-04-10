@@ -48,7 +48,7 @@ public class Restaurant {
         return menusForDays == null;
     }
 
-    public StringBuilder getRestaurantName(){
+    public String getRestaurantName(){
         this.restaurantBuilder=new StringBuilder();
 
 
@@ -59,7 +59,7 @@ public class Restaurant {
 //yksi viesti kerrallaan listan embed viestejä joissa on niitä ruokalistoja. näin 2000 merkkiä ei ylity.
 //säästin toStringit tulevaisuutta varten.
 //meen huomenna ajaa yhen nopeen kuorma-auto keikan, eli en oo paikal.
-        return restaurantBuilder;
+        return restaurantBuilder.toString();
     }
     public String getRestaurantUrl() {
         return restaurantUrl;
