@@ -31,33 +31,47 @@ public class UnicaMenuEventListener extends ListenerAdapter {
         if (event.getAuthor().isBot()) {
             return;
         }
+
         //Lataa config hashmapin.
         HashMap<String,String> config = EditConfig.readFromConfigurationFile();
-        //Erottaa komennosta prefiksin pois
-        String command = event.getMessage().getContentRaw().substring(1);
+
+        //pilkkoo annetun komennon osiin, tämä mahdollistaa parametrien käytön
+        String[] messageSplit = event.getMessage().getContentRaw().split(" ");
+
+        //Tarkistetaan kuuluuko komento tälle event listenerille.
+        if (messageSplit.length > 1) {
+            return;
+        }
+
+        //Erotetaan viestistä komento
+        String command = messageSplit[0].substring(1);
 
         /*
         if (args[0].equalsIgnoreCase(Botti.prefiksi + "ruokalat")) {// viesti on pilkottu osiin ja jos ensimmäinen osa == prefiksi+komentoX, tee asioita. pilkkominen on tehty siksi ettei isoil ja pienil kirjaimil ois välii
             event.getChannel().sendMessage("Yliopiston kampus\n" + "   "+Botti.prefiksi+"assari\n" + "   "+Botti.prefiksi+"macciavelli\n" + "   "+Botti.prefiksi+"galilei\n" + "   "+Botti.prefiksi+"kaara\n" + "Kupittaan kampus\n" + "   "+Botti.prefiksi+"dental\n" + "   "+Botti.prefiksi+"delipharma\n" + "   "+Botti.prefiksi+"delica\n" + "   "+Botti.prefiksi+"linus\n" + "   "+Botti.prefiksi+"kisälli\n" + "Linnankadun taidekampus\n" + "   "+Botti.prefiksi+"sigyn\n" + "   "+Botti.prefiksi+"muusa\n" + "Muut\n" + "   "+Botti.prefiksi+"ruokakello\n" + "   "+Botti.prefiksi+"kaivomestari\n" + "   "+Botti.prefiksi+"fabrik\n" + "   "+Botti.prefiksi+"piccumaccia\n").queue();
-
         }
          */
 
         /**
          * Tässä esimerkki miten uusi rakenne toimii yleiskäyttöisen JSONMapper-luokan kanssa.
+         * Vain jos JSON urlit on asetettu cfg-tiedostoon. Toiminnallisuus muuttuu hieman, jos saadaan urlit
+         * locations.json filusta.
+         *
+         * Tarkistetaan onko prefiksi oikea ja sisältääkö config kutsutun komennon. Tarkistetaan vielä, että kutsuttu
+         * komento on eri kuin "prefix".
+         * @author Jani Uotinen
          */
-        //Tarkistetaan löytyykö komento cfg:stä ja että se on eri kuin prefix
-        if(config.containsKey(command) && !command.equals("prefix")) {
-            Restaurant restaurant = JSONMapper.unicaParser(config.get(command));
-
-            if (restaurant.getErrorMessage() == null) {
-                event.getChannel().sendMessage(restaurant.getRestaurantName()).queue();
-
+        if (messageSplit[0].equals(Botti.prefiksi+command)) {
+            if(config.containsKey(command) && !command.equals("prefix")) {
+                Restaurant restaurant = JSONMapper.unicaParser(config.get(command));
+                if (restaurant.getErrorMessage() == null) {
+                    event.getChannel().sendMessage(restaurant.getRestaurantName()).queue();
+                } else {
+                    event.getChannel().sendMessage(restaurant.getErrorMessage()).queue();
+                }
             } else {
-                event.getChannel().sendMessage(restaurant.getErrorMessage()).queue();
+                event.getChannel().sendMessage("UnicaMenu: Virheellinen komento.").queue();
             }
-        } else {
-            event.getChannel().sendMessage("Virheellinen komento.");
         }
 
         /*
@@ -69,86 +83,53 @@ public class UnicaMenuEventListener extends ListenerAdapter {
             } else {
                 event.getChannel().sendMessage(restaurant.getErrorMessage()).queue();
             }
-
         }
-
         if (args[0].equalsIgnoreCase(Botti.prefiksi + "macciavelli")) {
             event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1910&language=fi")).queue();
-
         }
-
         if (args[0].equalsIgnoreCase(Botti.prefiksi + "galilei")) {
             event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1995&language=fi")).queue();
-
         }
-
         if (args[0].equalsIgnoreCase(Botti.prefiksi + "kaara")) {
             event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1970&language=fi")).queue();
-
         }
-
         if (args[0].equalsIgnoreCase(Botti.prefiksi + "dental")) {
             event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1980&language=fi")).queue();
-
         }
-
         if (args[0].equalsIgnoreCase(Botti.prefiksi + "delipharma")) {
             event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=198501&language=fi")).queue();
-
         }
-
         if (args[0].equalsIgnoreCase(Botti.prefiksi + "delica")) {
             event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1985&language=fi")).queue();
-
         }
-
         if (args[0].equalsIgnoreCase(Botti.prefiksi + "linus")) {
             event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=2000&language=fi")).queue();
-
         }
-
         if (args[0].equalsIgnoreCase(Botti.prefiksi + "kisälli")) {
             event.getChannel().sendMessage("Ravintola kiinni toistaiseksi, ei menua eikä jsonia saatavilla").queue();
-
             // event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi")).queue();
-
         }
-
         if (args[0].equalsIgnoreCase(Botti.prefiksi + "sigyn")) {
             event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1965&language=fi")).queue();
-
          }
-
         if (args[0].equalsIgnoreCase(Botti.prefiksi + "muusa")) {
             event.getChannel().sendMessage("Ravintola kiinni toistaiseksi, ei menua eikä jsonia saatavilla").queue();
             // event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi")).queue();
-
-
         }
-
         if (args[0].equalsIgnoreCase(Botti.prefiksi + "ruokakello")) {
             event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1950&language=fi")).queue();
-
         }
-
         if (args[0].equalsIgnoreCase(Botti.prefiksi + "kaivomestari")) {
             event.getChannel().sendMessage("Ravintola kiinni toistaiseksi, ei menua eikä jsonia saatavilla").queue();
             //event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi")).queue();
-
-
         }
-
         if (args[0].equalsIgnoreCase(Botti.prefiksi + "fabrik")) {
             event.getChannel().sendMessage("Ravintola kiinni toistaiseksi, ei menua eikä jsonia saatavilla").queue();
           //  event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi")).queue();
-
-
         }
-
         if (args[0].equalsIgnoreCase(Botti.prefiksi + "piccumaccia")) {
             event.getChannel().sendMessage("Avoinna tilauksesta").queue();
           //  event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi")).queue();
-
         }
         */
     }

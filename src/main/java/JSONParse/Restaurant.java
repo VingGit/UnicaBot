@@ -1,6 +1,8 @@
 package JSONParse;
 
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -41,8 +43,14 @@ public class Restaurant {
     private String errorMessage;
     private   StringBuilder restaurantBuilder;
 
+  
+  public boolean menuExists(){
+        return menusForDays == null;
+    }
+
     public StringBuilder getRestaurantName(){
         this.restaurantBuilder=new StringBuilder();
+
 
             restaurantBuilder.append(menusForDays.get(0).getviikonMenu());
 //vaihtamalla 0 johonkin toiseen numeroon, se tulostaa eri päivän. nyt mitä pitäisi tehdä
