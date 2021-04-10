@@ -60,7 +60,7 @@ public class ControllerForScene2 {
     @FXML
     private Label info;
     private HashMap<String, String> inputValues = new HashMap<>();
-    private Locations locations;
+    private Locations locations = new Locations();
     private ArrayList<Place> restaurants = locations.getRestaurants();
 
     double x,y;
