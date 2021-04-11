@@ -1,40 +1,46 @@
 package GUI;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Luokka ravintolalistauksen eli locations.jsonin ylläpitoon
  * @author Sanna Volanen
  */
-public class Locations{
+public class Locations extends HashMap {
     protected static ArrayList<Place> restaurants;
     //private ArrayList<Place> restaurants;
-    private Map<String,Place> locations;
+    private HashMap locations;
     //protected String [] campuses;
     //protected ArrayList<Place> restaurants;
     private final ObjectMapper objectmapper = new ObjectMapper();
 
     public Locations() {
         try {
-            locations = objectmapper.readValue(new File("src/main/resources/locations.json"), Map.class);
+            locations = objectmapper.readValue(Paths.get("src/main/resources/locations.json").toFile(), HashMap.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
         setRestaurants();
+        System.out.println("file read successfully");
+        System.out.println("Saved locations: ");
+        System.out.println(restaurants);
     }
     private void setRestaurants(){
-        Collection<Place> saved = null;
         try{
-            saved = locations.values();
+            Collection saved = locations.values(); // LinkedHashMap¤LinkedValues
+            System.out.println(saved.getClass());
+            restaurants = new ArrayList<Place>(saved);
+            System.out.println(restaurants.getClass());
         }catch (NullPointerException nullPer) {
             nullPer.printStackTrace();
-        }
-        if (saved != null) {
-            restaurants = new ArrayList<>(saved);
         }
     }
 
@@ -98,4 +104,83 @@ public class Locations{
     }
 
 
+    @Override
+    public int size() {
+        return 0;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return false;
+    }
+
+    @Override
+    public boolean containsKey(Object key) {
+        return false;
+    }
+
+    @Override
+    public boolean containsValue(Object value) {
+        return false;
+    }
+
+    @Override
+    public Object get(Object key) {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public Object put(Object key, Object value) {
+        return null;
+    }
+
+    @Override
+    public Object remove(Object key) {
+        return null;
+    }
+
+    @Override
+    public void putAll(@NotNull Map m) {
+
+    }
+
+    @Override
+    public void clear() {
+
+    }
+
+    @NotNull
+    @Override
+    public Set keySet() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public Collection values() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public Set<Entry> entrySet() {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public Object putIfAbsent(Object key, Object value) {
+        return null;
+    }
+
+    @Override
+    public boolean remove(Object key, Object value) {
+        return false;
+    }
+
+    @Override
+    public boolean replace(Object key, Object oldValue, Object newValue) {
+        return false;
+    }
 }

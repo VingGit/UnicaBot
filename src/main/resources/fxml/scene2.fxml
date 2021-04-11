@@ -19,7 +19,7 @@
 
 <BorderPane onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="277.0" prefWidth="386.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ControllerForScene2">
    <top>
-        <Label fx:id="label1" alignment="center" text="Bot activity window" textFill="#c61818" BorderPane.alignment="CENTER" />
+        <Label fx:id="label1" alignment="center" text="Locations modication window" textFill="#c61818" BorderPane.alignment="CENTER" />
    </top>
    <bottom>
       <ButtonBar fx:id="Transitions" buttonMinWidth="50.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: white;">
@@ -96,13 +96,11 @@
                   <Button fx:id="editButton" layoutX="173.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleEditButton" text="Edit location" />
                   <Button fx:id="deleteButton" layoutX="209.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleDeleteButton" text="Delete location" />
                </children></HBox>
+            <Label fx:id="info" style="-fx-background-color: grey;" text="Info" textFill="WHITE" />
           </children>
          <BorderPane.margin>
             <Insets left="5.0" right="5.0" />
          </BorderPane.margin>
       </VBox>
    </center>
-   <right>
-      <Label fx:id="info" text="Info" BorderPane.alignment="CENTER" />
-   </right>
 </BorderPane>

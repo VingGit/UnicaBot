@@ -78,7 +78,9 @@ public class ControllerForScene2 {
         y=event.getSceneY();
     }
     /**
-     *
+     * handler method for Create new location button
+     * @param actionEvent == buttonClick
+     * @author Sanna Volanen
      */
     public void handleCreateButton(ActionEvent actionEvent) throws IOException {
         locations = new Locations(); //get current
@@ -110,7 +112,11 @@ public class ControllerForScene2 {
         locations = new Locations(); // updated
         info.setText("New Location saved /n"+newPlace.toString());
     }
-
+    /**
+     * handler method for Edit location button
+     * @param actionEvent == buttonClick
+     * @author Sanna Volanen
+     */
     public void handleEditButton(ActionEvent actionEvent) {
         locations = new Locations();
         restaurants = locations.getRestaurants();
@@ -135,6 +141,12 @@ public class ControllerForScene2 {
             }
         }
     }
+
+    /**
+     * handler method for Delete location button
+     * @param actionEvent == buttonClick
+     * @author Sanna Volanen
+     */
     public void handleDeleteButton(ActionEvent actionEvent){
         locations = new Locations();
         restaurants = locations.getRestaurants();
@@ -156,6 +168,7 @@ public class ControllerForScene2 {
 
     /**
      * input validation
+     * @author Sanna Volanen
      */
     private void getInputs() throws NullPointerException{
         if (inputUrl.getText() != null && !inputUrl.getText().isEmpty()) {
@@ -190,6 +203,12 @@ public class ControllerForScene2 {
         inputValues.put("message", message);
         System.out.println(inputValues);
     }
+
+    /**
+     * method for checking if given url is valid
+     * @param test
+     * @return valid= RETURN true and invalid=RETURN false
+     */
     public boolean validateUrl(String test) {
         try{
             URL json = new URL(test);
@@ -200,7 +219,10 @@ public class ControllerForScene2 {
         return true;
     }
 
-
+    /**
+     * method for creating a pop up alert when something is wrong or needs attention in input
+    * @author Sanna Volanen
+     */
     private void showAlert(Alert.AlertType alertType, Window owner, String title, String message){
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
