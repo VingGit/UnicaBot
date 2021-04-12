@@ -8,3 +8,4 @@
 /target
 *.iml
 src/token.txt
+.jqwik-database
