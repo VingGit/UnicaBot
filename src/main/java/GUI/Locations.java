@@ -1,6 +1,8 @@
 package GUI;
 
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -35,10 +37,11 @@ public class Locations extends HashMap {
     }
     private void setRestaurants(){
         try{
-            Collection saved = locations.values(); // LinkedHashMap¤LinkedValues
-            System.out.println(saved.getClass());
-            restaurants = new ArrayList<Place>(saved);
-            System.out.println(restaurants.getClass());
+            ArrayList<ArrayList<Place>> saved = new ArrayList<>(locations.values()); //
+            //System.out.println("Saved" +saved);
+            //System.out.println("locations is "+saved.getClass());
+            if ( saved.size() >0) restaurants= saved.get(0);
+            //System.out.println("Restaurants is " + restaurants.getClass());
         }catch (NullPointerException nullPer) {
             nullPer.printStackTrace();
         }
@@ -58,9 +61,11 @@ public class Locations extends HashMap {
     }
 
     public void addPlace(HashMap<String, String> newPlace) {
+        System.out.println("Trying to add new location...");
         Place newP = new Place(newPlace);
+        System.out.println("New "+newP);
         if (!(restaurants.contains(newP))){
-            restaurants.add(newP);
+            restaurants.add(restaurants.size(), newP);
             updateJson();
             //setRestaurants();
         }else {
@@ -88,11 +93,12 @@ public class Locations extends HashMap {
      *
      */
     public void updateJson() {
-        for (Place place: restaurants) {
-            locations.put(Integer.toString(restaurants.indexOf(place)), place);
-        }
+        // update local variable
+        locations.put("Locations",restaurants);
+        //create PrettyPrinter instance
+        ObjectWriter writer = objectmapper.writer(new DefaultPrettyPrinter());
         try {
-            objectmapper.writeValue(new File("src/main/resources/locations.json"), locations);
+            writer.writeValue(new File("src/main/resources/locations.json"), locations);
         }catch (IOException io){
             io.printStackTrace();
             System.out.println("File not found");
