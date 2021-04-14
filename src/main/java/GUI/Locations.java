@@ -37,11 +37,11 @@ public class Locations extends HashMap {
         }
         System.out.println("file read successfully");
         //System.out.println("Saved locations: ");
-        //System.out.println(restaurants);
-        ArrayList<ArrayList<Restaurant>> saved = new ArrayList<>(locations.values()); //
+        System.out.println(restaurantArrayList);
+        ArrayList<Restaurant> saved = new ArrayList<Restaurant>(locations.values()); //
         //System.out.println("Saved" +saved);
         //System.out.println("locations is "+saved.getClass());
-        if (saved.size() > 0) restaurantArrayList = saved.get(0);
+        if (saved.size() > 0) restaurantArrayList = saved;
         //System.out.println("Restaurants is " + restaurants.getClass());
     }
 
