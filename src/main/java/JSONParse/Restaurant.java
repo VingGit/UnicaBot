@@ -15,7 +15,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "PriceHeader",
         "Footer",
         "MenusForDays",
-        "ErrorText"
+        "ErrorText",
+        "campus",
+        "availability",
+        "message"
 })
 
 /**
@@ -25,9 +28,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * jatko kehityksen kannalta.
  * menusForDays
  * @author Valtteri Ingman
+ * @editor Sanna Volanen
  */
 public class Restaurant {
-
+    // propertys from Unica json API
     @JsonProperty("RestaurantName")
     private String restaurantName;
     @JsonProperty("RestaurantUrl")
@@ -43,38 +47,99 @@ public class Restaurant {
     private String errorMessage;
     private   StringBuilder restaurantBuilder;
 
-  
-  public boolean menuExists(){
-        return menusForDays == null;
+    /**
+     * additional properties for locations.json
+     * @author Sanna Volanen
+     */
+    @JsonProperty("Campus")
+    private String campus;
+    @JsonProperty("Availability")
+    private boolean availability;
+    @JsonProperty("InfoMessage")
+    private String infoMessage;
+
+    private int day = 0;
+    public Restaurant(){}
+    /**
+     * second contructor for setting a new restaurant through GUI
+     * @author Sanna Volanen
+     */
+    public Restaurant (String url, String name, String campus, boolean availability, String message){
+        if (url.contains("https://www.unica.fi/modules/json")){
+            JSONMapper.unicaParser(url);
+        }else{
+            this.restaurantName = name;
+            this.restaurantUrl = url;
+        }
+        this.campus = campus;
+        this.availability = availability;
+        this.infoMessage = message;
     }
 
-    public String getRestaurantName(){
-        this.restaurantBuilder=new StringBuilder();
-
-
-            restaurantBuilder.append(menusForDays.get(0).getviikonMenu());
-//vaihtamalla 0 johonkin toiseen numeroon, se tulostaa eri päivän. nyt mitä pitäisi tehdä
-//on muuttaa tämän metodin nimeksi esmi tulostaTämäPäivä, pistää se palauttamaan embed viesti
-//sekä tehdä tästä toinen metodi, joka luo listan embed viestejä, jolloin sitä botti voi tulostaa
-//yksi viesti kerrallaan listan embed viestejä joissa on niitä ruokalistoja. näin 2000 merkkiä ei ylity.
-//säästin toStringit tulevaisuutta varten.
-//meen huomenna ajaa yhen nopeen kuorma-auto keikan, eli en oo paikal.
-        return restaurantBuilder.toString();
-    }
+    // GETTERIT
     public String getRestaurantUrl() {
         return restaurantUrl;
-    }
-    public List<MenusForDay> getMenusForDays() {
-        return menusForDays;
-    }
-    public void setErrorMessage(String message) {
-        errorMessage = message;
     }
     public String getErrorMessage() {
         return errorMessage;
     }
+    //lisätty perusgetterit
+    public String getRestaurantName(){
+        return restaurantName;
+    }
+    public String getAvailability(){
+        if (availability){
+            return "open";
+        }
+        else{
+            return "closed";
+        }
+    }
+
+    public String getCampus() {
+        return campus;
+    }
+    public String getInfoMessage(){
+        return infoMessage;
+    }
+    //muutettu nimeä, koska ei palauta nimeä vaan yhden päivän menun
+    public String getRestaurantMenuToday(){
+        this.restaurantBuilder=new StringBuilder();
+            restaurantBuilder.append(menusForDays.get(day).getviikonMenu());
+            /**
+             * vaihtamalla 0 johonkin toiseen numeroon, se tulostaa eri päivän. nyt mitä pitäisi tehdä
+            on muuttaa tämän metodin nimeksi esmi tulostaTämäPäivä, pistää se palauttamaan embed viesti
+            sekä tehdä tästä toinen metodi, joka luo listan embed viestejä, jolloin sitä botti voi tulostaa
+            yksi viesti kerrallaan listan embed viestejä joissa on niitä ruokalistoja. näin 2000 merkkiä ei ylity.
+            säästin toStringit tulevaisuutta varten.
+            meen huomenna ajaa yhen nopeen kuorma-auto keikan, eli en oo paikal.
+             */
+        return restaurantBuilder.toString();
+    }
+    //SETTERIT
+    /* ei varmaan aleta muuttelemaan Unican APIn jsonien sisältöä
+    public void setErrorMessage(String message) {
+        errorMessage = message;
+    }*/
+
+    public boolean menuExists(){
+        return menusForDays == null;
+    }
+    public List<MenusForDay> getMenusForDays() {
+        return menusForDays;
+    }
 
     @Override
+    /* tää olisi normaali toString oliolle
+    public String toString() {
+        return "Place{" +
+                "campusArea='" + campusArea + '\'' +
+                ", name='" + name + '\'' +
+                ", url='" + url + '\'' +
+                ", status=" + status +
+                '}';
+    }*/
+
     public String toString() {
         StringBuilder ruuat= new StringBuilder();
         for (MenusForDay s:

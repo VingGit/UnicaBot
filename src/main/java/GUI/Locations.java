@@ -10,14 +10,13 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Luokka ravintolalistauksen eli locations.jsonin ylläpitoon
  * @author Sanna Volanen
  */
 public class Locations extends HashMap {
-    protected static ArrayList<Place> restaurants;
+    protected static ArrayList<Place> places;
     //private ArrayList<Place> restaurants;
     private HashMap locations;
     //protected String [] campuses;
@@ -25,64 +24,74 @@ public class Locations extends HashMap {
     private final ObjectMapper objectmapper = new ObjectMapper();
 
     public Locations() {
+        this.locations = new HashMap();
+        retrieveData();
+    }
+
+    private void retrieveData() {
         try {
             locations = objectmapper.readValue(Paths.get("src/main/resources/locations.json").toFile(), HashMap.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        setRestaurants();
         System.out.println("file read successfully");
-        System.out.println("Saved locations: ");
-        System.out.println(restaurants);
-    }
-    private void setRestaurants(){
-        try{
-            ArrayList<ArrayList<Place>> saved = new ArrayList<>(locations.values()); //
-            //System.out.println("Saved" +saved);
-            //System.out.println("locations is "+saved.getClass());
-            if ( saved.size() >0) restaurants= saved.get(0);
-            //System.out.println("Restaurants is " + restaurants.getClass());
-        }catch (NullPointerException nullPer) {
-            nullPer.printStackTrace();
-        }
+        //System.out.println("Saved locations: ");
+        //System.out.println(restaurants);
+        ArrayList<ArrayList<Place>> saved = new ArrayList<>(locations.values()); //
+        //System.out.println("Saved" +saved);
+        //System.out.println("locations is "+saved.getClass());
+        if (saved.size() > 0) places = saved.get(0);
+        //System.out.println("Restaurants is " + restaurants.getClass());
     }
 
     public ArrayList<Place> getRestaurants(){
-        return restaurants;
+        return places;
     }
 
-    public static Place getPlace(String name){
-        Place match = null;
-        for (Place place: restaurants){
+    public Place getPlace(String name){
+        for (Place place: places){
             if (place.getName().equals(name)){
-                match = place;
+                return place;
             }
-        }return match;
+        }return null;
     }
 
     public void addPlace(HashMap<String, String> newPlace) {
         System.out.println("Trying to add new location...");
+        System.out.println("Current list size "+ places.size());
+        System.out.println("Input hashmap: "+newPlace);
         Place newP = new Place(newPlace);
-        System.out.println("New "+newP);
-        if (!(restaurants.contains(newP))){
-            restaurants.add(restaurants.size(), newP);
-            updateJson();
+        System.out.println("New "+newP); //tulee oikein
+        if (!(exists(newP))){
+            places.add(places.size(), newP);
+            System.out.println("Restaurants after addition: "+ places);
             //setRestaurants();
+            updateJson();
+            System.out.println("Current list size "+ places.size());
         }else {
             System.out.println("already in list");
         }
     }
 
+    private boolean exists(Place newP) {
+        for (Place p1: places){
+            if (p1.equals(newP)){
+                return true;
+            }
+        }return false;
+    }
+
     public void editPlace(HashMap<String, String> editValues) {
         Place toBeEdited = getPlace(editValues.get("name"));
-        int index = restaurants.indexOf(toBeEdited);
+        int index = places.indexOf(toBeEdited);
         if (toBeEdited != null) {
+            System.out.println("Matched"+ toBeEdited);
             for (String key : editValues.keySet()) {
                 if (!key.equals("name")) {
                     toBeEdited.edit(key, editValues.get(key));
                 }
             }
-            restaurants.set(index, toBeEdited);
+            places.set(index, toBeEdited);
             updateJson();
         }
     }
@@ -94,7 +103,7 @@ public class Locations extends HashMap {
      */
     public void updateJson() {
         // update local variable
-        locations.put("Locations",restaurants);
+        locations.put("Locations", places);
         //create PrettyPrinter instance
         ObjectWriter writer = objectmapper.writer(new DefaultPrettyPrinter());
         try {
@@ -103,31 +112,24 @@ public class Locations extends HashMap {
             io.printStackTrace();
             System.out.println("File not found");
         }
-    }
-    // tarvitaanko?
-    private boolean exists(Place testPlace){
-        return restaurants.contains(testPlace);
+        System.out.println("Locations json updated.");
     }
 
 
     @Override
     public int size() {
-        return 0;
+        return places.size();
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return places.isEmpty();
     }
 
-    @Override
-    public boolean containsKey(Object key) {
-        return false;
-    }
+    public boolean containsValue(Place p1) {
+        for (Place p2: places) {
 
-    @Override
-    public boolean containsValue(Object value) {
-        return false;
+        }return false;
     }
 
     @Override
@@ -162,17 +164,7 @@ public class Locations extends HashMap {
         return null;
     }
 
-    @NotNull
-    @Override
-    public Collection values() {
-        return null;
-    }
 
-    @NotNull
-    @Override
-    public Set<Entry> entrySet() {
-        return null;
-    }
 
     @Nullable
     @Override

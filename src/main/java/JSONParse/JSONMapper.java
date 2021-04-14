@@ -33,9 +33,8 @@ public class JSONMapper {
     }
 
     /**
-     * @param jsonURL
-     * @return Restaurant
-     */
+     * tämä on nyt tuplana, kun yo. ei enää ole toString
+
     public static Restaurant restaurantParser(String jsonURL){
         ObjectMapper mapper = new ObjectMapper();
         Restaurant ruoka = new Restaurant();
@@ -54,5 +53,5 @@ public class JSONMapper {
         } finally {
             return ruoka;
         }
-    }
+    }*/
 }

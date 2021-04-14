@@ -5,12 +5,7 @@ import JSONParse.JSONMapper;
 import JSONParse.Restaurant;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.HashMap;
 
 /**
@@ -65,7 +60,7 @@ public class UnicaMenuEventListener extends ListenerAdapter {
             if(config.containsKey(command) && !command.equals("prefix")) {
                 Restaurant restaurant = JSONMapper.unicaParser(config.get(command));
                 if (restaurant.getErrorMessage() == null) {
-                    event.getChannel().sendMessage(restaurant.getRestaurantName()).queue();
+                    event.getChannel().sendMessage(restaurant.getRestaurantMenuToday()).queue();
                 } else {
                     event.getChannel().sendMessage(restaurant.getErrorMessage()).queue();
                 }

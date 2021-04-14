@@ -83,7 +83,7 @@ public class ControllerForScene2 {
      * @author Sanna Volanen
      */
     public void handleCreateButton(ActionEvent actionEvent) throws IOException {
-        locations = new Locations(); //get current
+        locations = new Locations(); //get current status
         try {
             getInputs();
         }catch (NullPointerException nul){
@@ -107,10 +107,10 @@ public class ControllerForScene2 {
                 inputValues.put("url", "");
             }
         }
-        Place newPlace = new Place(inputValues);
+        //Place newPlace = new Place(inputValues);
         locations.addPlace(inputValues);
-        locations = new Locations(); // updated
-        info.setText("New Location saved /n"+newPlace.toString());
+        locations = new Locations(); // update local variable
+        info.setText("New Location saved "+"/n"+inputValues.toString());
     }
     /**
      * handler method for Edit location button
@@ -119,25 +119,17 @@ public class ControllerForScene2 {
      */
     public void handleEditButton(ActionEvent actionEvent) {
         locations = new Locations();
-        restaurants = locations.getRestaurants();
         getInputs();
         if (inputName.getText().isEmpty()){
             showAlert(Alert.AlertType.ERROR, inputName.getScene().getWindow(), "Location name error", "Cannot edit location data without name");
             //actionEvent.consume();
         }else{
             //actionEvent.consume();
-            Place old = Locations.getPlace(inputValues.get("name"));
+            Place old = locations.getPlace(inputValues.get("name"));
             if (old == null) {
                 infoMessage.setText("Name not found, edit not possible");
             }else {
-                HashMap<String, String> edits = new HashMap<>();
-                for (String key:inputValues.keySet()){
-                    String value = inputValues.get(key);
-                    if (!value.equals("")) {
-                        edits.put(key,value);
-                    }
-                }
-                locations.editPlace(edits);
+                locations.editPlace(inputValues);
             }
         }
     }
@@ -156,7 +148,7 @@ public class ControllerForScene2 {
         }else {
         */
         getInputs();
-        Place deleting = Locations.getPlace(inputValues.get("name"));
+        Place deleting = locations.getPlace(inputValues.get("name"));
         if (deleting == null){
             info.setText("Location not found, deletion cancelled");
         }else {
@@ -198,10 +190,10 @@ public class ControllerForScene2 {
         }else{message = "";}
         inputValues.put("campus", campus);
         inputValues.put("name", name);
-        //inputValues.put("url", url);
+        inputValues.put("url", url);
         inputValues.put("availability", availability);
         inputValues.put("message", message);
-        System.out.println(inputValues);
+        System.out.println("GUI values: "+inputValues);
     }
 
     /**
@@ -214,8 +206,10 @@ public class ControllerForScene2 {
             URL json = new URL(test);
         } catch (MalformedURLException e) {
             e.printStackTrace();
+            System.out.println("Invalid url");
             return false;
         }
+        System.out.println("Valid url");
         return true;
     }
 
