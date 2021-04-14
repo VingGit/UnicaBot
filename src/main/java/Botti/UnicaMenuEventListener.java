@@ -65,7 +65,10 @@ public class UnicaMenuEventListener extends ListenerAdapter {
          * Tarkistetaan onko prefiksi oikea ja sisältääkö config kutsutun komennon. Tarkistetaan vielä, että kutsuttu
          * komento on eri kuin "prefix".
          * @author Jani Uotinen
+         *
+         *
          */
+
         if (messageSplit[0].equals(Botti.prefiksi + command)) {
             if (config.containsKey(command) && !command.equals("prefix")) {
                 Restaurant restaurant = JSONMapper.unicaParser(config.get(command));

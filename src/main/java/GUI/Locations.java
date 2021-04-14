@@ -89,6 +89,7 @@ public class Locations{
             objectmapper.writeValue(new File("src/main/resources/locations.json"), locations);
         }catch (IOException io){
             io.printStackTrace();
+
             System.out.println("File not found");
         }
     }
