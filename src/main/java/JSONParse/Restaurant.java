@@ -1,5 +1,6 @@
 package JSONParse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -37,7 +38,7 @@ public class Restaurant {
     @JsonProperty("Footer")
     private String footer;
     @JsonProperty("MenusForDays")
-    private List<MenusForDay> menusForDays = null;
+    private List<MenusForDay> menusForDays = null;//lista jokaisesta päivästä useine menuineen.
     @JsonProperty("ErrorText")
     private Object errorText;
     private String errorMessage;
@@ -48,19 +49,15 @@ public class Restaurant {
         return menusForDays == null;
     }
 
-    public String getRestaurantName(){
-        this.restaurantBuilder=new StringBuilder();
+    public ArrayList<StringBuilder> getRestaurantMenuArray(){
 
-
-            restaurantBuilder.append(menusForDays.get(0).getviikonMenu());
-//vaihtamalla 0 johonkin toiseen numeroon, se tulostaa eri päivän. nyt mitä pitäisi tehdä
-//on muuttaa tämän metodin nimeksi esmi tulostaTämäPäivä, pistää se palauttamaan embed viesti
-//sekä tehdä tästä toinen metodi, joka luo listan embed viestejä, jolloin sitä botti voi tulostaa
-//yksi viesti kerrallaan listan embed viestejä joissa on niitä ruokalistoja. näin 2000 merkkiä ei ylity.
-//säästin toStringit tulevaisuutta varten.
-//meen huomenna ajaa yhen nopeen kuorma-auto keikan, eli en oo paikal.
-        return restaurantBuilder.toString();
+        return menusForDays.get(0).getMenu();
     }
+    public ArrayList<StringBuilder> getRestaurantMenuArray(int i){
+
+        return menusForDays.get(i).getMenu();
+    }
+    public String getRestaurantName(){ return restaurantName; }
     public String getRestaurantUrl() {
         return restaurantUrl;
     }

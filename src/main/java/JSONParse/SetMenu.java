@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * Rakenneluokka JSON-parseemiseen.
+ * määrittelee yksittäisen ruokalajin muotoilun, näitä on päivän menussa useampia.
  * @author Valtteri Ingman
  */
 public class SetMenu  {
@@ -29,22 +30,18 @@ public class SetMenu  {
     private List<String> components = null;
     private   StringBuilder ruokalajit;
 
-    public String getName() {//onko kyseessä, jälkkäri, lounas vaiko mikä
-        return name;
-    }
 
-    public String getPrice() {//hinnasto formaatissa opiskelija/työntekijät/muut
-        return price;
-    }
 
     public StringBuilder getRuokalajit() {
         ruokalajit= new StringBuilder();
+        ruokalajit.append(name).append("\n")
+                .append(price).append("\n");
         for (String s:
                 components) {
-            ruokalajit.append(name).append("\n")
-                      .append(price).append("\n")
-                      .append(s).append("\n").append("\n");
+
+                      ruokalajit.append(s).append("\n");
         }
+
         return ruokalajit;
     }
 
