@@ -1,5 +1,6 @@
 package JSONParse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -20,45 +21,44 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class MenusForDay {
 
     @JsonProperty("Date")
-    private String date; //paivamaara
+    private StringBuilder date; //paivamaara
     @JsonProperty("LunchTime")
-    private String lunchTime; //kuukaudenpaiva
+    private StringBuilder lunchTime; //kuukaudenpaiva
     @JsonProperty("SetMenus")
-    private List<SetMenu> viikonMenu = null;
-    private   StringBuilder menuBuilder;
+    private List<SetMenu> Menu = null;//yhdessä päivässä on useampia ruokalaji vaihtoehtoja. tässä listassa on ne.
 
+    private ArrayList<StringBuilder> MenuArray=new ArrayList<>();
 
-    public String getDate() {
-        return date;
+    public StringBuilder getDate() {
+        return date.append(date).delete(10,date.length()).append("\n");
     }
 
-    public String getLunchTime() {
-        return lunchTime;
+    public StringBuilder getLunchTime() {
+        return lunchTime.append("\n"+"--------------------------------"+"\n").append(lunchTime).append("\n"+"--------------------------------"+"\n");
     }
 
-    public StringBuilder getviikonMenu(){
-        this.menuBuilder=new StringBuilder();
-        menuBuilder.append(date).delete(10,date.length()).append("\n");
+
+    public ArrayList<StringBuilder> getMenu(){
         for (SetMenu s:
-                viikonMenu) {
-                    menuBuilder.append("\n"+"--------------------------------"+"\n").append(lunchTime).append("\n"+"--------------------------------"+"\n")
-                    .append(s.getRuokalajit()).append("\n");
-        }
+                Menu) {
 
-        return menuBuilder;
+            MenuArray.add(s.getRuokalajit());
+
+        }
+        return MenuArray;
     }
     @Override
     public String toString() {
         StringBuilder ruuat= new StringBuilder();
         for (SetMenu s:
-                viikonMenu) {
+                Menu) {
             ruuat.append(s).append("\n");
 
 
         }
 
-        if(lunchTime==null){
-            lunchTime="Ruokala kiinni";
+        if(lunchTime.length()==0){
+            lunchTime.replace(0,0, "ruokala on kiinni");
         }
 
         return

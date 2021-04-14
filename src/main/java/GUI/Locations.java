@@ -1,5 +1,6 @@
 package GUI;
 
+import JSONParse.Restaurant;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -16,7 +17,7 @@ import java.util.*;
  * @author Sanna Volanen
  */
 public class Locations extends HashMap {
-    protected static ArrayList<Place> places;
+    protected static ArrayList<Restaurant> restaurantArrayList;
     //private ArrayList<Place> restaurants;
     private HashMap locations;
     //protected String [] campuses;
@@ -37,20 +38,20 @@ public class Locations extends HashMap {
         System.out.println("file read successfully");
         //System.out.println("Saved locations: ");
         //System.out.println(restaurants);
-        ArrayList<ArrayList<Place>> saved = new ArrayList<>(locations.values()); //
+        ArrayList<ArrayList<Restaurant>> saved = new ArrayList<>(locations.values()); //
         //System.out.println("Saved" +saved);
         //System.out.println("locations is "+saved.getClass());
-        if (saved.size() > 0) places = saved.get(0);
+        if (saved.size() > 0) restaurantArrayList = saved.get(0);
         //System.out.println("Restaurants is " + restaurants.getClass());
     }
 
-    public ArrayList<Place> getRestaurants(){
-        return places;
+    public ArrayList<Restaurant> getRestaurantList(){
+        return restaurantArrayList;
     }
 
-    public Place getPlace(String name){
-        for (Place place: places){
-            if (place.getName().equals(name)){
+    public Restaurant getRestaurant(String name){
+        for (Restaurant place: restaurantArrayList){
+            if (place.getRestaurantName().equals(name)){
                 return place;
             }
         }return null;
@@ -58,23 +59,23 @@ public class Locations extends HashMap {
 
     public void addPlace(HashMap<String, String> newPlace) {
         System.out.println("Trying to add new location...");
-        System.out.println("Current list size "+ places.size());
+        System.out.println("Current list size "+ restaurantArrayList.size());
         System.out.println("Input hashmap: "+newPlace);
-        Place newP = new Place(newPlace);
+        Restaurant newP = new Restaurant(newPlace);
         System.out.println("New "+newP); //tulee oikein
         if (!(exists(newP))){
-            places.add(places.size(), newP);
-            System.out.println("Restaurants after addition: "+ places);
+            restaurantArrayList.add(restaurantArrayList.size(), newP);
+            System.out.println("Restaurants after addition: "+ restaurantArrayList);
             //setRestaurants();
             updateJson();
-            System.out.println("Current list size "+ places.size());
+            System.out.println("Current list size "+ restaurantArrayList.size());
         }else {
             System.out.println("already in list");
         }
     }
 
-    private boolean exists(Place newP) {
-        for (Place p1: places){
+    private boolean exists(Restaurant newP) {
+        for (Restaurant p1: restaurantArrayList){
             if (p1.equals(newP)){
                 return true;
             }
@@ -82,8 +83,8 @@ public class Locations extends HashMap {
     }
 
     public void editPlace(HashMap<String, String> editValues) {
-        Place toBeEdited = getPlace(editValues.get("name"));
-        int index = places.indexOf(toBeEdited);
+        Restaurant toBeEdited = getRestaurant(editValues.get("name"));
+        int index = restaurantArrayList.indexOf(toBeEdited);
         if (toBeEdited != null) {
             System.out.println("Matched"+ toBeEdited);
             for (String key : editValues.keySet()) {
@@ -91,7 +92,7 @@ public class Locations extends HashMap {
                     toBeEdited.edit(key, editValues.get(key));
                 }
             }
-            places.set(index, toBeEdited);
+            restaurantArrayList.set(index, toBeEdited);
             updateJson();
         }
     }
@@ -103,13 +104,14 @@ public class Locations extends HashMap {
      */
     public void updateJson() {
         // update local variable
-        locations.put("Locations", places);
+        locations.put("Locations", restaurantArrayList);
         //create PrettyPrinter instance
         ObjectWriter writer = objectmapper.writer(new DefaultPrettyPrinter());
         try {
             writer.writeValue(new File("src/main/resources/locations.json"), locations);
         }catch (IOException io){
             io.printStackTrace();
+
             System.out.println("File not found");
         }
         System.out.println("Locations json updated.");
@@ -118,18 +120,16 @@ public class Locations extends HashMap {
 
     @Override
     public int size() {
-        return places.size();
+        return restaurantArrayList.size();
     }
 
     @Override
     public boolean isEmpty() {
-        return places.isEmpty();
+        return restaurantArrayList.isEmpty();
     }
 
-    public boolean containsValue(Place p1) {
-        for (Place p2: places) {
-
-        }return false;
+    public boolean containsValue(Restaurant p1) {
+        return restaurantArrayList.contains(p1);
     }
 
     @Override
@@ -161,7 +161,7 @@ public class Locations extends HashMap {
     @NotNull
     @Override
     public Set keySet() {
-        return null;
+        return locations.keySet();
     }
 
 

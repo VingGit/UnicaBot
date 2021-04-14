@@ -1,5 +1,8 @@
 package JSONParse;
 
+import java.util.ArrayList;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -41,7 +44,7 @@ public class Restaurant {
     @JsonProperty("Footer")
     private String footer;
     @JsonProperty("MenusForDays")
-    private List<MenusForDay> menusForDays = null;
+    private List<MenusForDay> menusForDays = null;//lista jokaisesta päivästä useine menuineen.
     @JsonProperty("ErrorText")
     private Object errorText;
     private String errorMessage;
@@ -64,7 +67,12 @@ public class Restaurant {
      * second contructor for setting a new restaurant through GUI
      * @author Sanna Volanen
      */
-    public Restaurant (String url, String name, String campus, boolean availability, String message){
+    public Restaurant (HashMap<String, String> input){
+        String url = input.get("url");
+        String name = input.get("name");
+        String availability = input.get("availability");
+        String campus = input.get("campus");
+        String message = input.get("message");
         if (url.contains("https://www.unica.fi/modules/json")){
             JSONMapper.unicaParser(url);
         }else{
@@ -72,7 +80,11 @@ public class Restaurant {
             this.restaurantUrl = url;
         }
         this.campus = campus;
-        this.availability = availability;
+        if (availability.equals("open")){
+            this.availability = true;
+        } else {
+            this.availability = false;
+        }
         this.infoMessage = message;
     }
 
@@ -80,12 +92,11 @@ public class Restaurant {
     public String getRestaurantUrl() {
         return restaurantUrl;
     }
-    public String getErrorMessage() {
-        return errorMessage;
-    }
-    //lisätty perusgetterit
     public String getRestaurantName(){
         return restaurantName;
+    }
+    public String getErrorMessage() {
+        return errorMessage;
     }
     public String getAvailability(){
         if (availability){
@@ -102,57 +113,68 @@ public class Restaurant {
     public String getInfoMessage(){
         return infoMessage;
     }
-    //muutettu nimeä, koska ei palauta nimeä vaan yhden päivän menun
-    public String getRestaurantMenuToday(){
-        this.restaurantBuilder=new StringBuilder();
-            restaurantBuilder.append(menusForDays.get(day).getviikonMenu());
-            /**
-             * vaihtamalla 0 johonkin toiseen numeroon, se tulostaa eri päivän. nyt mitä pitäisi tehdä
-            on muuttaa tämän metodin nimeksi esmi tulostaTämäPäivä, pistää se palauttamaan embed viesti
-            sekä tehdä tästä toinen metodi, joka luo listan embed viestejä, jolloin sitä botti voi tulostaa
-            yksi viesti kerrallaan listan embed viestejä joissa on niitä ruokalistoja. näin 2000 merkkiä ei ylity.
-            säästin toStringit tulevaisuutta varten.
-            meen huomenna ajaa yhen nopeen kuorma-auto keikan, eli en oo paikal.
-             */
-        return restaurantBuilder.toString();
-    }
-    //SETTERIT
-    /* ei varmaan aleta muuttelemaan Unican APIn jsonien sisältöä
-    public void setErrorMessage(String message) {
-        errorMessage = message;
-    }*/
+    public ArrayList<StringBuilder> getRestaurantMenuArray(){
 
-    public boolean menuExists(){
-        return menusForDays == null;
+        return menusForDays.get(0).getMenu();
     }
+
+    public ArrayList<StringBuilder> getRestaurantMenuArray(int i) {
+
+        return menusForDays.get(i).getMenu();
+    }
+
     public List<MenusForDay> getMenusForDays() {
         return menusForDays;
     }
-
+    //SETTERIT
+    public void setAvailability(boolean newAv){
+        this.availability = newAv;
+    }
+    public void setInfoMessage(String newMsg){
+        this.infoMessage = newMsg;
+    }
+    private void setUrl(String newValue) {
+    }
     @Override
-    /* tää olisi normaali toString oliolle
     public String toString() {
         return "Place{" +
-                "campusArea='" + campusArea + '\'' +
-                ", name='" + name + '\'' +
-                ", url='" + url + '\'' +
-                ", status=" + status +
+                "campusArea='" + campus + '\'' +
+                ", name='" + restaurantName + '\'' +
+                ", url='" + restaurantUrl + '\'' +
+                ", status=" + availability + '\''+ infoMessage +
                 '}';
-    }*/
-
-    public String toString() {
-        StringBuilder ruuat= new StringBuilder();
-        for (MenusForDay s:
-                menusForDays) {
-            ruuat.append(s).append("\n");
-        }
-        if(ruuat.toString().equals("")){
-            ruuat = new StringBuilder("Ruokala on kiinni, lue lisää heidän sivuiltaan.");
-        }
-
-        return
-                "Ruokala: " + restaurantName + '\n' +
-                        "URL: " + restaurantUrl + '\n'+'\n' +
-                        ruuat + '\n';
     }
+    public boolean equals(Object o) {
+        Restaurant that = (Restaurant) o;
+        if (this == that) return true;
+        if (that == null || getClass() != that.getClass()) return false;
+        return campus.equals(that.campus) && restaurantName.equals(that.restaurantName) && restaurantUrl.equals(that.restaurantUrl) && availability==that.availability && infoMessage.equals(that.infoMessage);
+    }
+    public void edit(String key, String newValue){
+        if (key.equals("url")) {
+            if (restaurantUrl.equals("")) {
+                if (!newValue.equals("")) {
+                    setUrl(newValue);
+                }
+            } else if (!newValue.equals(restaurantUrl)) {
+                setUrl(newValue);
+            }
+        }else if(key.equals("availability")) {
+            if (newValue.equals("open") && !availability) {
+                availability = true;
+            } else if (newValue.equals("closed") && availability) {
+                availability = false;
+            }
+        }else if(key.equals("message")){
+            if(infoMessage.equals("")){
+                if (!newValue.equals("")){
+                    setInfoMessage(newValue);
+                }
+            }else if(!newValue.equals(infoMessage)){
+                setInfoMessage(newValue);
+            }
+        }
+    }
+
+
 }

@@ -1,6 +1,5 @@
 package GUI;
 
-import JSONParse.JSONMapper;
 import JSONParse.Restaurant;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,7 +17,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 
 
 /**
@@ -61,7 +59,7 @@ public class ControllerForScene2 {
     private Label info;
     private HashMap<String, String> inputValues = new HashMap<>();
     private Locations locations = new Locations();
-    private ArrayList<Place> restaurants = locations.getRestaurants();
+    private ArrayList<Restaurant> restaurants = locations.getRestaurantList();
 
     double x,y;
 
@@ -125,7 +123,7 @@ public class ControllerForScene2 {
             //actionEvent.consume();
         }else{
             //actionEvent.consume();
-            Place old = locations.getPlace(inputValues.get("name"));
+            Restaurant old = locations.getRestaurant(inputValues.get("name"));
             if (old == null) {
                 infoMessage.setText("Name not found, edit not possible");
             }else {
@@ -141,14 +139,14 @@ public class ControllerForScene2 {
      */
     public void handleDeleteButton(ActionEvent actionEvent){
         locations = new Locations();
-        restaurants = locations.getRestaurants();
+        restaurants = locations.getRestaurantList();
         /*
         if (inputName.getText().isEmpty()){
             showAlert(Alert.AlertType.ERROR, inputName.getScene().getWindow(), "Location name error", "Cannot edit location data without name");
         }else {
         */
         getInputs();
-        Place deleting = locations.getPlace(inputValues.get("name"));
+        Restaurant deleting = locations.getRestaurant(inputValues.get("name"));
         if (deleting == null){
             info.setText("Location not found, deletion cancelled");
         }else {
