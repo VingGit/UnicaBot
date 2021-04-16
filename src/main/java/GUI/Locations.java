@@ -19,8 +19,9 @@ import java.util.*;
 public class Locations extends HashMap {
     protected static ArrayList<Restaurant> restaurantArrayList;
     //private ArrayList<Place> restaurants;
-    private HashMap locations;
-    //protected String [] campuses;
+    private HashMap<String, HashMap<String, String >> locations;
+    private Set keySet;
+    protected ArrayList<String> keys;
     //protected ArrayList<Place> restaurants;
     private final ObjectMapper objectmapper = new ObjectMapper();
 
@@ -35,36 +36,65 @@ public class Locations extends HashMap {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("file read successfully");
-        //System.out.println("Saved locations: ");
-        System.out.println(restaurantArrayList);
-        ArrayList<Restaurant> saved = new ArrayList<Restaurant>(locations.values()); //
-        //System.out.println("Saved" +saved);
-        //System.out.println("locations is "+saved.getClass());
-        if (saved.size() > 0) restaurantArrayList = saved;
-        //System.out.println("Restaurants is " + restaurants.getClass());
+        System.out.println("locations.json read successfully");
+        System.out.println("Saved locations: \n"+ locations);
+        //System.out.println(restaurantArrayList);
+        ArrayList<HashMap<String, String>> saved = new ArrayList<>(locations.values()); //
+        keySet = locations.keySet();
+        System.out.println(saved.getClass());
+        //System.out.println("Saved content: \n" +saved);
+        if (saved.size() > 0) {
+            restaurantArrayList =new ArrayList<>();
+            for (HashMap<String,String> o:saved){
+                System.out.println(o);
+                Restaurant r = new Restaurant(o);
+                if (r != null) {
+                    restaurantArrayList.add(r);
+                }
+            }
+        }
+        System.out.println("Array list element is "+restaurantArrayList.get(0).getClass());
     }
 
     public ArrayList<Restaurant> getRestaurantList(){
         return restaurantArrayList;
     }
+    public ArrayList<String> getKeys(){
+        return keys;
+    }
 
     public Restaurant getRestaurant(String name){
-        for (Restaurant place: restaurantArrayList){
-            if (place.getRestaurantName().equals(name)){
-                return place;
+        for (Restaurant res: restaurantArrayList){
+            if (res.getRestaurantName().equals(name)){
+                return res;
             }
         }return null;
     }
-
+    /*
+    public void setRestaurantArrayList(ArrayList<Restaurant> newList){
+        restaurantArrayList = newList;
+    }
+     */
+    public void setKeys(){
+        ArrayList<String> keys = new ArrayList<>();
+        for (Object o: keySet){
+            String s = (String) o;
+            keys.add(s);
+        }
+        this.keys = keys;
+    }
     public void addPlace(HashMap<String, String> newPlace) {
         System.out.println("Trying to add new location...");
         System.out.println("Current list size "+ restaurantArrayList.size());
         System.out.println("Input hashmap: "+newPlace);
         Restaurant newP = new Restaurant(newPlace);
         System.out.println("New "+newP); //tulee oikein
-        if (!(exists(newP))){
-            restaurantArrayList.add(restaurantArrayList.size(), newP);
+        if (!(restaurantArrayList.contains(newP))){
+            //keys.add(newP.getRestaurantName().toLowerCase());
+            locations.put(newP.getRestaurantName().toLowerCase(), newP.toHashMap());
+            restaurantArrayList.add(newP);
+            //setRestaurantArrayList();
+            setKeys();
             System.out.println("Restaurants after addition: "+ restaurantArrayList);
             //setRestaurants();
             updateJson();
@@ -83,17 +113,26 @@ public class Locations extends HashMap {
     }
 
     public void editPlace(HashMap<String, String> editValues) {
-        Restaurant toBeEdited = getRestaurant(editValues.get("name"));
-        int index = restaurantArrayList.indexOf(toBeEdited);
+        Restaurant toBeEdited = getRestaurant( editValues.get("name"));
+        int index;
         if (toBeEdited != null) {
-            System.out.println("Matched"+ toBeEdited);
-            for (String key : editValues.keySet()) {
-                if (!key.equals("name")) {
-                    toBeEdited.edit(key, editValues.get(key));
+            index =restaurantArrayList.indexOf(toBeEdited);
+            System.out.println("Matched: \n "+ toBeEdited);
+            if (editValues.keySet().toArray().length >= 1) {
+                for (String key : editValues.keySet()) {
+                    if (!key.equals("name")) {
+                        toBeEdited.edit(key, editValues.get(key));
+                    } else {
+                        System.out.println("Trying to edit " + toBeEdited.getRestaurantName());
+                    }
                 }
+                System.out.println(" with new values: \n"+toBeEdited);
+                restaurantArrayList.set(index, toBeEdited);
+                updateJson();
+            }else{
+                System.out.println(editValues);
+                return;
             }
-            restaurantArrayList.set(index, toBeEdited);
-            updateJson();
         }
     }
 
@@ -104,7 +143,11 @@ public class Locations extends HashMap {
      */
     public void updateJson() {
         // update local variable
-        locations.put("Locations", restaurantArrayList);
+        for (Restaurant r:restaurantArrayList) {
+            for (String key : locations.keySet()) {
+                   locations.put(key, r.toHashMap());
+            }
+        }
         //create PrettyPrinter instance
         ObjectWriter writer = objectmapper.writer(new DefaultPrettyPrinter());
         try {
@@ -158,7 +201,6 @@ public class Locations extends HashMap {
 
     }
 
-    @NotNull
     @Override
     public Set keySet() {
         return locations.keySet();

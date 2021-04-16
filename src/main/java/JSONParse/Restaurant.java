@@ -48,7 +48,7 @@ public class Restaurant {
     @JsonProperty("ErrorText")
     private Object errorText;
     private String errorMessage;
-    private   StringBuilder restaurantBuilder;
+    //private   StringBuilder restaurantBuilder;
 
     /**
      * additional properties for locations.json
@@ -57,11 +57,12 @@ public class Restaurant {
     @JsonProperty("Campus")
     private String campus;
     @JsonProperty("Availability")
-    private boolean availability;
+    private String availability;
     @JsonProperty("InfoMessage")
     private String infoMessage;
 
     private int day = 0;
+    //CONSTRUCTORS
     public Restaurant(){}
     /**
      * second contructor for setting a new restaurant through GUI
@@ -70,21 +71,23 @@ public class Restaurant {
     public Restaurant (HashMap<String, String> input){
         String url = input.get("url");
         String name = input.get("name");
-        String availability = input.get("availability");
+        String availability = input.get("open");
         String campus = input.get("campus");
         String message = input.get("message");
         if (url.contains("https://www.unica.fi/modules/json")){
-            JSONMapper.unicaParser(url);
+            Restaurant r = JSONMapper.unicaParser(url);
+            this.restaurantName = name;
+            this.restaurantUrl = r.restaurantUrl;
+            this.errorText = r.errorText;
+            this.errorMessage = r.errorMessage;
+            this.priceHeader = r.priceHeader;
+            this.footer = r.footer;
         }else{
             this.restaurantName = name;
             this.restaurantUrl = url;
         }
         this.campus = campus;
-        if (availability.equals("open")){
-            this.availability = true;
-        } else {
-            this.availability = false;
-        }
+        this.availability = availability;
         this.infoMessage = message;
     }
 
@@ -98,13 +101,8 @@ public class Restaurant {
     public String getErrorMessage() {
         return errorMessage;
     }
-    public String getAvailability(){
-        if (availability){
-            return "open";
-        }
-        else{
-            return "closed";
-        }
+    public boolean getAvailability(){
+            return availability.equals("kyllä");
     }
 
     public String getCampus() {
@@ -127,13 +125,23 @@ public class Restaurant {
         return menusForDays;
     }
     //SETTERIT
-    public void setAvailability(boolean newAv){
+    public void setAvailability(String newAv){
         this.availability = newAv;
     }
     public void setInfoMessage(String newMsg){
         this.infoMessage = newMsg;
     }
+
     private void setUrl(String newValue) {
+    }
+    public HashMap<String,String> toHashMap(){
+        HashMap<String, String > params = new HashMap<>();
+        params.put("name", restaurantName);
+        params.put("url", restaurantUrl);
+        params.put("campus", campus);
+        params.put("open", availability);
+        params.put("message", infoMessage);
+        return params;
     }
     @Override
     public String toString() {
@@ -160,10 +168,8 @@ public class Restaurant {
                 setUrl(newValue);
             }
         }else if(key.equals("availability")) {
-            if (newValue.equals("open") && !availability) {
-                availability = true;
-            } else if (newValue.equals("closed") && availability) {
-                availability = false;
+            if (!availability.equals(newValue)) {
+                availability = newValue ;
             }
         }else if(key.equals("message")){
             if(infoMessage.equals("")){

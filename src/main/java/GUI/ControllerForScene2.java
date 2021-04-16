@@ -123,7 +123,7 @@ public class ControllerForScene2 {
             //actionEvent.consume();
         }else{
             //actionEvent.consume();
-            Restaurant old = locations.getRestaurant(inputValues.get("name"));
+            Restaurant old = locations.getRestaurant(inputValues.get("name").toString());
             if (old == null) {
                 infoMessage.setText("Name not found, edit not possible");
             }else {
@@ -182,7 +182,9 @@ public class ControllerForScene2 {
             showAlert(Alert.AlertType.INFORMATION, isClosed.getScene().getWindow(), "Restaurant not available", "Add info message.");
         }
          */
-        availability = selected.getText();
+        if (selected.getText().equals("open")) {
+            availability = "kyllä";
+        }else{availability = "ei";}
         if (infoMessage.getText() != null && !infoMessage.getText().isEmpty()) {
             message = infoMessage.getText();
         }else{message = "";}
