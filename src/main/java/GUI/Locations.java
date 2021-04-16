@@ -41,19 +41,10 @@ public class Locations extends HashMap {
         //System.out.println(restaurantArrayList);
         ArrayList<HashMap<String, String>> saved = new ArrayList<>(locations.values()); //
         keySet = locations.keySet();
-        System.out.println(saved.getClass());
-        //System.out.println("Saved content: \n" +saved);
-        if (saved.size() > 0) {
-            restaurantArrayList =new ArrayList<>();
-            for (HashMap<String,String> o:saved){
-                System.out.println(o);
-                Restaurant r = new Restaurant(o);
-                if (r != null) {
-                    restaurantArrayList.add(r);
-                }
-            }
-        }
-        System.out.println("Array list element is "+restaurantArrayList.get(0).getClass());
+        //System.out.println(saved.getClass());
+        updateRestaurantArrayList(saved);
+        System.out.println("Retrieved "+Integer.toString(restaurantArrayList.size())+ " restaurants");
+        System.out.println(restaurantArrayList);
     }
 
     public ArrayList<Restaurant> getRestaurantList(){
@@ -70,11 +61,22 @@ public class Locations extends HashMap {
             }
         }return null;
     }
-    /*
-    public void setRestaurantArrayList(ArrayList<Restaurant> newList){
-        restaurantArrayList = newList;
+
+    public void updateRestaurantArrayList(ArrayList<HashMap<String,String>> saved) {
+        System.out.println("Retrieving saved restaurants...");
+        if (saved.size() > 0) {
+            restaurantArrayList = new ArrayList<>();
+            for (HashMap<String, String> res : saved) {
+                System.out.println(res);
+                Restaurant r = new Restaurant(res);
+                System.out.println("Restaurant from Hashmap: " + r.toString());
+                if (r != null) {
+                    restaurantArrayList.add(r);
+                }
+            }
+        }
     }
-     */
+
     public void setKeys(){
         ArrayList<String> keys = new ArrayList<>();
         for (Object o: keySet){
@@ -86,7 +88,7 @@ public class Locations extends HashMap {
     public void addPlace(HashMap<String, String> newPlace) {
         System.out.println("Trying to add new location...");
         System.out.println("Current list size "+ restaurantArrayList.size());
-        System.out.println("Input hashmap: "+newPlace);
+        //System.out.println("Input hashmap: "+newPlace);
         Restaurant newP = new Restaurant(newPlace);
         System.out.println("New "+newP); //tulee oikein
         if (!(restaurantArrayList.contains(newP))){
@@ -145,7 +147,9 @@ public class Locations extends HashMap {
         // update local variable
         for (Restaurant r:restaurantArrayList) {
             for (String key : locations.keySet()) {
-                   locations.put(key, r.toHashMap());
+                if ( key.equals(r.getRestaurantName().toLowerCase())) {
+                    locations.put(key, r.toHashMap());
+                }
             }
         }
         //create PrettyPrinter instance
@@ -222,5 +226,14 @@ public class Locations extends HashMap {
     @Override
     public boolean replace(Object key, Object oldValue, Object newValue) {
         return false;
+    }
+
+    public void delete(Restaurant deleting) {
+        System.out.println("Now "+Integer.toString(restaurantArrayList.size())+ " restaurants. Trying deletion...");
+        if(restaurantArrayList.contains(deleting)){
+            locations.remove(deleting.getRestaurantName().toLowerCase(), deleting.toHashMap());
+            updateJson();
+        }
+        System.out.println(Integer.toString(restaurantArrayList.size())+ "restaurants left");
     }
 }

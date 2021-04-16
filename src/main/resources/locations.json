@@ -1,23 +1,37 @@
 {
-  "ruokakello" : {
-    "campus" : "Yliopiston kampus",
-    "name" : "Assari",
-    "message" : "",
-    "url" : "https://www.unica.fi/ravintolat/Yliopisto/assarin-ullakko/",
-    "open" : null
-  },
-  "sigyn" : {
-    "campus" : "Yliopiston kampus",
-    "name" : "Assari",
-    "message" : "",
-    "url" : "https://www.unica.fi/ravintolat/Yliopisto/assarin-ullakko/",
-    "open" : null
+  "dental" : {
+    "campus" : "Kupittaan kampus",
+    "name" : "Dental",
+    "availability" : "kyllä",
+    "url" : "https://www.unica.fi/modules/json/json/Index?costNumber=1980&language=fi",
+    "infoMessage" : ""
   },
   "assari" : {
     "campus" : "Yliopiston kampus",
     "name" : "Assari",
-    "message" : "",
-    "url" : "https://www.unica.fi/ravintolat/Yliopisto/assarin-ullakko/",
-    "open" : null
+    "availability" : "kyllä",
+    "url" : "https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi",
+    "infoMessage" : ""
+  },
+  "kaara" : {
+    "campus" : "Yliopiston kampus",
+    "name" : "Kaara",
+    "availability" : "kyllä",
+    "url" : "https://www.unica.fi/modules/json/json/Index?costNumber=1970&language=fi",
+    "infoMessage" : ""
+  },
+  "macciavelli" : {
+    "campus" : "Yliopiston kampus",
+    "name" : "Macciavelli",
+    "availability" : "kyllä",
+    "url" : "https://www.unica.fi/modules/json/json/Index?costNumber=1910&language=fi",
+    "infoMessage" : ""
+  },
+  "pikkumaccia" : {
+    "campus" : "Muut kampukset",
+    "name" : "Pikkumaccia",
+    "availability" : "ei",
+    "url" : "https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi",
+    "infoMessage" : "Avoinna tilauksesta"
   }
 }

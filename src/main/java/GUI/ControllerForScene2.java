@@ -57,7 +57,7 @@ public class ControllerForScene2 {
     private Button deleteButton;
     @FXML
     private Label info;
-    private HashMap<String, String> inputValues = new HashMap<>();
+    private final HashMap<String, String> inputValues = new HashMap<>();
     private Locations locations = new Locations();
     private ArrayList<Restaurant> restaurants = locations.getRestaurantList();
 
@@ -107,12 +107,13 @@ public class ControllerForScene2 {
         }
         //Place newPlace = new Place(inputValues);
         locations.addPlace(inputValues);
+        clearInputs();
         locations = new Locations(); // update local variable
         info.setText("New Location saved "+"/n"+inputValues.toString());
     }
     /**
      * handler method for Edit location button
-     * @param actionEvent == buttonClick
+     * @param actionEvent == buttonClick on Edit button
      * @author Sanna Volanen
      */
     public void handleEditButton(ActionEvent actionEvent) {
@@ -122,8 +123,9 @@ public class ControllerForScene2 {
             showAlert(Alert.AlertType.ERROR, inputName.getScene().getWindow(), "Location name error", "Cannot edit location data without name");
             //actionEvent.consume();
         }else{
+            clearInputs();
             //actionEvent.consume();
-            Restaurant old = locations.getRestaurant(inputValues.get("name").toString());
+            Restaurant old = locations.getRestaurant(inputValues.get("name"));
             if (old == null) {
                 infoMessage.setText("Name not found, edit not possible");
             }else {
@@ -146,11 +148,12 @@ public class ControllerForScene2 {
         }else {
         */
         getInputs();
+        clearInputs();
         Restaurant deleting = locations.getRestaurant(inputValues.get("name"));
         if (deleting == null){
             info.setText("Location not found, deletion cancelled");
         }else {
-
+            locations.delete(deleting);
         }
 
         //}
@@ -192,8 +195,9 @@ public class ControllerForScene2 {
         inputValues.put("name", name);
         inputValues.put("url", url);
         inputValues.put("availability", availability);
-        inputValues.put("message", message);
+        inputValues.put("infoMessage", message);
         System.out.println("GUI values: "+inputValues);
+
     }
 
     /**
@@ -211,6 +215,16 @@ public class ControllerForScene2 {
         }
         System.out.println("Valid url");
         return true;
+    }
+    /**
+     * @author Sanna Volanen
+     */
+    public void clearInputs(){
+        inputCampus.clear();
+        inputName.clear();
+        inputUrl.clear();
+        infoMessage.clear();
+        //actionEvent.consume();
     }
 
     /**

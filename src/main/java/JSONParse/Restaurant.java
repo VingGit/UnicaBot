@@ -44,7 +44,7 @@ public class Restaurant {
     @JsonProperty("Footer")
     private String footer;
     @JsonProperty("MenusForDays")
-    private List<MenusForDay> menusForDays = null;//lista jokaisesta päivästä useine menuineen.
+    private final List<MenusForDay> menusForDays = null;//lista jokaisesta päivästä useine menuineen.
     @JsonProperty("ErrorText")
     private Object errorText;
     private String errorMessage;
@@ -61,7 +61,7 @@ public class Restaurant {
     @JsonProperty("InfoMessage")
     private String infoMessage;
 
-    private int day = 0;
+    private final int day = 0;
     //CONSTRUCTORS
     public Restaurant(){}
     /**
@@ -69,15 +69,16 @@ public class Restaurant {
      * @author Sanna Volanen
      */
     public Restaurant (HashMap<String, String> input){
+        System.out.println("Input hashmap: \""+input);
         String url = input.get("url");
         String name = input.get("name");
-        String availability = input.get("open");
+        String availability = input.get("availability");
         String campus = input.get("campus");
-        String message = input.get("message");
+        String message = input.get("infoMessage");
         if (url.contains("https://www.unica.fi/modules/json")){
             Restaurant r = JSONMapper.unicaParser(url);
             this.restaurantName = name;
-            this.restaurantUrl = r.restaurantUrl;
+            this.restaurantUrl = url;
             this.errorText = r.errorText;
             this.errorMessage = r.errorMessage;
             this.priceHeader = r.priceHeader;
@@ -119,7 +120,7 @@ public class Restaurant {
     public ArrayList<StringBuilder> getRestaurantMenuArray(int i) {
 
         return menusForDays.get(i).getMenu();
-    }
+    }git a
 
     public List<MenusForDay> getMenusForDays() {
         return menusForDays;
@@ -139,17 +140,18 @@ public class Restaurant {
         params.put("name", restaurantName);
         params.put("url", restaurantUrl);
         params.put("campus", campus);
-        params.put("open", availability);
-        params.put("message", infoMessage);
+        params.put("availability", availability);
+        params.put("infoMessage", infoMessage);
         return params;
     }
     @Override
     public String toString() {
-        return "Place{" +
+        return "Restaurant{" +
                 "campusArea='" + campus + '\'' +
                 ", name='" + restaurantName + '\'' +
                 ", url='" + restaurantUrl + '\'' +
-                ", status=" + availability + '\''+ infoMessage +
+                ", availability=" + availability + '\''+
+                ", infoMessage=" + infoMessage +
                 '}';
     }
     public boolean equals(Object o) {
@@ -168,8 +170,12 @@ public class Restaurant {
                 setUrl(newValue);
             }
         }else if(key.equals("availability")) {
-            if (!availability.equals(newValue)) {
-                availability = newValue ;
+            if (availability != null){
+                if (!availability.equals(newValue)) {
+                    availability = newValue ;
+                }
+            }else{
+                availability = newValue;
             }
         }else if(key.equals("message")){
             if(infoMessage.equals("")){
