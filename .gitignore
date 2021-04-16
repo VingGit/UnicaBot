@@ -8,4 +8,5 @@
 /target
 *.iml
 src/token.txt
+.jqwik-database
 UnicaBot-1.0.jar
