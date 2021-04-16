@@ -120,7 +120,7 @@ public class Restaurant {
     public ArrayList<StringBuilder> getRestaurantMenuArray(int i) {
 
         return menusForDays.get(i).getMenu();
-    }git a
+    }
 
     public List<MenusForDay> getMenusForDays() {
         return menusForDays;
