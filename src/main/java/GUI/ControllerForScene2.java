@@ -1,6 +1,5 @@
 package GUI;
 
-import JSONParse.JSONMapper;
 import JSONParse.Restaurant;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,7 +17,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 
 
 /**
@@ -59,9 +57,9 @@ public class ControllerForScene2 {
     private Button deleteButton;
     @FXML
     private Label info;
-    private HashMap<String, String> inputValues = new HashMap<>();
+    private final HashMap<String, String> inputValues = new HashMap<>();
     private Locations locations = new Locations();
-    private ArrayList<Place> restaurants = locations.getRestaurants();
+    private ArrayList<Restaurant> restaurants = locations.getRestaurantList();
 
     double x,y;
 
@@ -78,10 +76,12 @@ public class ControllerForScene2 {
         y=event.getSceneY();
     }
     /**
-     *
+     * handler method for Create new location button
+     * @param actionEvent == buttonClick
+     * @author Sanna Volanen
      */
     public void handleCreateButton(ActionEvent actionEvent) throws IOException {
-        locations = new Locations(); //get current
+        locations = new Locations(); //get current status
         try {
             getInputs();
         }catch (NullPointerException nul){
@@ -105,50 +105,55 @@ public class ControllerForScene2 {
                 inputValues.put("url", "");
             }
         }
-        Place newPlace = new Place(inputValues);
+        //Place newPlace = new Place(inputValues);
         locations.addPlace(inputValues);
-        locations = new Locations(); // updated
-        info.setText("New Location saved /n"+newPlace.toString());
+        clearInputs();
+        locations = new Locations(); // update local variable
+        info.setText("New Location saved "+"/n"+inputValues.toString());
     }
-
+    /**
+     * handler method for Edit location button
+     * @param actionEvent == buttonClick on Edit button
+     * @author Sanna Volanen
+     */
     public void handleEditButton(ActionEvent actionEvent) {
         locations = new Locations();
-        restaurants = locations.getRestaurants();
         getInputs();
         if (inputName.getText().isEmpty()){
             showAlert(Alert.AlertType.ERROR, inputName.getScene().getWindow(), "Location name error", "Cannot edit location data without name");
             //actionEvent.consume();
         }else{
+            clearInputs();
             //actionEvent.consume();
-            Place old = Locations.getPlace(inputValues.get("name"));
+            Restaurant old = locations.getRestaurant(inputValues.get("name"));
             if (old == null) {
-                infoMessage.setText("Name not found, edit not possible");
+                info.setText("Name not found, edit not possible");
             }else {
-                HashMap<String, String> edits = new HashMap<>();
-                for (String key:inputValues.keySet()){
-                    String value = inputValues.get(key);
-                    if (!value.equals("")) {
-                        edits.put(key,value);
-                    }
-                }
-                locations.editPlace(edits);
+                locations.editPlace(inputValues);
             }
         }
     }
+
+    /**
+     * handler method for Delete location button
+     * @param actionEvent == buttonClick
+     * @author Sanna Volanen
+     */
     public void handleDeleteButton(ActionEvent actionEvent){
         locations = new Locations();
-        restaurants = locations.getRestaurants();
+        restaurants = locations.getRestaurantList();
         /*
         if (inputName.getText().isEmpty()){
             showAlert(Alert.AlertType.ERROR, inputName.getScene().getWindow(), "Location name error", "Cannot edit location data without name");
         }else {
         */
         getInputs();
-        Place deleting = Locations.getPlace(inputValues.get("name"));
+        clearInputs();
+        Restaurant deleting = locations.getRestaurant(inputValues.get("name"));
         if (deleting == null){
             info.setText("Location not found, deletion cancelled");
         }else {
-
+            locations.deletePlace(deleting);
         }
 
         //}
@@ -156,6 +161,7 @@ public class ControllerForScene2 {
 
     /**
      * input validation
+     * @author Sanna Volanen
      */
     private void getInputs() throws NullPointerException{
         if (inputUrl.getText() != null && !inputUrl.getText().isEmpty()) {
@@ -179,28 +185,52 @@ public class ControllerForScene2 {
             showAlert(Alert.AlertType.INFORMATION, isClosed.getScene().getWindow(), "Restaurant not available", "Add info message.");
         }
          */
-        availability = selected.getText();
+        if (selected.getText().equals("open")) {
+            availability = "kyllä";
+        }else{availability = "ei";}
         if (infoMessage.getText() != null && !infoMessage.getText().isEmpty()) {
             message = infoMessage.getText();
         }else{message = "";}
         inputValues.put("campus", campus);
         inputValues.put("name", name);
-        //inputValues.put("url", url);
+        inputValues.put("url", url);
         inputValues.put("availability", availability);
-        inputValues.put("message", message);
-        System.out.println(inputValues);
+        inputValues.put("infoMessage", message);
+        System.out.println("GUI values: "+inputValues);
+
     }
+
+    /**
+     * method for checking if given url is valid
+     * @param test
+     * @return valid= RETURN true and invalid=RETURN false
+     */
     public boolean validateUrl(String test) {
         try{
             URL json = new URL(test);
         } catch (MalformedURLException e) {
             e.printStackTrace();
+            System.out.println("Invalid url");
             return false;
         }
+        System.out.println("Valid url");
         return true;
     }
+    /**
+     * @author Sanna Volanen
+     */
+    public void clearInputs(){
+        inputCampus.clear();
+        inputName.clear();
+        inputUrl.clear();
+        infoMessage.clear();
+        //actionEvent.consume();
+    }
 
-
+    /**
+     * method for creating a pop up alert when something is wrong or needs attention in input
+    * @author Sanna Volanen
+     */
     private void showAlert(Alert.AlertType alertType, Window owner, String title, String message){
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
