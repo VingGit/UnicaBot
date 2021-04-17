@@ -127,7 +127,7 @@ public class ControllerForScene2 {
             //actionEvent.consume();
             Restaurant old = locations.getRestaurant(inputValues.get("name"));
             if (old == null) {
-                infoMessage.setText("Name not found, edit not possible");
+                info.setText("Name not found, edit not possible");
             }else {
                 locations.editPlace(inputValues);
             }
@@ -153,7 +153,7 @@ public class ControllerForScene2 {
         if (deleting == null){
             info.setText("Location not found, deletion cancelled");
         }else {
-            locations.delete(deleting);
+            locations.deletePlace(deleting);
         }
 
         //}

@@ -69,7 +69,7 @@ public class Restaurant {
      * @author Sanna Volanen
      */
     public Restaurant (HashMap<String, String> input){
-        System.out.println("Input hashmap: \""+input);
+        //System.out.println("Input hashmap: \""+input);
         String url = input.get("url");
         String name = input.get("name");
         String availability = input.get("availability");

@@ -17,11 +17,11 @@ import java.util.*;
  * @author Sanna Volanen
  */
 public class Locations extends HashMap {
-    protected static ArrayList<Restaurant> restaurantArrayList;
-    //private ArrayList<Place> restaurants;
     private HashMap<String, HashMap<String, String >> locations;
     private Set keySet;
     protected ArrayList<String> keys;
+    ArrayList<HashMap<String, String>> savedRestaurants;
+    protected static ArrayList<Restaurant> restaurantArrayList;
     //protected ArrayList<Place> restaurants;
     private final ObjectMapper objectmapper = new ObjectMapper();
 
@@ -37,14 +37,14 @@ public class Locations extends HashMap {
             e.printStackTrace();
         }
         System.out.println("locations.json read successfully");
-        System.out.println("Saved locations: \n"+ locations);
+        //System.out.println("Saved locations: \n"+ locations);
         //System.out.println(restaurantArrayList);
-        ArrayList<HashMap<String, String>> saved = new ArrayList<>(locations.values()); //
+        savedRestaurants = new ArrayList<>(locations.values()); //
         keySet = locations.keySet();
         //System.out.println(saved.getClass());
-        updateRestaurantArrayList(saved);
+        updateRestaurantArrayList();
         System.out.println("Retrieved "+Integer.toString(restaurantArrayList.size())+ " restaurants");
-        System.out.println(restaurantArrayList);
+        //System.out.println(restaurantArrayList);
     }
 
     public ArrayList<Restaurant> getRestaurantList(){
@@ -62,14 +62,15 @@ public class Locations extends HashMap {
         }return null;
     }
 
-    public void updateRestaurantArrayList(ArrayList<HashMap<String,String>> saved) {
-        System.out.println("Retrieving saved restaurants...");
-        if (saved.size() > 0) {
+    public void updateRestaurantArrayList() {
+        System.out.println("Retrieving restaurants...");
+        savedRestaurants = new ArrayList<>(locations.values()); //
+        if (savedRestaurants.size() > 0) {
             restaurantArrayList = new ArrayList<>();
-            for (HashMap<String, String> res : saved) {
-                System.out.println(res);
+            for (HashMap<String, String> res : savedRestaurants) {
+                //System.out.println(res);
                 Restaurant r = new Restaurant(res);
-                System.out.println("Restaurant from Hashmap: " + r.toString());
+                //System.out.println("Restaurant from Hashmap: " + r.toString());
                 if (r != null) {
                     restaurantArrayList.add(r);
                 }
@@ -85,6 +86,13 @@ public class Locations extends HashMap {
         }
         this.keys = keys;
     }
+
+    /**
+     * @author Sanna Volanen
+     * @param newPlace HashMap containing parameters of a Restaurant
+     * @pre newPlace != null
+     * @post restaurantArraylist.size()> OLD(restaurantArrayList.size()) && locations.values().contains(newPlace)
+     */
     public void addPlace(HashMap<String, String> newPlace) {
         System.out.println("Trying to add new location...");
         System.out.println("Current list size "+ restaurantArrayList.size());
@@ -94,11 +102,10 @@ public class Locations extends HashMap {
         if (!(restaurantArrayList.contains(newP))){
             //keys.add(newP.getRestaurantName().toLowerCase());
             locations.put(newP.getRestaurantName().toLowerCase(), newP.toHashMap());
-            restaurantArrayList.add(newP);
-            //setRestaurantArrayList();
+            //restaurantArrayList.add(newP);
+            updateRestaurantArrayList();
             setKeys();
             System.out.println("Restaurants after addition: "+ restaurantArrayList);
-            //setRestaurants();
             updateJson();
             System.out.println("Current list size "+ restaurantArrayList.size());
         }else {
@@ -114,6 +121,13 @@ public class Locations extends HashMap {
         }return false;
     }
 
+    /**
+     * Edits the values of an existing Restaurant
+     * @author Sanna Volanen
+     * @param editValues HashMap containing the name of a chosen Restaurant and the new values for that object to be inserted
+     * @pre editValues != null & !editValues.isEmpty()
+     * @post !toBeEdited.equals(OLD(toBeEdited)
+     */
     public void editPlace(HashMap<String, String> editValues) {
         Restaurant toBeEdited = getRestaurant( editValues.get("name"));
         int index;
@@ -133,15 +147,34 @@ public class Locations extends HashMap {
                 updateJson();
             }else{
                 System.out.println(editValues);
-                return;
             }
         }
     }
 
+    /**
+     * removes Restaurant from Locations and locations.json
+     * @param toBedeleted Restaurant retrieved based on name
+     * @pre toBeDeleted != null
+     * @post !restaurantArrayList.contains(toBeDeleted)
+     */
+
+    public void deletePlace(Restaurant toBedeleted) {
+        System.out.println("Now "+Integer.toString(restaurantArrayList.size())+ " restaurants. Trying deletion...");
+        if(restaurantArrayList.contains(toBedeleted)){
+            System.out.println(locations.size()+ " locations");
+            locations.remove(toBedeleted.getRestaurantName().toLowerCase(), toBedeleted.toHashMap());
+            System.out.println(locations.size()+ " locations");
+            updateRestaurantArrayList();
+            updateJson();
+        }
+        System.out.println(restaurantArrayList.size() + " restaurants left");
+    }
 
     /**
-     * method to rewrite Locations.json
-     *
+     * Rewrites Locations.json
+     * @author Sanna Volanen
+     * @pre EXISTS(locations.json)
+     * @post EXISTS(locations.json)
      */
     public void updateJson() {
         // update local variable
@@ -226,14 +259,5 @@ public class Locations extends HashMap {
     @Override
     public boolean replace(Object key, Object oldValue, Object newValue) {
         return false;
-    }
-
-    public void delete(Restaurant deleting) {
-        System.out.println("Now "+Integer.toString(restaurantArrayList.size())+ " restaurants. Trying deletion...");
-        if(restaurantArrayList.contains(deleting)){
-            locations.remove(deleting.getRestaurantName().toLowerCase(), deleting.toHashMap());
-            updateJson();
-        }
-        System.out.println(Integer.toString(restaurantArrayList.size())+ "restaurants left");
     }
 }
