@@ -1,6 +1,7 @@
 package Botti;
 
 import Config.EditConfig;
+import GUI.Locations;
 import JSONParse.JSONMapper;
 import JSONParse.Restaurant;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -17,6 +18,7 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Locale;
 
 /**
  * Eventtien kuunteluluokka. käsittelee kaikki menujen hakemiseen liittyvät komennot. jos muita
@@ -69,9 +71,20 @@ public class UnicaMenuEventListener extends ListenerAdapter {
          *
          */
 
+        //Testataan onko komento tälle EventHandlerille sopiva
         if (messageSplit[0].equals(Botti.prefiksi + command)) {
-            if (config.containsKey(command) && !command.equals("prefix")) {
-                Restaurant restaurant = JSONMapper.unicaParser(config.get(command));
+            //Luodaan uusi Locations ilmentymä, jolta pyydetään käsiteltävä Restaurant olio
+            Locations lokaatiot = new Locations();
+            //Muutetaan komennon eka kirjain isoksi, että löytää oikean ravintolan locations.jsonista
+            String capitalized = command.substring(0,1).toUpperCase() + command.substring(1);
+            Restaurant restaurant = JSONMapper.unicaParser(lokaatiot.getRestaurant(capitalized).getRestaurantUrl());
+
+            //Restaurant restaurant = JSONMapper.unicaParser(config.get(command));
+            //Tarkistetaan, että onko saatu Restaurant olio olemassa
+            if ((restaurant != null) && !command.equals("prefix")) { //if (config.containsKey(command) && !command.equals("prefix"))
+                //Restaurant restaurant = JSONMapper.unicaParser(config.get(command));
+                //System.out.println("Testi2: "+restaurant.getRestaurantName());
+                //Restaurant restaurant2 = JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi");
                 if (restaurant.getErrorMessage() == null) {
                     //event.getChannel().sendMessage(restaurant.getRestaurantMenuArray().toString()).queue();
 
@@ -84,22 +97,20 @@ public class UnicaMenuEventListener extends ListenerAdapter {
             }
         }
     }
-        private EmbedBuilder embedviesti(Restaurant restaurant){
-            EmbedBuilder viesti = new EmbedBuilder();
-            MessageBuilder builder= new  MessageBuilder();
-                viesti
-                    .setAuthor(restaurant.getRestaurantName(), restaurant.getRestaurantUrl())
-                    .setThumbnail("https://www.unica.fi/contentassets/46a1e57100794a70b58c06f16a9acfb8/unica_catering_logo_450x450.png");
-            for (StringBuilder a:
-                 restaurant.getRestaurantMenuArray()) {
 
-                viesti.addField("🤔", a.toString(), true);
-            }
-            viesti.build();
-
-
-            return viesti;
+    private EmbedBuilder embedviesti(Restaurant restaurant){
+        EmbedBuilder viesti = new EmbedBuilder();
+        MessageBuilder builder= new  MessageBuilder();
+        viesti
+                .setAuthor(restaurant.getRestaurantName(), restaurant.getRestaurantUrl())
+                .setThumbnail("https://www.unica.fi/contentassets/46a1e57100794a70b58c06f16a9acfb8/unica_catering_logo_450x450.png");
+        for (StringBuilder a: restaurant.getRestaurantMenuArray()) {
+            viesti.addField("🤔", a.toString(), true);
         }
+        viesti.build();
+
+        return viesti;
+    }
         /*
         if (args[0].equalsIgnoreCase(Botti.prefiksi + "assari")) {
           //event.getChannel().sendMessage(JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi")).queue();
