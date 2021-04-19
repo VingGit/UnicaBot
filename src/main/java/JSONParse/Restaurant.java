@@ -54,6 +54,8 @@ public class Restaurant {
      * additional properties for locations.json
      * @author Sanna Volanen
      */
+    @JsonProperty("json")
+    private String json;
     @JsonProperty("Campus")
     private String campus;
     @JsonProperty("Availability")
@@ -78,7 +80,8 @@ public class Restaurant {
         if (url.contains("https://www.unica.fi/modules/json")){
             Restaurant r = JSONMapper.unicaParser(url);
             this.restaurantName = name;
-            this.restaurantUrl = url;
+            this.restaurantUrl = r.getRestaurantUrl();
+            this.json = url;
             this.errorText = r.errorText;
             this.errorMessage = r.errorMessage;
             this.priceHeader = r.priceHeader;
