@@ -35,22 +35,22 @@ Package contains classes for determining the output specs of a restaurant:
 
 Package contains classes for creating the GUI and handling it:
 
-###ControllerForLogin
+### ControllerForLogin
 * controller class for Login window
-###ControllerForScene2
+### ControllerForScene2
 * controller class for second window that is lauched after successful login
-###Locations
+### Locations
 * controller for using and manipulating locations.json and the Restaurant listing
-###Main
+### Main
 * launches the GUI application
 
-##Config
+## Config
 
 Package contains classes for UnicaBot configuration:
 
-###Configuration
+### Configuration
 * creates a Configuration object that holds the current settings
-###EditConfig
+### EditConfig
 * handles editions of the config, such as prefix changes
 
 
