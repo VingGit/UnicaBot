@@ -83,7 +83,7 @@ public class EditConfig {
      * @author Jani Uotinen
      */
     public static boolean checkLegalPrefix(String input) {
-        String symbols = "*./!?,%&#";
+        String symbols = "*./!?,%&#-+";
         if (symbols.contains(input)) {
             return true;
         } else {

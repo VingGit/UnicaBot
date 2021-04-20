@@ -126,6 +126,7 @@ public class Restaurant {
         return menusForDays;
     }
     //SETTERIT
+    public void setErrorMessage(String errorMessage) {this.errorMessage = errorMessage;}
     public void setAvailability(String newAv){
         this.availability = newAv;
     }

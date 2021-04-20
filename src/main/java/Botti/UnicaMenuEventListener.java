@@ -73,21 +73,13 @@ public class UnicaMenuEventListener extends ListenerAdapter {
 
         //Testataan onko komento tälle EventHandlerille sopiva
         if (messageSplit[0].equals(Botti.prefiksi + command)) {
-            //Luodaan uusi Locations ilmentymä, jolta pyydetään käsiteltävä Restaurant olio
+            //Luodaan uusi Locations ilmentymä.
             Locations lokaatiot = new Locations();
-            //Muutetaan komennon eka kirjain isoksi, että löytää oikean ravintolan locations.jsonista
-            String capitalized = command.substring(0,1).toUpperCase() + command.substring(1);
-            Restaurant restaurant = JSONMapper.unicaParser(lokaatiot.getRestaurant(capitalized).getRestaurantUrl());
-
-            //Restaurant restaurant = JSONMapper.unicaParser(config.get(command));
-            //Tarkistetaan, että onko saatu Restaurant olio olemassa
-            if ((restaurant != null) && !command.equals("prefix")) { //if (config.containsKey(command) && !command.equals("prefix"))
-                //Restaurant restaurant = JSONMapper.unicaParser(config.get(command));
-                //System.out.println("Testi2: "+restaurant.getRestaurantName());
-                //Restaurant restaurant2 = JSONMapper.unicaParser("https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi");
+            //Tarkistetaan, että löytyykö haluttu ravintola locations.jsonin rakenteesta.
+            if (lokaatiot.locations.containsKey(command) && !command.equals("prefix")) {
+                //Luodaan uusi Restaurant ilmentymä locations.jsonin urlin perusteella.
+                Restaurant restaurant = JSONMapper.unicaParser(lokaatiot.locations.get(command).get("url"));
                 if (restaurant.getErrorMessage() == null) {
-                    //event.getChannel().sendMessage(restaurant.getRestaurantMenuArray().toString()).queue();
-
                     event.getChannel().sendMessage(embedviesti(restaurant).build()).queue();
                 } else {
                     event.getChannel().sendMessage(restaurant.getErrorMessage()).queue();

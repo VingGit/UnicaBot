@@ -17,7 +17,7 @@ import java.util.*;
  * @author Sanna Volanen
  */
 public class Locations extends HashMap {
-    private HashMap<String, HashMap<String, String >> locations;
+    public HashMap<String, HashMap<String, String>> locations;
     private Set keySet;
     protected ArrayList<String> keys;
     ArrayList<HashMap<String, String>> savedRestaurants;
@@ -26,7 +26,7 @@ public class Locations extends HashMap {
     private final ObjectMapper objectmapper = new ObjectMapper();
 
     public Locations() {
-        this.locations = new HashMap();
+        this.locations = new HashMap<>();
         retrieveData();
     }
 
