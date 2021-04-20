@@ -5,6 +5,112 @@
     -fx-padding: 10 10 10 10;
 }
 
+#vbox {
+    /*-fx-background-color: grey;*/
+    -fx-background-color: #2f3136;
+}
+
+#Transitions {
+    /*-fx-background-color: white;*/
+    -fx-background-color: #2f3136;
+}
+
+#infoMessage {
+    -fx-background-color: #202225;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+#labelURL {
+    -fx-text-fill: white;
+}
+
+#labelLocation {
+    -fx-text-fill: white;
+}
+#labelAvailability {
+    -fx-text-fill: white;
+}
+
+#inputUrl {
+    -fx-background-color: #202225;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+#inputName {
+    -fx-background-color: #202225;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+#inputCampus {
+    -fx-background-color: #202225;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+#createButton {
+    -fx-background-radius: 30, 30, 29, 28;
+    -fx-padding: 3px 10px 3px 10px;
+    -fx-background-color: #8292ea;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+#editButton {
+    -fx-background-radius: 30, 30, 29, 28;
+    -fx-padding: 3px 10px 3px 10px;
+    -fx-background-color: #8292ea;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+#deleteButton {
+    -fx-background-radius: 30, 30, 29, 28;
+    -fx-padding: 3px 10px 3px 10px;
+    -fx-background-color: #8292ea;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+#backButton {
+    /*-fx-text-fill: #2e26cd;*/
+    -fx-background-radius: 30, 30, 29, 28;
+    -fx-padding: 3px 10px 3px 10px;
+    -fx-background-color: #8292ea;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
 #exit {
-    -fx-background-color: rgba(255,255,255,0.8);
+    /*-fx-background-color: rgba(255,255,255,0.8);
+    -fx-text-fill: #c3472e;*/
+    -fx-background-radius: 30, 30, 29, 28;
+    -fx-padding: 3px 10px 3px 10px;
+    -fx-background-color: #8292ea;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+#info {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+}
+
+#Open {
+    -fx-text-fill: white;
+}
+#Closed {
+    -fx-text-fill: white;
+}
+
+#label1 {
+    /*-fx-text-fill: #0d0d0d; */
+    -fx-text-fill: white;
 }

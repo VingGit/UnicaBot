@@ -11,7 +11,7 @@ public class EditConfigTest {
      */
     @Test
     void checkLegalPrefixTest() {
-        String symbols = "*./!?,%&#";
+        String symbols = "*./!?,%&#-+";
         for (int i = 0; i < symbols.length();i++){
             Assertions.assertEquals(true,EditConfig.checkLegalPrefix(""+symbols.charAt(i)));
         }
@@ -24,6 +24,7 @@ public class EditConfigTest {
     void checkIllegalPrefixTest() {
         String symbols = "abs1236";
         for (int i = 0; i < symbols.length();i++){
+            System.out.println(""+symbols.charAt(i));
             Assertions.assertEquals(false,EditConfig.checkLegalPrefix(""+symbols.charAt(i)));
         }
     }

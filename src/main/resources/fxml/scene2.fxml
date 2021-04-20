@@ -19,12 +19,12 @@
 
 <BorderPane onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="442.0" prefWidth="517.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ControllerForScene2">
    <center>
-      <VBox centerShape="false" prefHeight="358.0" prefWidth="508.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER">
+      <VBox fx:id="vbox" centerShape="false" prefHeight="358.0" prefWidth="508.0" BorderPane.alignment="CENTER">
           <children>
             <HBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="47.0" prefWidth="468.0" spacing="300.0">
                <children>
-                    <Button fx:id="backButton" contentDisplay="TOP" onAction="#toLoginScreen" prefHeight="26.0" prefWidth="105.0" text="Back to Login" textFill="#2e26cd" />
-                    <Button fx:id="exit" alignment="CENTER" contentDisplay="TOP" onAction="#exit" text="Exit" textFill="#c3472e">
+                    <Button fx:id="backButton" contentDisplay="TOP" onAction="#toLoginScreen" prefHeight="26.0" prefWidth="105.0" text="Back to Login"/>
+                    <Button fx:id="exit" alignment="CENTER" contentDisplay="TOP" onAction="#exit" text="Exit">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -49,13 +49,13 @@
                   <RowConstraints maxHeight="73.19998931884766" minHeight="10.0" prefHeight="38.199983215332026" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="URL" />
+                  <Label fx:id="labelURL" text="URL" />
                   <TextField fx:id="infoMessage" promptText="Info message" GridPane.columnSpan="2" GridPane.rowIndex="5" />
-                  <Label layoutX="10.0" layoutY="12.0" text="Location" GridPane.rowIndex="2" />
+                  <Label fx:id="labelLocation" layoutX="10.0" layoutY="12.0" text="Location" GridPane.rowIndex="2" />
                   <TextField fx:id="inputUrl" layoutX="10.0" layoutY="12.0" promptText="Json API URL or webpage URl" GridPane.columnSpan="2" GridPane.rowIndex="1" />
                   <TextField fx:id="inputName" promptText="Name" GridPane.rowIndex="3" />
                   <TextField fx:id="inputCampus" layoutX="25.0" layoutY="68.0" promptText="Campus" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <Label text="Availability" GridPane.rowIndex="4" />
+                  <Label fx:id="labelAvailability" text="Availability" GridPane.rowIndex="4" />
                   <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <children>
                         <RadioButton fx:id="Open" mnemonicParsing="false" selected="true" text="open">
@@ -89,7 +89,7 @@
                   <Button fx:id="editButton" layoutX="173.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleEditButton" text="Edit location" />
                   <Button fx:id="deleteButton" layoutX="209.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleDeleteButton" text="Delete location" />
                </children></HBox>
-            <Label fx:id="info" alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="41.0" style="-fx-background-color: black;" text="Info" textFill="WHITE">
+            <Label fx:id="info" alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="41.0" text="Info">
                <VBox.margin>
                   <Insets left="10.0" />
                </VBox.margin>
@@ -101,7 +101,7 @@
       </VBox>
    </center>
    <top>
-        <Label fx:id="label1" alignment="TOP_LEFT" contentDisplay="CENTER" text="Locations json modification" textFill="#0d0d0d" BorderPane.alignment="CENTER">
+        <Label fx:id="label1" alignment="TOP_LEFT" contentDisplay="CENTER" text="Locations json modification" BorderPane.alignment="CENTER">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
