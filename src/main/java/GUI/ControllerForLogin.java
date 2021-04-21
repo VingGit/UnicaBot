@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -25,6 +26,10 @@ public class ControllerForLogin {
     @FXML
     private PasswordField inputToken;
     @FXML
+    private TextField username;
+    @FXML
+    private PasswordField password;
+    @FXML
     private Button login;
 
 
@@ -32,13 +37,16 @@ public class ControllerForLogin {
      * Metodi yrittää käynnistää botin käyttäjän syöttämän tokenin kanssa. Mikäli LoginException, niin pyytää
      * yrittämään uudelleen. Onnistuneen loginin jälkeen yrittää vaihtaa sceneä.
      * @author Jani Uotinen
+     * @param actionEvent hiiren klikkaus Login-napilla
      */
     @FXML
     public void login(ActionEvent actionEvent){
         String token = inputToken.getText();
-
+        String email = username.getText();
+        String pw = password.getText();
         try {
             Botti.Botti.launchBot(token);
+            Server.Commands.yhdista(email,pw);
             changeToScene2();
         } catch (LoginException e) {
             errorLabel.setText("Väärä token. Yritä uudelleen");
@@ -52,6 +60,7 @@ public class ControllerForLogin {
     /**
      * Sammuttaa ohjelman.
      * @author Jani Uotinen
+     * @param actionEvent hiiren klikkaus Exit-napilla
      */
     public void exit(ActionEvent actionEvent) {
         System.exit(0);
@@ -61,7 +70,8 @@ public class ControllerForLogin {
     /**
      * Luo uuden Scenen scene2 ja vaihtaa siihen.
      * @author Jani Uotinen
-     */
+     * @throws Exception useampi eri
+     * */
     public void changeToScene2() throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/scene2.fxml"));
         Stage window = (Stage) login.getScene().getWindow();

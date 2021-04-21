@@ -9,12 +9,17 @@
 
 <!-- FXML tiedosto Login scenen GUI-elementtien luomiseen. Tekijänä Jani Uotinen -->
 
+<?import javafx.scene.control.TextField?>
 <BorderPane onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="275.0" prefWidth="300.0" stylesheets="@../css/login.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ControllerForLogin">
    <center>
-      <VBox fx:id="vbox" alignment="center" prefHeight="93.0" prefWidth="130.0" spacing="10.0">
+      <VBox fx:id="vbox" alignment="center" prefHeight="93.0" prefWidth="130.0" spacing="5.0">
           <children>
+              <Label alignment="center" text="Anna käyttäjätunnus:"/>
+              <TextField fx:id="username" alignment="center" promptText="sähköposti"/>
+              <Label alignment="center" text="Anna salasana:"/>
+              <PasswordField fx:id="password" alignment="center" promptText="salasana"/>
               <Label alignment="center" text="Syötä token:" />
-              <PasswordField fx:id="inputToken" alignment="center" />
+              <PasswordField fx:id="inputToken" alignment="center" promptText="Discord token"/>
               <Button fx:id="login" alignment="center" onAction="#login" text="Kirjaudu sisään" />
               <Label fx:id="errorLabel" alignment="center" text="" />
               <Button fx:id="exit" alignment="center" onAction="#exit" text="Exit" />

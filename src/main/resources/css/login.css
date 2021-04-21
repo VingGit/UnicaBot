@@ -31,6 +31,16 @@
     -fx-text-fill: white;
     -fx-cursor: hand;
 }
+#username{
+-fx-background-color: #202225;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+#password{
+-fx-background-color: #202225;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
 #inputToken {
     -fx-background-color: #202225;
     -fx-text-fill: white;

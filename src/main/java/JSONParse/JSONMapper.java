@@ -27,6 +27,7 @@ public class JSONMapper {
             //return "Testi";
         } catch (IOException e) {
             e.printStackTrace();
+            ruoka.setErrorMessage("Sivustoa ei ole saatavilla tai json url ei ollut oikea.");
             //return "Sivustoa ei ole saatavilla tai json url ei ollut oikea.";
         }
         return ruoka;

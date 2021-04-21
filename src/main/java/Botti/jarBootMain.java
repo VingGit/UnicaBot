@@ -1,19 +1,29 @@
 package Botti;
 
+import Server.Commands;
+
 import java.util.Scanner;
 
 public class jarBootMain {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         try{
             GUI.Main.main(args);
         }
         catch (Exception e){
             Scanner lukija = new Scanner(System.in);
-            while(true){
-                System.out.println("Anna token");
+            while(true) {
+                System.out.println("Anna käyttäjätunnus: ");
+                String tunnus = lukija.nextLine();
+                System.out.println("Anna salasana: ");
+                String pw = lukija.nextLine();
+                System.out.println("Anna token: ");
                 String token = lukija.nextLine();
-                System.out.println(token);
+                Botti.launchBot(token);
+                Server.Commands.yhdista(tunnus,pw);
+                if(Server.Commands.isOnline()){
+                    break;
+                }
             }
         }
 
