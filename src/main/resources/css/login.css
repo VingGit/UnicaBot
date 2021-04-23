@@ -22,6 +22,14 @@
     -fx-font-size: 20px;
     -fx-font-weight: bold;
     -fx-text-fill: white;
+    -fx-alignment: center;
+}
+.label{
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-text-alignment: left;
+    -fx-alignment: center-left;
 }
 #exit {
     -fx-background-radius: 30, 30, 29, 28;
