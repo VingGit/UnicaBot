@@ -14,11 +14,11 @@
    <center>
       <VBox fx:id="vbox" alignment="center" prefHeight="93.0" prefWidth="130.0" spacing="10.0">
           <children>
-              <Label alignment="center" text="Anna käyttäjätunnus:"/>
+              <Label text="Anna käyttäjätunnus:"/>
               <TextField fx:id="username" alignment="center" promptText="sähköposti"/>
-              <Label alignment="center" text="Anna salasana:"/>
+              <Label text="Anna salasana:"/>
               <PasswordField fx:id="password" alignment="center" promptText="salasana"/>
-              <Label alignment="center" text="Syötä token:" />
+              <Label text="Syötä token:" />
               <PasswordField fx:id="inputToken" alignment="center" promptText="Discord token"/>
               <Button fx:id="login" alignment="center" onAction="#login" text="Kirjaudu sisään" />
               <Label fx:id="errorLabel" alignment="center" text="" />
