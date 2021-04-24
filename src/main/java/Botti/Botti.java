@@ -22,6 +22,14 @@ public class Botti {
     private static final String APPLICATION_ID = "819578024214265866";
     static String prefiksi; //"-";
     private static JDA jda;
+    public static boolean oikeaToken =false;
+    public static String getBotToken() {
+        return BOT_TOKEN;
+    }
+
+    public static void setBotToken(String botToken) {
+        BOT_TOKEN = botToken;
+    }
 
     /**
      * Ladataan configuration file ennen botin käynnistämistä.
@@ -57,8 +65,9 @@ public class Botti {
         try {
             jda = jdabuilder.setRawEventsEnabled(true).build();
             initCommands();
-
+            oikeaToken=true;
         } catch (LoginException e){
+
             throw e;
         }
     }

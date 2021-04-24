@@ -20,13 +20,23 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
 
         //URL url = Main.class.getResource("login.fxml");
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/login.fxml"));
-        primaryStage.setTitle("Discord Bot Dashboard");
-        Scene login = new Scene(root,300,275);
-        login.getStylesheets().add(getClass().getResource("/css/login.css").toExternalForm());
-        primaryStage.setScene(login); //new Scene(root, 300, 275)
-        primaryStage.initStyle(StageStyle.TRANSPARENT);
-        primaryStage.show();
+        if(!Server.Commands.isOnline()) {
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/login.fxml"));
+            primaryStage.setTitle("Discord Bot Dashboard");
+            Scene login = new Scene(root,300,275);
+            login.getStylesheets().add(getClass().getResource("/css/login.css").toExternalForm());
+            primaryStage.setScene(login); //new Scene(root, 300, 275)
+            primaryStage.initStyle(StageStyle.TRANSPARENT);
+            primaryStage.show();
+        } else {
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/scene2.fxml"));
+            primaryStage.setTitle("Discord Bot Dashboard");
+            Scene login = new Scene(root,700,500);
+            login.getStylesheets().add(getClass().getResource("/css/scene2.css").toExternalForm());
+            primaryStage.setScene(login); //new Scene(root, 300, 275)
+            primaryStage.initStyle(StageStyle.TRANSPARENT);
+            primaryStage.show();
+        }
     }
 
 

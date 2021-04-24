@@ -1,5 +1,5 @@
-ApiUrl==
-ApiKey==
-FTPport==
-FTPserver==
-ApiUsername==
+ApiUrl==https://panel.pebblehost.com/api.php
+ApiKey==Z@%Pmo$nJY2PkF
+FTPport==21
+FTPserver==eu04.pebblehost.com
+ApiUsername==valtteri.ingman@dnainternet.net
