@@ -77,6 +77,7 @@ public class ControllerForLogin {
         Scene scene2 = new Scene(root, 750, 500);
         scene2.getStylesheets().add(getClass().getResource("/css/scene2.css").toExternalForm());
         window.setScene(scene2);
+        root.requestFocus();
     }
 
     double x,y;

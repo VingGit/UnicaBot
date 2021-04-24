@@ -14,6 +14,8 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,17 +34,27 @@ public class UnicaMenuEventListener extends ListenerAdapter {
     //tälle arraylistalle voi olla käyttöä, säilytetään se.
     //ArrayList<String> ruokalat = new ArrayList<>(Arrays.asList("Yliopiston kampus", "   !assari", "   !macciavelli", "   !galilei", "   !kaara", "Kupittaan kampus", "   !dental", "   !delipharma", "   !delica", "   !linus", "   !kisälli", "Linnankadun taidekampus", "   !sigyn", "   !muusa", "Muut", "   !ruokakello", "   !kaivomestari", "   !fabrik", "   !piccumaccia"));
 
+    /**
+     * Metodi tarkistamaan onko kyseessä lauantai tai sunnuntai.
+     * @author Jani Uotinen
+     */
+    public boolean isNowSaturdayOrSunday(LocalDate localDate) {
+        DayOfWeek day = localDate.getDayOfWeek();
+        return day==DayOfWeek.SATURDAY || day== DayOfWeek.SUNDAY;
+    }
+
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
-        //Testataan aluksi onko komennon antaja botti
+
+        /**
+         * Testataan aluksi onko komennon antaja botti. Tärkeä tarkistin, ettei botit jää ikuisesti keskustelemaan
+         * keskenään.
+         */
         if (event.getAuthor().isBot()) {
             return;
         }
 
-        //Lataa config hashmapin.
-        HashMap<String, String> config = EditConfig.readFromConfigurationFile();
-
-        //pilkkoo annetun komennon osiin, tämä mahdollistaa parametrien käytön
+        //Pilkkoo annetun komennon osiin.
         String[] messageSplit = event.getMessage().getContentRaw().split(" ");
 
         //Tarkistetaan kuuluuko komento tälle event listenerille.
@@ -50,8 +62,35 @@ public class UnicaMenuEventListener extends ListenerAdapter {
             return;
         }
 
+        //Lataa config hashmapin.
+        HashMap<String, String> config = EditConfig.readFromConfigurationFile();
+
         //Erotetaan viestistä komento
         String command = messageSplit[0].substring(1);
+
+        //Luodaan uusi locations ilmentymä, json ravintoloiden käsittelyyn.
+        Locations lokaatiot = new Locations();
+
+        /**
+         * Tarkistetaan onko komento tälle eventListenerille sopiva ja onko komento "ravintolat".
+         * Tulostaa kaikki locations.json tiedostoon lisätyt ravintolat.
+         */
+        if (messageSplit[0].equals(Botti.prefiksi + command)) {
+            String tuloste = "";
+            if (command.equals("ravintolat")) {
+                for (String key : lokaatiot.locations.keySet()) {
+                    tuloste += Botti.prefiksi + key + "\n";
+                }
+                event.getChannel().sendMessage(tuloste).queue();
+            }
+        }
+
+        //Testataan onko kyseessä lauantai tai sunnuntai, jolloin Unican Menuja ei ole saatavilla.
+        if (isNowSaturdayOrSunday(LocalDate.now())) {
+            //System.out.println("Ravintolat eivät ole auki viikonloppuisin.");
+            event.getChannel().sendMessage("Ravintolat eivät ole auki viikonloppuisin.").queue();
+            return;
+        }
 
         /*
         if (args[0].equalsIgnoreCase(Botti.prefiksi + "ruokalat")) {// viesti on pilkottu osiin ja jos ensimmäinen osa == prefiksi+komentoX, tee asioita. pilkkominen on tehty siksi ettei isoil ja pienil kirjaimil ois välii
@@ -67,14 +106,11 @@ public class UnicaMenuEventListener extends ListenerAdapter {
          * Tarkistetaan onko prefiksi oikea ja sisältääkö config kutsutun komennon. Tarkistetaan vielä, että kutsuttu
          * komento on eri kuin "prefix".
          * @author Jani Uotinen
-         *
-         *
          */
-
         //Testataan onko komento tälle EventHandlerille sopiva
         if (messageSplit[0].equals(Botti.prefiksi + command)) {
             //Luodaan uusi Locations ilmentymä.
-            Locations lokaatiot = new Locations();
+
             //Tarkistetaan, että löytyykö haluttu ravintola locations.jsonin rakenteesta.
             if (lokaatiot.locations.containsKey(command) && !command.equals("prefix")) {
                 //Luodaan uusi Restaurant ilmentymä locations.jsonin urlin perusteella.
