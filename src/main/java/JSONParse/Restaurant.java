@@ -67,29 +67,31 @@ public class Restaurant {
     //CONSTRUCTORS
     public Restaurant(){}
     /**
-     * second contructor for setting a new restaurant through GUI
+     * second constructor for setting a new restaurant through GUI
      * @author Sanna Volanen
      */
     public Restaurant (HashMap<String, String> input){
         //System.out.println("Input hashmap: \""+input);
-        String url = input.get("url");
         String name = input.get("name");
+        //NOTE: this url should be atm the unica json url!!!
+        String url = input.get("url");
         String availability = input.get("availability");
         String campus = input.get("campus");
         String message = input.get("infoMessage");
         if (url.contains("https://www.unica.fi/modules/json")){
             Restaurant r = JSONMapper.unicaParser(url);
-            this.restaurantName = name;
-            this.restaurantUrl = r.getRestaurantUrl();
-            this.json = url;
             this.errorText = r.errorText;
             this.errorMessage = r.errorMessage;
             this.priceHeader = r.priceHeader;
             this.footer = r.footer;
         }else{
-            this.restaurantName = name;
-            this.restaurantUrl = url;
+            this.errorText = null;
+            this.errorMessage = "";
+            this.priceHeader = "";
+            this.footer = "";
         }
+        this.restaurantName = name;
+        this.restaurantUrl = url;
         this.campus = campus;
         this.availability = availability;
         this.infoMessage = message;
