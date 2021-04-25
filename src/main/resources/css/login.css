@@ -12,7 +12,7 @@
     -fx-alignment: center-left;
 }
 #vbox {
-    -fx-alignment: center
+    -fx-alignment: center;
     -fx-border-color: #2f3136;
     -fx-border-radius: 20;
     -fx-padding: 10 5 5 10;
