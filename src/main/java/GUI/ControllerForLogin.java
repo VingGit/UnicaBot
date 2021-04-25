@@ -1,5 +1,6 @@
 package GUI;
 
+import Botti.Botti;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -45,7 +46,12 @@ public class ControllerForLogin {
         String email = username.getText();
         String pw = password.getText();
         try {
-            Botti.Botti.launchBot(token);
+            Botti.setBotToken(token);// asetetaan tokeni valmiiksi, ei vielä käynnistetä bottia.
+            System.out.println(Botti.getBotToken());
+            Server.Commands.yhdista(email,pw);//kirjautuu ja muodostaa ftp yhtyden//todo instanssit  serverillä ja koneella on erit joten salasana on lähetettävä.
+            Server.Commands.teeJaKirjoitaTdstoon(token, "temp.txt");
+            Server.Commands.laheta("temp.txt");
+            Server.Commands.poistaTdsto("temp.txt");
             changeToScene2();
         } catch (LoginException e) {
             errorLabel.setText("Väärä token. Yritä uudelleen");

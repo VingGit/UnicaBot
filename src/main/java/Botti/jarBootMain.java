@@ -1,20 +1,45 @@
 package Botti;
 
+import Server.Commands;
+
 import java.util.Scanner;
 
 public class jarBootMain {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         try{
-            GUI.Main.main(args);
+            if(!Server.Commands.isOnline()) {
+                GUI.Main.main(args);
+            }
+            else{
+                if(Server.Commands.onkoTdstoa("temp.txt")) {
+                    System.out.println(Botti.getBotToken());
+                    Botti.launchBot(Server.Commands.lueTxtTiedosto("temp.txt"));
+                    Server.Commands.poistaTdsto("temp.txt");
+                }
+                else{GUI.Main.main(args);}
+            }
+
         }
         catch (Exception e){
+            e.printStackTrace();
             Scanner lukija = new Scanner(System.in);
-            while(true){
-                System.out.println("Anna token");
-                String token = lukija.nextLine();
-                System.out.println(token);
-            }
+
+                while(true) {
+                    if(Commands.FTPonline && Botti.oikeaToken){
+                        break;
+                    }
+                    System.out.println("Anna käyttäjätunnus: ");
+                    String tunnus = lukija.nextLine();
+                    System.out.println("Anna salasana: ");
+                    String pw = lukija.nextLine();
+                    System.out.println("Anna token: ");
+                    String token = lukija.nextLine();
+                    Botti.launchBot(token);
+                    Server.Commands.yhdista(tunnus,pw);
+
+                }
+
         }
 
     }
