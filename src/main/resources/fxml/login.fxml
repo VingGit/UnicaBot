@@ -10,25 +10,30 @@
 <!-- FXML tiedosto Login scenen GUI-elementtien luomiseen. Tekijänä Jani Uotinen -->
 
 <?import javafx.scene.control.TextField?>
-<BorderPane onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="275.0" prefWidth="300.0" stylesheets="@../css/login.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ControllerForLogin">
+<?import javafx.scene.layout.HBox?>
+<BorderPane onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="350.0" prefWidth="300.0" stylesheets="@../css/login.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ControllerForLogin">
    <center>
-      <VBox fx:id="vbox" alignment="center" prefHeight="93.0" prefWidth="130.0" spacing="10.0">
+      <VBox fx:id="vbox" prefHeight="93.0" prefWidth="130.0" spacing="10.0">
           <children>
               <Label text="Anna käyttäjätunnus:"/>
-              <TextField fx:id="username" alignment="center" promptText="sähköposti"/>
+              <TextField fx:id="username" promptText="sähköposti"/>
               <Label text="Anna salasana:"/>
-              <PasswordField fx:id="password" alignment="center" promptText="salasana"/>
-              <Label text="Syötä token:" />
-              <PasswordField fx:id="inputToken" alignment="center" promptText="Discord token"/>
-              <Button fx:id="login" alignment="center" onAction="#login" text="Kirjaudu sisään" />
+              <PasswordField fx:id="password" promptText="salasana"/>
+              <Label text="Anna token:" />
+              <PasswordField fx:id="inputToken" promptText="Discord token"/>
+              <HBox fx:id="loginButtons" spacing="90.0">
+                  <children>
+                      <Button fx:id="exit" alignment="center" onAction="#exit" text="Exit" />
+                      <Button fx:id="login" alignment="center" onAction="#login" text="Kirjaudu sisään" />
+                  </children>
+              </HBox>
               <Label fx:id="errorLabel" alignment="center" text="" />
-              <Button fx:id="exit" alignment="center" onAction="#exit" text="Exit" />
           </children>
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
          <BorderPane.margin>
-            <Insets bottom="20.0" left="10.0" right="10.0" />
+            <Insets bottom="10.0" left="10.0" right="10.0" />
          </BorderPane.margin>
       </VBox>
    </center>
