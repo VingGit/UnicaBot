@@ -27,7 +27,6 @@ public class MenusForDay {
     @JsonProperty("SetMenus")
     private List<SetMenu> Menu = null;//yhdessä päivässä on useampia ruokalaji vaihtoehtoja. tässä listassa on ne.
 
-    private ArrayList<StringBuilder> MenuArray=new ArrayList<>();
 
     public StringBuilder getDate() {
         return date.append(date).delete(10,date.length()).append("\n");
@@ -39,6 +38,7 @@ public class MenusForDay {
 
 
     public ArrayList<StringBuilder> getMenu(){
+        ArrayList<StringBuilder> MenuArray=new ArrayList<>();
         for (SetMenu s:
                 Menu) {
 
