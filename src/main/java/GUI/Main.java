@@ -23,11 +23,12 @@ public class Main extends Application {
         if(!Server.Commands.isOnline()) {
             Parent root = FXMLLoader.load(getClass().getResource("/fxml/login.fxml"));
             primaryStage.setTitle("Discord Bot Dashboard");
-            Scene login = new Scene(root,300,310);
+            Scene login = new Scene(root,300,398);
             login.getStylesheets().add(getClass().getResource("/css/login.css").toExternalForm());
             primaryStage.setScene(login); //new Scene(root, 300, 275)
             primaryStage.initStyle(StageStyle.TRANSPARENT);
             primaryStage.show();
+            root.requestFocus();
         } else {
             Parent root = FXMLLoader.load(getClass().getResource("/fxml/scene2.fxml"));
             primaryStage.setTitle("Discord Bot Dashboard");
@@ -36,6 +37,7 @@ public class Main extends Application {
             primaryStage.setScene(login); //new Scene(root, 300, 275)
             primaryStage.initStyle(StageStyle.TRANSPARENT);
             primaryStage.show();
+            root.requestFocus();
         }
     }
 

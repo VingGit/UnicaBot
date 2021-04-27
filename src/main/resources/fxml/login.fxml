@@ -11,7 +11,7 @@
 
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
-<BorderPane onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="350.0" prefWidth="300.0" stylesheets="@../css/login.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ControllerForLogin">
+<BorderPane onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="398.0" prefWidth="300.0" stylesheets="@../css/login.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ControllerForLogin">
    <center>
       <VBox fx:id="vbox" prefHeight="93.0" prefWidth="130.0" spacing="10.0">
           <children>

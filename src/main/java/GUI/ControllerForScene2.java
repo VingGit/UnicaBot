@@ -265,9 +265,10 @@ public class ControllerForScene2 {
     public void toLoginScreen(ActionEvent actionEvent) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/login.fxml"));
         Stage window = (Stage) backButton.getScene().getWindow();
-        Scene login = new Scene(root,300,275);
+        Scene login = new Scene(root,300,398);
         login.getStylesheets().add(getClass().getResource("/css/login.css").toExternalForm());
         window.setScene(login);
+        root.requestFocus();
     }
 
 
