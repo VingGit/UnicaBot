@@ -1,5 +1,6 @@
 package JSONParse;
 
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -110,7 +111,6 @@ public class Restaurant {
     public boolean getAvailability(){
             return availability.equals("kyllä");
     }
-
     public String getCampus() {
         return campus;
     }
@@ -118,7 +118,7 @@ public class Restaurant {
         return infoMessage;
     }
     public ArrayList<StringBuilder> getRestaurantMenuArray(){
-
+        System.out.println("päivän menu");
         return menusForDays.get(0).getMenu();
     }
 
