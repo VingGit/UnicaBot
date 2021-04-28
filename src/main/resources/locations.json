@@ -1,107 +1,145 @@
-{
-  "ruokakello" : {
-    "campus" : "Muut kampukset",
-    "name" : "Ruokakello",
-    "availability" : "kyllä",
-    "url" : "https://www.unica.fi/modules/json/json/Index?costNumber=1950&language=fi",
-    "infoMessage" : ""
+
+  [
+     {
+          "command":"ruokakello",
+          "restaurant": {
+               "campus": "Muut kampukset",
+               "name": "Ruokakello",
+               "availability": "kyllä",
+               "url": "https://www.unica.fi/modules/json/json/Index?costNumber=1950&language=fi",
+               "infoMessage": ""
+          }
+      },
+       {
+          "command":"sigyn",
+            "restaurant": {
+                 "campus": "Linnankadun taidekampus",
+                 "name": "Sigyn",
+                 "availability": "kyllä",
+                 "url": "https://www.unica.fi/modules/json/json/Index?costNumber=1965&language=fi",
+                 "infoMessage": ""
+            }
+      },
+     {
+          "command":"assari",
+          "restaurant": {
+               "campus": "Yliopiston kampus",
+               "name": "Assari",
+               "availability": "kyllä",
+               "url": "https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi",
+               "infoMessage": ""
+          }
+      },
+       {
+          "command":"kaara",
+            "restaurant": {
+                 "campus": "Yliopiston kampus",
+                 "name": "Kaara",
+                 "availability": "kyllä",
+                 "url": "https://www.unica.fi/modules/json/json/Index?costNumber=1970&language=fi",
+                 "infoMessage": ""
+            }
+      },
+       {
+            "command": "pikkumaccia",
+            "restaurant": {
+                 "campus": "Muut kampukset",
+                 "name": "Pikkumaccia",
+                 "availability": "ei",
+                 "url": "https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi",
+                 "infoMessage": "Avoinna tilauksesta"
+            }
+     },
+    {     "command":   "linus",
+         "restaurant": {
+              "campus": "Kupittaan kampus",
+              "name": "Linus",
+              "availability": "kyllä",
+              "url": "https://www.unica.fi/modules/json/json/Index?costNumber=2000&language=fi",
+              "infoMessage": ""
+         }
+    },
+       {"command":"macciavelli",
+            "restaurant": {
+                 "campus": "Yliopiston kampus",
+                 "name": "Macciavelli",
+                 "availability": "kyllä",
+                 "url": "https://www.unica.fi/modules/json/json/Index?costNumber=1910&language=fi",
+                 "infoMessage": ""
+            }
+      },
+       {"command": "muusa",
+            "restaurant": {
+                 "campus": "Linnankadun taidekampus",
+                 "name": "Muusa",
+                 "availability": "ei",
+                 "url": "https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi",
+                 "infoMessage": ""
+            }
+    },
+     {"command":  "galilei",
+          "restaurant": {
+               "campus": "Yliopiston kampus",
+               "name": "Galilei",
+               "availability": "kyllä",
+               "url": "https://www.unica.fi/modules/json/json/Index?costNumber=1910&language=fi",
+               "infoMessage": ""
+          }
+    },
+      {"command":"kaivomestari",
+           "restaurant": {
+                "campus": "Muut kampukset",
+                "name": "Kaivomestari",
+                "availability": "ei",
+                "url": "https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi",
+                "infoMessage": ""
+           }
+    },
+       {
+            "command": "dental",
+            "restaurant": {
+        "campus" : "Kupittaan kampus",
+        "name" : "Dental",
+        "availability" : "kyllä",
+        "url" : "https://www.unica.fi/modules/json/json/Index?costNumber=1980&language=fi",
+        "infoMessage" : ""
+            }
+
   },
-  "sigyn" : {
-    "campus" : "Linnankadun taidekampus",
-    "name" : "Sigyn",
-    "availability" : "kyllä",
-    "url" : "https://www.unica.fi/modules/json/json/Index?costNumber=1965&language=fi",
-    "infoMessage" : ""
-  },
-  "assari" : {
-    "campus" : "Yliopiston kampus",
-    "name" : "Assari",
-    "availability" : "kyllä",
-    "url" : "https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi",
-    "infoMessage" : ""
-  },
-  "kaara" : {
-    "campus" : "Yliopiston kampus",
-    "name" : "Kaara",
-    "availability" : "kyllä",
-    "url" : "https://www.unica.fi/modules/json/json/Index?costNumber=1970&language=fi",
-    "infoMessage" : ""
-  },
-  "pikkumaccia" : {
-    "campus" : "Muut kampukset",
-    "name" : "Pikkumaccia",
-    "availability" : "ei",
-    "url" : "https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi",
-    "infoMessage" : "Avoinna tilauksesta"
-  },
-  "linus" : {
-    "campus" : "Kupittaan kampus",
-    "name" : "Linus",
-    "availability" : "kyllä",
-    "url" : "https://www.unica.fi/modules/json/json/Index?costNumber=2000&language=fi",
-    "infoMessage" : ""
-  },
-  "macciavelli" : {
-    "campus" : "Yliopiston kampus",
-    "name" : "Macciavelli",
-    "availability" : "kyllä",
-    "url" : "https://www.unica.fi/modules/json/json/Index?costNumber=1910&language=fi",
-    "infoMessage" : ""
-  },
-  "muusa" : {
-    "campus" : "Linnankadun taidekampus",
-    "name" : "Muusa",
-    "availability" : "ei",
-    "url" : "https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi",
-    "infoMessage" : ""
-  },
-  "galilei" : {
-    "campus" : "Yliopiston kampus",
-    "name" : "Galilei",
-    "availability" : "kyllä",
-    "url" : "https://www.unica.fi/modules/json/json/Index?costNumber=1910&language=fi",
-    "infoMessage" : ""
-  },
-  "kaivomestari" : {
-    "campus" : "Muut kampukset",
-    "name" : "Kaivomestari",
-    "availability" : "ei",
-    "url" : "https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi",
-    "infoMessage" : ""
-  },
-  "dental" : {
-    "campus" : "Kupittaan kampus",
-    "name" : "Dental",
-    "availability" : "kyllä",
-    "url" : "https://www.unica.fi/modules/json/json/Index?costNumber=1980&language=fi",
-    "infoMessage" : ""
-  },
-  "delipharma" : {
-    "campus" : "Kupittaan kampus",
-    "name" : "Delipharma",
-    "availability" : "kyllä",
-    "url" : "https://www.unica.fi/modules/json/json/Index?costNumber=198501&language=fi",
-    "infoMessage" : ""
-  },
-  "delica" : {
-    "campus" : "Kupittaan kampus",
-    "name" : "Delica",
-    "availability" : "kyllä",
-    "url" : "https://www.unica.fi/modules/json/json/Index?costNumber=1985&language=fi",
-    "infoMessage" : ""
-  },
-  "fabrik" : {
-    "campus" : "Muut kampukset",
-    "name" : "Fabrik",
-    "availability" : "ei",
-    "url" : "https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi",
-    "infoMessage" : ""
-  },
-  "kisälli" : {
-    "campus" : "Kupittaan kampus",
-    "name" : "Kisälli",
-    "availability" : "ei",
-    "url" : "https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi",
-    "infoMessage" : ""
-  }
-}
+      { "command":"delipharma",
+           "restaurant": {
+                "campus": "Kupittaan kampus",
+                "name": "Delipharma",
+                "availability": "kyllä",
+                "url": "https://www.unica.fi/modules/json/json/Index?costNumber=198501&language=fi",
+                "infoMessage": ""
+           }
+    },
+     {  "command": "delica",
+          "restaurant": {
+               "campus": "Kupittaan kampus",
+               "name": "Delica",
+               "availability": "kyllä",
+               "url": "https://www.unica.fi/modules/json/json/Index?costNumber=1985&language=fi",
+               "infoMessage": ""
+          }
+    },
+       { "command": "fabrik",
+            "restaurant": {
+                 "campus": "Muut kampukset",
+                 "name": "Fabrik",
+                 "availability": "ei",
+                 "url": "https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi",
+                 "infoMessage": ""
+            }
+    },
+       {"command": "kisälli",
+            "restaurant": {
+                 "campus": "Kupittaan kampus",
+                 "name": "Kisälli",
+                 "availability": "ei",
+                 "url": "https://www.unica.fi/modules/json/json/Index?costNumber=1920&language=fi",
+                 "infoMessage": ""
+            }
+    }
+ ]

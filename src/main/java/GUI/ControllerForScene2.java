@@ -1,22 +1,31 @@
 package GUI;
 
+import JSONParse.Location;
 import JSONParse.Restaurant;
+import com.iwebpp.crypto.TweetNaclFast;
+import com.sun.javafx.collections.ElementObservableListDecorator;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import okhttp3.internal.ws.RealWebSocket;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 
 /**
@@ -45,10 +54,11 @@ public class ControllerForScene2 {
     private ToggleGroup availabilityGroup;
     private RadioButton selected;
     private String availability;
-    //@FXML
-    //private RadioButton Open;
-    //@FXML
-    //private RadioButton Closed;
+
+    @FXML
+    private RadioButton Open;
+    @FXML
+    private RadioButton Closed;
     @FXML
     private Button createButton;
     @FXML
@@ -58,8 +68,13 @@ public class ControllerForScene2 {
     @FXML
     private Label info;
     private final HashMap<String, String> inputValues = new HashMap<>();
-    private Locations locations = new Locations();
+    private LocationsController locations = new LocationsController();
+    @FXML
+    private ListView<String> savedResList;
+    private ObservableList<String> names = FXCollections.observableArrayList();
     private ArrayList<Restaurant> restaurants = locations.getRestaurantList();
+    //private boolean nameFocus =false;
+    private String selectedName = "";
 
     double x,y;
 
@@ -72,8 +87,60 @@ public class ControllerForScene2 {
 
     @FXML
     void pressed(MouseEvent event) {
-        x=event.getSceneX();
-        y=event.getSceneY();
+        x = event.getSceneX();
+        y = event.getSceneY();
+    }
+    public void initialize(){
+        List<String> nameList =  locations.getNames();
+        for(String name:nameList) {
+            names.add(name);
+        }
+        names.add("New");
+        savedResList.setItems(names);
+        ChangeListener<? super String> choiceChangeListener;
+        savedResList.getSelectionModel().selectedItemProperty().addListener(choiceChangeListener =(observable, oldChoice, newChoice)->{
+                selectedName = newChoice;
+                if (selectedName=="New"){
+                    inputName.setText("");
+                    inputUrl.setText("");
+                    inputCampus.setText("");
+                    infoMessage.setText("");
+                    setEditables();
+                }else{
+                    Location selectedLoc = locations.getLocation(selectedName);
+                    if (selectedLoc!= null) {
+                        HashMap<String, String > values = selectedLoc.getValues();
+                        inputName.setText(selectedName);
+                        inputUrl.setText(values.get("url"));
+                        inputCampus.setText(values.get("campus"));
+                        infoMessage.setText(values.get("infoMessage"));
+                        if (values.get("availability").equals("kyllä")){
+                            availabilityGroup.selectToggle(Open);
+                        }else{
+                            availabilityGroup.selectToggle(Closed);
+                        }
+                        setEditables();
+                    }else{
+                        showAlert(Alert.AlertType.ERROR, inputUrl.getScene().getWindow(), "404", "Error in retrieving restaurant");
+                    }
+                }
+            }
+        );
+    }
+    //Bindings
+    //createButton.disableProperty().bind(inputName.textProperty().isEmpty());
+    /**
+    savedResList.getSelectionModel().selectedItemProperty().addListener(
+            restaurantChangeListener = (observable, oldValue, newValue)->{
+                selecterRestaurant = newValue;
+                modifiedProperty.set(false);
+                if(newValue)
+    })*/
+    @FXML
+    public void setEditables() {
+            inputCampus.setEditable(true);
+            inputUrl.setEditable(true);
+            infoMessage.setEditable(true);
     }
     /**
      * handler method for Create new location button
@@ -81,7 +148,7 @@ public class ControllerForScene2 {
      * @author Sanna Volanen
      */
     public void handleCreateButton(ActionEvent actionEvent) throws IOException {
-        locations = new Locations(); //get current status
+        locations = new LocationsController(); //get current status
         try {
             getInputs();
         }catch (NullPointerException nul){
@@ -108,7 +175,7 @@ public class ControllerForScene2 {
         //Place newPlace = new Place(inputValues);
         locations.addPlace(inputValues);
         clearInputs();
-        locations = new Locations(); // update local variable
+        locations = new LocationsController(); // update local variable
         info.setText("New Location saved "+"/n"+inputValues.toString());
     }
     /**
@@ -117,18 +184,21 @@ public class ControllerForScene2 {
      * @author Sanna Volanen
      */
     public void handleEditButton(ActionEvent actionEvent) {
-        locations = new Locations();
-        getInputs();
+        //locations = new Locations();
         if (inputName.getText().isEmpty()){
             showAlert(Alert.AlertType.ERROR, inputName.getScene().getWindow(), "Location name error", "Cannot edit location data without name");
             //actionEvent.consume();
         }else{
-            clearInputs();
-            //actionEvent.consume();
+            getInputs();
             Restaurant old = locations.getRestaurant(inputValues.get("name"));
             if (old == null) {
                 info.setText("Name not found, edit not possible");
             }else {
+                actionEvent.consume();
+                inputUrl.setText(old.getRestaurantUrl());
+                inputCampus.setText(old.getCampus());
+                infoMessage.setText(old.getInfoMessage());
+                //clearInputs();
                 locations.editPlace(inputValues);
             }
         }
@@ -140,7 +210,7 @@ public class ControllerForScene2 {
      * @author Sanna Volanen
      */
     public void handleDeleteButton(ActionEvent actionEvent){
-        locations = new Locations();
+        //locations = new Locations();
         restaurants = locations.getRestaurantList();
         /*
         if (inputName.getText().isEmpty()){
@@ -265,7 +335,7 @@ public class ControllerForScene2 {
     public void toLoginScreen(ActionEvent actionEvent) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/login.fxml"));
         Stage window = (Stage) backButton.getScene().getWindow();
-        Scene login = new Scene(root,300,275);
+        Scene login = new Scene(root,300,350);
         login.getStylesheets().add(getClass().getResource("/css/login.css").toExternalForm());
         window.setScene(login);
     }
@@ -273,3 +343,4 @@ public class ControllerForScene2 {
 
 
 }
+

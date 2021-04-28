@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.*;
+import javafx.beans.Observable;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 
@@ -33,7 +33,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * @author Valtteri Ingman
  * @editor Sanna Volanen
  */
-public class Restaurant {
+public class Restaurant extends Location{
     // propertys from Unica json API
     @JsonProperty("RestaurantName")
     private String restaurantName;
@@ -44,25 +44,27 @@ public class Restaurant {
     @JsonProperty("Footer")
     private String footer;
     @JsonProperty("MenusForDays")
-    private final List<MenusForDay> menusForDays = null;//lista jokaisesta päivästä useine menuineen.
+    private List<MenusForDay> menusForDays = new ArrayList<>();//lista jokaisesta päivästä useine menuineen.
     @JsonProperty("ErrorText")
     private Object errorText;
     private String errorMessage;
+
     //private   StringBuilder restaurantBuilder;
 
     /**
      * additional properties for locations.json
      * @author Sanna Volanen
      */
-    @JsonProperty("json")
-    private String json;
+    @JsonProperty("command")
+    private String command;
+    //@JsonProperty("restaurant")
+    //private HashMap<String,String> values;
     @JsonProperty("Campus")
     private String campus;
     @JsonProperty("Availability")
     private String availability;
     @JsonProperty("InfoMessage")
     private String infoMessage;
-
     private final int day = 0;
     //CONSTRUCTORS
     public Restaurant(){}
@@ -70,33 +72,47 @@ public class Restaurant {
      * second constructor for setting a new restaurant through GUI
      * @author Sanna Volanen
      */
+   public Restaurant(String url){
+       if (url.contains("https://www.unica.fi/modules/json")){
+           Restaurant r = JSONMapper.unicaParser(url);
+           this.restaurantUrl = r.restaurantUrl;
+           this.restaurantName = r.restaurantName;
+           this.errorText = r.errorText;
+           this.errorMessage = r.errorMessage;
+           this.priceHeader = r.priceHeader;
+           this.footer = r.footer;
+           this.menusForDays = r.menusForDays;
+       }else{
+           this.restaurantUrl = url;
+           this.restaurantName=super.getName();
+           this.errorText = null;
+           this.errorMessage = "";
+           this.priceHeader = "";
+           this.footer = "";
+           this.menusForDays = null;
+       }
+   }
+    //private final StringProperty resName = new SimpleStringProperty(this, "resName", "");
     public Restaurant (HashMap<String, String> input){
+        super(input);
         //System.out.println("Input hashmap: \""+input);
-        String name = input.get("name");
-        //NOTE: this url should be atm the unica json url!!!
         String url = input.get("url");
-        String availability = input.get("availability");
-        String campus = input.get("campus");
-        String message = input.get("infoMessage");
         if (url.contains("https://www.unica.fi/modules/json")){
             Restaurant r = JSONMapper.unicaParser(url);
+            this.restaurantName = r.restaurantName;
             this.errorText = r.errorText;
             this.errorMessage = r.errorMessage;
             this.priceHeader = r.priceHeader;
             this.footer = r.footer;
         }else{
+            this.restaurantName = super.getName();
             this.errorText = null;
             this.errorMessage = "";
             this.priceHeader = "";
             this.footer = "";
         }
-        this.restaurantName = name;
         this.restaurantUrl = url;
-        this.campus = campus;
-        this.availability = availability;
-        this.infoMessage = message;
     }
-
     // GETTERIT
     public String getRestaurantUrl() {
         return restaurantUrl;
@@ -107,8 +123,9 @@ public class Restaurant {
     public String getErrorMessage() {
         return errorMessage;
     }
-    public boolean getAvailability(){
-            return availability.equals("kyllä");
+    public boolean isAvailable(){
+       String av = super.getAvailability();
+            return av.equals("kyllä");
     }
 
     public String getCampus() {
