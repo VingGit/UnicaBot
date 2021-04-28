@@ -1,7 +1,12 @@
 package JSONParse;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -28,8 +33,8 @@ public class MenusForDay {
     private List<SetMenu> Menu = null;//yhdessä päivässä on useampia ruokalaji vaihtoehtoja. tässä listassa on ne.
 
 
-    public StringBuilder getDate() {
-        return date.append(date).delete(10,date.length()).append("\n");
+    public String getDate() {
+        return date.toString().substring(0,10);
     }
 
     public StringBuilder getLunchTime() {
@@ -46,6 +51,13 @@ public class MenusForDay {
 
         }
         return MenuArray;
+    }
+    public String getDayStringNew() {
+        Locale locale = new Locale("fi","FI");
+        LocalDate date = LocalDate.parse(getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        DayOfWeek day = date.getDayOfWeek();
+        String viikonPaiva=day.getDisplayName(TextStyle.FULL, locale).toUpperCase();
+        return viikonPaiva.substring(0,viikonPaiva.length()-2);
     }
     @Override
     public String toString() {

@@ -1,15 +1,27 @@
 package Botti;
 
 import Config.*;
+import GUI.Locations;
+import JSONParse.JSONMapper;
+import JSONParse.Restaurant;
+import Server.Commands;
 import de.cerus.jdasc.JDASlashCommands;
 import de.cerus.jdasc.command.*;
+import de.cerus.jdasc.gson.GsonUtil;
 import de.cerus.jdasc.interaction.Interaction;
 import de.cerus.jdasc.interaction.response.InteractionResponseOption;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import javax.security.auth.login.LoginException;
 
+import static Botti.UnicaMenuEventListener.lokaatiot;
 
 
 /**
@@ -19,14 +31,13 @@ import javax.security.auth.login.LoginException;
 public class Botti {
 
     private static  String BOT_TOKEN;  //"";
-    private static final String APPLICATION_ID = "819578024214265866";
+    private static String APPLICATION_ID="836766909739040770";
     static String prefiksi; //"-";
     private static JDA jda;
     public static boolean oikeaToken =false;
     public static String getBotToken() {
         return BOT_TOKEN;
     }
-
     public static void setBotToken(String botToken) {
         BOT_TOKEN = botToken;
     }
@@ -61,7 +72,9 @@ public class Botti {
         //Buildataan botti.
         try {
             jda = jdabuilder.setRawEventsEnabled(true).build();
-            initCommands();
+            lokaatiot = new Locations();
+            System.out.println("trying to add slash commands");
+            initCommands(jda);
             oikeaToken=true;
         } catch (LoginException e){
 
@@ -73,59 +86,95 @@ public class Botti {
         Botti.prefiksi = prefiksi;
     }
 
-    public static void initCommands() {
+
+    public static void initCommands(JDA jda) throws InterruptedException {
+        jda.awaitReady();
+        System.out.println(jda.getGuilds()+"   the servers my bot is on");
         JDASlashCommands.initialize(jda, BOT_TOKEN, APPLICATION_ID);
-        JDASlashCommands.submitGlobalCommand(new CommandBuilder()
-                .name("test-command") // Set command name to '/test-command'
-                .desc("My cool test command")
-                .option(new CommandBuilder.SubCommandGroupBuilder()
-                        .name("some-group") // Specify a group that can hold multiple sub commands
-                        .desc("This is a wonderful group")
-                        .option(new CommandBuilder.SubCommandBuilder()
-                                .name("hello") // Specify sub command 'hello' (/test-command some-group hello)
-                                .desc("Greet a user")
-                                .option(new ApplicationCommandOption(
-                                        ApplicationCommandOptionType.USER,
-                                        "user", // Note the lower case name - Names have to be lower case or else things could break
-                                        "Specify a user to greet",
-                                        true
-                                ))
-                                .build())
-                        .option(new CommandBuilder.SubCommandBuilder()
-                                .name("animal") // Specify sub command 'animal' (/test-command some-group animal)
-                                .desc("Show a animal picture")
+        System.out.println(JDASlashCommands.getGlobalCommands());
+        JDASlashCommands.submitGuildCommand(new CommandBuilder()
+                .name("menu") // Set command name to '/test-command'
+                .desc("Ask and thou shalt receive")
+                .option(new CommandBuilder.SubCommandBuilder()
+                                .name("muut") // Specify sub command 'animal' (/test-command some-group animal)
+                                .desc("muita ruokaloita unicalta")
                                 .choices( // Only allow certain values: Cat, Dog and Platypus
                                         ApplicationCommandOptionType.STRING, // Specify type of the choice: STRING or INTEGER
-                                        "animal", // Note the lower case name - Names have to be lower case or else things could break
-                                        "Specify the animal",
-                                        new ApplicationCommandOptionChoice("Cat", "cat"),
-                                        new ApplicationCommandOptionChoice("Dog", "cat"),
-                                        new ApplicationCommandOptionChoice("Platypus", "platypus")
+                                        "ruokala", // Note the lower case name - Names have to be lower case or else things could break
+                                        "Vaihtelua kampuksiin",
+                                        new ApplicationCommandOptionChoice("Kaivomestari", "kaivomestari"),
+                                        new ApplicationCommandOptionChoice("Fabrik", "fabrik"),
+                                        new ApplicationCommandOptionChoice("PiccuMaccia", "piccumaccia"),
+                                        new ApplicationCommandOptionChoice("Ruokakello", "ruokakello")
                                 )
                                 .build())
+
+
+                        .option(new CommandBuilder.SubCommandBuilder()
+                                .name("Linnankadun_taidekampus") // Specify sub command 'animal' (/test-command some-group animal)
+                                .desc("Ette koske niihin öljyväreihin prkl!")
+                                .choices( // Only allow certain values: Cat, Dog and Platypus
+                                        ApplicationCommandOptionType.STRING, // Specify type of the choice: STRING or INTEGER
+                                        "ruokala", // Note the lower case name - Names have to be lower case or else things could break
+                                        "Kumpi kammpi linnankadulta?",
+                                        new ApplicationCommandOptionChoice("Sigyn", "sigyn"),
+                                        new ApplicationCommandOptionChoice("Muusa", "muusa")
+                                )
+                                .build())
+
+                        .option(new CommandBuilder.SubCommandBuilder()
+                                .name("Kupittaan_kampus") // Specify sub command 'animal' (/test-command some-group animal)
+                                .desc("kupittaa, tai kuten mää tykkään sanoa: cuckpit :DD")
+                                .choices( // Only allow certain values: Cat, Dog and Platypus
+                                        ApplicationCommandOptionType.STRING, // Specify type of the choice: STRING or INTEGER
+                                        "ruokala", // Note the lower case name - Names have to be lower case or else things could break
+                                        "Valitse ruokala kupitaalta",
+                                        new ApplicationCommandOptionChoice("Dental", "dental"),
+                                        new ApplicationCommandOptionChoice("DeliPharma", "delipharma"),
+                                        new ApplicationCommandOptionChoice("Delica", "delica"),
+                                        new ApplicationCommandOptionChoice("Linus", "linus"),
+                                        new ApplicationCommandOptionChoice("Kisälli", "kisälli")
+                                )
+                                .build())
+
+
+
+                        .option(new CommandBuilder.SubCommandBuilder()
+                                .name("Yliopiston_kampus") // Specify sub command 'animal' (/test-command some-group animal)
+                                .desc("Syö aivan koulun vieressä")
+                                .choices( // Only allow certain values: Cat, Dog and Platypus
+                                        ApplicationCommandOptionType.STRING, // Specify type of the choice: STRING or INTEGER
+                                        "ruokala", // Note the lower case name - Names have to be lower case or else things could break
+                                        "Missäs tänään syötäisiin?",
+                                        new ApplicationCommandOptionChoice("Assari", "assari"),
+                                        new ApplicationCommandOptionChoice("Macciavelli", "macciavelli"),
+                                        new ApplicationCommandOptionChoice("Galilei", "galilei"),
+                                        new ApplicationCommandOptionChoice("Kaara", "kaara")
+                                )
+
+
                         .build())
-                .build(), new ApplicationCommandListener() {
+                .build(),jda.getGuildById(819193495906287677L), new ApplicationCommandListener() {
 
             @Override
             public void onInteraction(final Interaction interaction) {
-                System.out.println("We got an interaction! Yay!");
+                System.out.println("We got an intsdfsdfsderaction! Yay!");
             }
 
             @Override
             public void handleArgument(final Interaction interaction, final String argumentName, final InteractionResponseOption option) {
+                Restaurant ravintola = JSONMapper.unicaParser(lokaatiot.locations.get(option.getValue()).get("url"));
                 switch (argumentName) {
-                    case "user":
-                        interaction.respond(false, "Hello, " + jda.getUserById(Long.parseLong(option.getValue())).getAsMention());
-                        break;
-                    case "animal":
-                        interaction.respond(false, "Here's your imaginary picture of a " + option.getValue());
+                    case "ruokala":
+                        MessageEmbed viesti=UnicaMenuEventListener.embedRestaurant(ravintola).build();
+                        interaction.respond(false, viesti);
                         break;
                 }
             }
 
         });
+        System.out.println("slashcommands were  added successfully!");
     }
 
 
 }
-

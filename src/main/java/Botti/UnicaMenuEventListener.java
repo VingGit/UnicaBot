@@ -20,7 +20,11 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -39,7 +43,7 @@ public class UnicaMenuEventListener extends ListenerAdapter {
     //ArrayList<String> ruokalat = new ArrayList<>(Arrays.asList("Yliopiston kampus", "   !assari", "   !macciavelli", "   !galilei", "   !kaara", "Kupittaan kampus", "   !dental", "   !delipharma", "   !delica", "   !linus", "   !kisälli", "Linnankadun taidekampus", "   !sigyn", "   !muusa", "Muut", "   !ruokakello", "   !kaivomestari", "   !fabrik", "   !piccumaccia"));
     public static int  viikonpaiva =0;
     public static  Restaurant restaurant;
-    private static Locations lokaatiot;
+    public static Locations lokaatiot;
     public static EmbedBuilder viesti;
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
@@ -90,6 +94,7 @@ public class UnicaMenuEventListener extends ListenerAdapter {
                 //Luodaan uusi Restaurant ilmentymä locations.jsonin urlin perusteella.
                 restaurant = JSONMapper.unicaParser(lokaatiot.locations.get(command).get("url"));
                 if (restaurant.getErrorMessage() == null) {
+
                     event.getChannel().sendMessage(embedRestaurant(restaurant).build()).queue(message -> {
                         message.addReaction("▶").queue();
                     });
@@ -104,17 +109,20 @@ public class UnicaMenuEventListener extends ListenerAdapter {
         }
     }
 
+
+
     public static EmbedBuilder embedRestaurant(Restaurant restaurant){
          viesti = new EmbedBuilder();
         MessageBuilder builder= new  MessageBuilder();
 
         viesti
-                .setAuthor(restaurant.getRestaurantName(), restaurant.getRestaurantUrl())
+                .setAuthor(restaurant.getRestaurantName()+"   |"+restaurant.getViikonpaiva(viikonpaiva)+"|", restaurant.getRestaurantUrl())
                 .setThumbnail("https://www.unica.fi/contentassets/46a1e57100794a70b58c06f16a9acfb8/unica_catering_logo_450x450.png");
 
 
         for (StringBuilder a: restaurant.getRestaurantMenuArray(viikonpaiva)) {
             viesti.addField("🍽", a.toString(), true);
+
         }
 
         viesti.build();

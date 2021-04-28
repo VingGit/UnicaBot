@@ -122,14 +122,18 @@ public class Restaurant {
         return menusForDays.get(0).getMenu();
     }
 
-    public ArrayList<StringBuilder> getRestaurantMenuArray(int i) {
+    public ArrayList<StringBuilder> getRestaurantMenuArray(int i) {//kuinka monta ruokalajia on päivässä
 
         return menusForDays.get(i).getMenu();
+    }
+    public String getViikonpaiva(int i){
+        System.out.println(menusForDays.get(i).getDayStringNew());
+        return menusForDays.get(i).getDayStringNew();
     }
 
     public List<MenusForDay> getMenusForDays() {
         return menusForDays;
-    }
+    }//
     //SETTERIT
     public void setErrorMessage(String errorMessage) {this.errorMessage = errorMessage;}
     public void setAvailability(String newAv){
